@@ -1,0 +1,76 @@
+{
+    "releases": [
+        {
+            "artist": "Rage Against The Machine",
+            "release": "Rage Against The Machine",
+            "format": "Vinyl",
+            "cover": "cover/0001.jpeg",
+            "jahr": "1992"
+}, {
+            "artist": "Donots",
+            "release": "Wake the dogs",
+            "format": "Vinyl",
+            "cover": "cover/0002.jpeg",
+            "jahr": "2012"
+}, {
+            "artist": "Donots",
+            "release": "Coma Chameleon",
+            "format": "CD",
+            "cover": "cover/0003.jpeg",
+            "jahr": "2008"
+}, {
+            "artist": "Nirvana",
+            "release": "Nevermind",
+            "format": "Vinyl",
+            "cover": "cover/0004.jpeg",
+            "jahr": "1991"
+}, {
+            "artist": "Foo Fighters",
+            "release": "Wasting Lights",
+            "format": "Vinyl",
+            "cover": "cover/0005.jpeg",
+            "jahr": "2011"
+}, {
+            "artist": "Donots",
+            "release": "The long way home",
+            "format": "CD",
+            "cover": "cover/0007.jpeg",
+            "jahr": "2010"
+}, {
+            "artist": "Linkin Park",
+            "release": "Hybrid Theory",
+            "format": "Vinyl",
+            "cover": "cover/0008.jpeg",
+            "jahr": "2000"
+}, {
+            "artist": "Farin Urlaub Racing Team",
+            "release": "Faszination Weltraum",
+            "format": "Vinyl",
+            "cover": "cover/0009.jpeg",
+            "jahr": "2014"
+}, {
+            "artist": "System Of A Down",
+            "release": "Hypnotize",
+            "format": "CD",
+            "cover": "cover/0010.jpg",
+            "jahr": "2005"
+}, {
+            "artist": "Linkin Park",
+            "release": "Meteora",
+            "format": "Vinyl",
+            "cover": "cover/0011.jpg",
+            "jahr": "2003"
+}, {
+            "artist": "die ärzte",
+            "release": "13",
+            "format": "CD",
+            "cover": "cover/0012.jpg",
+            "jahr": "1998"
+}, {
+            "artist": "Metallica",
+            "release": "Metallica",
+            "format": "Vinyl",
+            "cover": "cover/0006.jpg",
+            "jahr": "1991"
+}]
+}
