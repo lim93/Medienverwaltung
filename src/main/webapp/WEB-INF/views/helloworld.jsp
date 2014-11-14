@@ -9,6 +9,7 @@
 	<center>
 		<h2>Hello World</h2>
 		<h2>
+		    <!-- This is magic! -->
 			${message} ${name}
 		</h2>
 		
