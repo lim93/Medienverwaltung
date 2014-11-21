@@ -16,7 +16,7 @@
 		<h2>Ah, push it! Push it real good!</h2>
 		
 		
-		<h3>Test Benachrichtigung</h3>
+		<h3>Test Benachrichtigung2</h3>
 		
 		
 		<h3>Test</h3>
