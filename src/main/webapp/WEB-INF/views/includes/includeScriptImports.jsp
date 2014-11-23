@@ -7,5 +7,11 @@
 <!-- Bootstrap JS -->
 <script type="text/javascript" src="/medienverwaltung/resources/js/bootstrap.min.js"></script>
 
-<!-- Profil JS -->
-<script type="text/javascript" src="/medienverwaltung/resources/js/profil.js"></script>
+<!-- Bootstrap SelectpickerJS -->
+<script type="text/javascript" src="/medienverwaltung/resources/js/bootstrap-select.js"></script>
+
+<!-- Navigation JS -->
+<script type="text/javascript" src="/medienverwaltung/resources/js/navigation.js"></script>
+
+
+

@@ -4,23 +4,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
 </head>
 <body>
 
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <img src="/medienverwaltung/resources/mars_logo_3716.gif" width="85" height="34" style="margin:8px 0px 8px 0px">
+        <div class="collapse navbar-collapse">
+             <ul class="nav navbar-nav">
+                <li> 
+                    <img src="/medienverwaltung/resources/NOTHING" width="85" height="34" style="margin:8px 0px 8px 0px">
                 </li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
+            </ul> 
+            <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" style="width:350px" class="form-control" placeholder="Katalog durchsuchen">
+                    <input id="suchInput" type="text" style="width:350px" class="form-control" placeholder="Katalog durchsuchen">
                 </div>
-                <button type="submit" class="btn btn-danger">Suchen</button>
+                <button id="suchButton" type="submit" class="btn btn-info">Suchen</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
 

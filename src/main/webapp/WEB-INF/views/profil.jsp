@@ -23,8 +23,6 @@
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
 
 
-
-
 <!-- Styles ---------------------->
 <style type="text/css">
 a { /
@@ -57,10 +55,17 @@ a { /
 .dataTable {
 	margin: 0px 7.5px 20px 7.5px;
 }
+
+.searchFilterPadding {
+	padding-right: 7px;
+}
 </style>
 </head>
 <body style="margin-top: 72px">
 	<jsp:include page="includes/includeScriptImports.jsp" />
+	
+	<!-- Profil JS -->
+<script type="text/javascript" src="/medienverwaltung/resources/js/profil.js"></script>
 
 
 	<!-- Navbar importieren -->

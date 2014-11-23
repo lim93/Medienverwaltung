@@ -45,7 +45,10 @@ function fillTable() {
                     "sPrevious": "<"
                 }
 
-            }
+    		},
+    		"oClasses" : {
+    			"sFilterInput" : "form-control"
+    		}
 
         });
 
@@ -56,6 +59,8 @@ function fillTable() {
 
                 var table = $('#table').dataTable();
                 table.fnClearTable();
+                var searchFilter = $('#table_filter');
+                searchFilter.addClass('searchFilterPadding');
 
                 releases = data.releases;
 

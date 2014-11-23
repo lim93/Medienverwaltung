@@ -7,36 +7,39 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MyController {
-    String message = "Welcome to Spring MVC!";
 
     
-    //Unter "medienverwaltung/" geben wir die index.jsp zurück
+    //medienverwaltung/ => Startseite (index.jsp) 
     @RequestMapping("/")
     public ModelAndView showIndex() {
-        System.out.println("in controller");
 
         ModelAndView mv = new ModelAndView("index");
         return mv;
     }
 
-    //und unter "medienverwaltung/hello die helloworld.jsp
-    @RequestMapping("/hello")
-    public ModelAndView showMessage(@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
-        System.out.println("in controller");
+    
+    //medienverwaltung/profil => profil.jsp 
+    @RequestMapping("/profil")
+    public ModelAndView showProfil() {
 
-        ModelAndView mv = new ModelAndView("helloworld");
-        mv.addObject("message", message);
-        mv.addObject("name", name);
+        ModelAndView mv = new ModelAndView("profil");
         return mv;
     }
     
-    
-    //Unter "medienverwaltung/" geben wir die index.jsp zurück
-    @RequestMapping("/profil")
-    public ModelAndView showProfil() {
-        System.out.println("in controller");
+    //medienverwaltung/suche => suche.jsp
+    @RequestMapping("/suche")
+    public ModelAndView showSuche(@RequestParam(value = "suche", required = false) String suche) {
 
-        ModelAndView mv = new ModelAndView("profil");
+        ModelAndView mv = new ModelAndView("suche");
+        mv.addObject("suche", suche);
+        return mv;
+    }
+    
+    //medienverwaltung/anlegen => anlegen.jsp 
+    @RequestMapping("/anlegen")
+    public ModelAndView showAnlegen() {
+
+        ModelAndView mv = new ModelAndView("anlegen");
         return mv;
     }
 }
