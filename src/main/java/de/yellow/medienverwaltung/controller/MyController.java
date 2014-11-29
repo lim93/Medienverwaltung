@@ -35,11 +35,22 @@ public class MyController {
         return mv;
     }
     
-    //medienverwaltung/anlegen => anlegen.jsp 
-    @RequestMapping("/anlegen")
-    public ModelAndView showAnlegen() {
+    //medienverwaltung/anlegen_master => anlegen_master.jsp 
+    @RequestMapping("/anlegen_master")
+    public ModelAndView showAnlegenMaster() {
 
-        ModelAndView mv = new ModelAndView("anlegen");
+        ModelAndView mv = new ModelAndView("anlegen_master");
         return mv;
     }
+    
+    
+    //medienverwaltung/anlegen_version => anlegen_verion.jsp 
+    @RequestMapping("/anlegen_version")
+    public ModelAndView showAnlegenVersion() {
+
+        ModelAndView mv = new ModelAndView("anlegen_version");
+        return mv;
+    }
+    
+
 }

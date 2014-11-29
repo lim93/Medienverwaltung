@@ -26,7 +26,7 @@
 
 	<!-- Anlegen JS -->
 	<script type="text/javascript"
-		src="/medienverwaltung/resources/js/anlegen.js"></script>
+		src="/medienverwaltung/resources/js/anlegen_master.js"></script>
 
 
 	<!-- Navbar importieren -->
@@ -39,7 +39,7 @@
 		<h2>Veröffentlichung anlegen</h2>
 
 		<div id="editDiv" class="panel panel-default"
-			style="float: left; display: inline; width: 70%; padding: 20px 20px 0px 20px">
+			style="float: left; display: inline; width: 70%; padding: 20px 20px 20px 20px">
 
 			<form action="">
 
@@ -116,6 +116,16 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
+						<h4 class="panel-title">Coverbild</h4>
+					</div>
+					<div class="panel-body">
+						<button id="uploadButton" class="btn btn-default">Datei
+							ausw&auml;hlen</button>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
 						<h4 class="panel-title">Erscheinungsdatum</h4>
 					</div>
 					<div class="panel-body">
@@ -130,7 +140,10 @@
 				</div>
 
 
-
+				<button style="float: right; margin-left: 15px;" id="weiterButton"
+					class="btn btn-success">Speichern und weiter</button>
+				<button style="float: right;" id="speichernButton"
+					class="btn btn-default">Als Master speichern</button>
 
 
 
@@ -146,9 +159,14 @@
 
 		<div id="guideDiv"
 			style="float: right; display: inline; max-width: 25%">
-			<p style="font-size: 16px">Auf dieser Seite k&ouml;nnen Sie die Basis-Informationen zu
-				einer Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen
-				K&uuml;nstler, Titel, Genre und das Erscheinungsjahr.</p>
+			<p style="font-size: 16px; word-wrap: break-word;">Auf dieser
+				Seite k&ouml;nnen Sie die Basis-Informationen zu einer
+				Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen K&uuml;nstler,
+				Titel, Genre und das Erscheinungsjahr.</p>
+			<p style="font-size: 16px; word-wrap: break-word;">Im Anschluss
+				können Sie Ihre konkrete Version der Veröffentlichung anlegen
+				(Format, Pressung...), oder die Veröffentlichung als Master
+				speichern und Ihre Version später anlegen.</p>
 		</div>
 
 

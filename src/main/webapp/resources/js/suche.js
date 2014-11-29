@@ -5,7 +5,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		e.stopPropagation();
 
-		window.location = "../medienverwaltung/anlegen";
+		window.location = "../medienverwaltung/anlegen_master";
 
 	});
 

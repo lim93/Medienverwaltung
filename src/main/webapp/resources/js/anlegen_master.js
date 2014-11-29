@@ -1,5 +1,28 @@
 $(document).ready(function() {
 	
+	
+	// Speichern-Button
+	$("#speichernButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		alert("gespeichert");
+
+		window.location = "../medienverwaltung/profil";
+
+	});
+	
+	// Weiter-Button
+	$("#weiterButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		window.location = "../medienverwaltung/anlegen_version";
+
+	});
+	
+	
+	
 	var subSelect = $('#rockSelect')[0];
 	initSub(subSelect, "rock");
 	
