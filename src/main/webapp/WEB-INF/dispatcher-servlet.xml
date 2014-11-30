@@ -11,8 +11,10 @@
     <annotation-driven />
 
     <context:annotation-config />
+    
+    <annotation-driven />
 
-    <context:component-scan base-package="de.yellow.medienverwaltung.controller" />
+    <context:component-scan base-package="de.yellow.medienverwaltung.api" />
 
     <!-- Processes JSPs -->
     <beans:bean
@@ -21,6 +23,7 @@
         <beans:property name="suffix" value=".jsp" />
     </beans:bean>
 
+    
     <!-- Maps static resources -->
     <resources mapping="/resources/**" location="/resources/" />
 </beans:beans>

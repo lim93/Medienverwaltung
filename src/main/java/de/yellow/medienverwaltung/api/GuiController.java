@@ -1,4 +1,4 @@
-package de.yellow.medienverwaltung.controller;
+package de.yellow.medienverwaltung.api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MyController {
+public class GuiController {
 
     
     //medienverwaltung/ => Startseite (index.jsp) 
