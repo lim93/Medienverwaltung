@@ -1,6 +1,10 @@
 package de.yellow.medienverwaltung.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ConnectionTest {
 	protected static Connection getConnection(String dbUrl, String userId,
@@ -20,26 +24,25 @@ public class ConnectionTest {
 
 			Connection conn = getConnection(dbUrl, "root", "");
 			System.out.println("\nConnected to sample database!\n");
-			
+
 			conn.setAutoCommit(false);
-			
-			PreparedStatement stmt = conn.prepareStatement(
-					"select track_id, title from track");
-			
+
+			PreparedStatement stmt = conn
+					.prepareStatement("select track_id, title from track");
+
 			ResultSet rs = stmt.executeQuery();
-			
+
 			System.out.println("Titel-ID --- Titel");
-			
-			while(rs.next())
-			{
+
+			while (rs.next()) {
 				System.out.println(rs.getInt(1) + "\t" + rs.getString(2));
 			}
-			
+
 			rs.close();
 			conn.commit();
 			stmt.clearParameters();
 			conn.close();
-			
+
 		}
 
 		catch (SQLException e) {
