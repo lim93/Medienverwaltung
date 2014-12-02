@@ -16,7 +16,7 @@ public class ConnectionFactory {
 
 	// TODO: In properties auslagern!
 	private String host = "localhost";
-	private String db = "Medienverwaltung";
+	private String db = "media";
 	private String port = "3306";
 	private String user = "root";
 	private String pw = "";
