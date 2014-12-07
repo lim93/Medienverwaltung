@@ -2,62 +2,82 @@ package de.yellow.medienverwaltung.database.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 
 import de.yellow.medienverwaltung.database.entity.Genre;
+import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class GenreDao {
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
-		ConnectionFactory factory = new ConnectionFactory();
-
-		DataSource ds = factory.getDataSource();
-
-		if (ds != null) {
-			return ds;
-		} else {
-			throw new IllegalStateException(
-					"Es konnte keine DataSource erstellt werden");
-		}
-	}
+	private ConnectionFactory factory;
 
 	/**
 	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
 	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Genre} gemappt.
+	 * einem {@link ResultSetExtractor} (Für Maps!) auf die Klasse {@link Genre}
+	 * gemappt.
 	 * 
 	 * @return
 	 */
-	public List<Genre> getAllGenres() {
+	public Map<Integer, Genre> getAllGenres() {
 
-		DataSource dataSource = getDataSource();
+		factory = new ConnectionFactory();
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		DataSource ds = factory.getDataSource();
 
-		List<Genre> list = jdbcTemplate.query("select * from genre",
-				new RowMapper<Genre>() {
-			public Genre mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Genre genre = new Genre();
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
-				genre.setGenreID(rs.getInt("genre_id"));
-				genre.setName(rs.getString("name"));
+		Map<Integer, Genre> map = jdbcTemplate
+				.query("SELECT g.genre_id, g.name as genre, s.subgenre_id, s.name as subgenre FROM genre g LEFT JOIN subgenre s on g.genre_id = s.genre_id;",
+						new ResultSetExtractor<Map<Integer, Genre>>() {
+					public Map<Integer, Genre> extractData(ResultSet rs)
+							throws SQLException {
+						Map<Integer, Genre> map = new HashMap<Integer, Genre>();
 
-				return genre;
-			}
-		});
+						while (rs.next()) {
+							int id = rs.getInt("genre_id");
 
-		return list;
+							if (!map.containsKey(id)) {
+								Genre genre = new Genre();
+
+								genre.setGenreID(id);
+								genre.setName(rs.getString("genre"));
+
+								List<Subgenre> subgenres = new ArrayList<Subgenre>();
+								genre.setSubgenres(subgenres);
+
+								map.put(id, genre);
+							}
+
+							if (rs.getInt("subgenre_id") != 0) {
+								Subgenre subgenre = new Subgenre();
+
+								subgenre.setSubgenreID(rs
+										.getInt("subgenre_id"));
+								subgenre.setGenreID(id);
+								subgenre.setName(rs
+										.getString("subgenre"));
+
+								map.get(id).getSubgenres()
+								.add(subgenre);
+							}
+						}
+
+						return map;
+					}
+				});
+
+		return map;
+
 	}
+
 }

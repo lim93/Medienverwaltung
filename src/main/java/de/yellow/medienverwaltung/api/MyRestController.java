@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.yellow.medienverwaltung.business.GenreService;
 import de.yellow.medienverwaltung.business.TrackService;
+import de.yellow.medienverwaltung.database.entity.Genre;
 import de.yellow.medienverwaltung.database.entity.Track;
 
 //Annotation für Controller-Klassen
@@ -43,6 +45,16 @@ public class MyRestController {
 		List<Track> tracks = service.getAllTracks();
 
 		return new ResponseEntity<List<Track>>(tracks, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "api/genre/", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<List<Genre>> getGenres() {
+
+		GenreService service = new GenreService();
+		List<Genre> genres = service.getAllGenres();
+
+		return new ResponseEntity<List<Genre>>(genres, HttpStatus.OK);
 
 	}
 

@@ -1,6 +1,8 @@
 package de.yellow.medienverwaltung.business;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.yellow.medienverwaltung.database.dao.GenreDao;
 import de.yellow.medienverwaltung.database.entity.Genre;
@@ -18,11 +20,16 @@ public class GenreService {
 
 	public List<Genre> getAllGenres() {
 
+		List<Genre> returnList = new ArrayList<Genre>();
+
 		dao = new GenreDao();
 
-		List<Genre> genres = dao.getAllGenres();
-		// TODO: Do something useful with data
-		return genres;
+		Map<Integer, Genre> genres = dao.getAllGenres();
+
+		for (Genre genre : genres.values()) {
+			returnList.add(genre);
+		}
+		return returnList;
 	}
 
 }
