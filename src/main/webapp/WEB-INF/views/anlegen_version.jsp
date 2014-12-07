@@ -112,6 +112,10 @@
 						<input style="width: 250px" name="label" id="label" type="text"
 							class="form-control" placeholder="Label" />
 
+						<h5>Labelcode (LC)</h5>
+						<input style="width: 250px" name="lc" id="lc" type="text"
+							class="form-control" placeholder="LC-12345" />
+
 					</div>
 				</div>
 
@@ -120,9 +124,10 @@
 						<h4 class="panel-title">Identifikation</h4>
 					</div>
 					<div class="panel-body reducedPanelPadding">
-						<h5>Labelcode (LC)</h5>
-						<input style="width: 250px" name="lc" id="lc" type="text"
-							class="form-control" placeholder="Labelcode" />
+
+						<h5>Katalog-Nummer (CAT)</h5>
+						<input style="width: 250px" name="cat" id="cat" type="text"
+							class="form-control" placeholder="cat" />
 
 						<h5>Barcode</h5>
 						<input style="width: 250px" name="barcode" id="barcode"
@@ -201,8 +206,8 @@
 				</div>
 
 
-				<button style="float: right; margin-left: 15px;" id="speichernButton"
-					class="btn btn-success">Speichern</button>
+				<button style="float: right; margin-left: 15px;"
+					id="speichernButton" class="btn btn-success">Speichern</button>
 
 
 
