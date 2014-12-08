@@ -56,7 +56,16 @@
             "format": "Vinyl",
             "cover": "cover/0009.jpeg",
             "jahr": "2014",
-            "genre": "Punk"
+            "label": "Völker hört die Tonträger",
+            "genre": "Rock"
+}, {
+            "artist": "Farin Urlaub Racing Team",
+            "release": "Faszination Weltraum",
+            "format": "CD",
+            "cover": "cover/0009.jpeg",
+            "jahr": "2014",
+            "label": "Völker hört die Tonträger",
+            "genre": "Rock"
 }, {
             "artist": "System Of A Down",
             "release": "Hypnotize",
