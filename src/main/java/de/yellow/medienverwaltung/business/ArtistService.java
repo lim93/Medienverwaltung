@@ -24,5 +24,14 @@ public class ArtistService {
 		// TODO: Do something useful with data
 		return artists;
 	}
+	
+	public Artist getArtist(String name) {
+		
+		dao = new ArtistDao();
+		
+		Artist artist = dao.getArtist(name);
+		
+		return artist;
+	}
 
 }

@@ -10,18 +10,18 @@ import java.sql.Date;
  */
 public class Artist {
 
-	private int artistID;
+	private int artistId;
 	private String name;
 	private Date formed;
 	private String from;
 	private String website;
 	
-	public int getArtistID() {
-		return artistID;
+	public int getArtistId() {
+		return artistId;
 	}
 	
-	public void setArtistID(int artistID) {
-		this.artistID = artistID;
+	public void setArtistId(int artistId) {
+		this.artistId = artistId;
 	}
 	
 	public String getName() {
