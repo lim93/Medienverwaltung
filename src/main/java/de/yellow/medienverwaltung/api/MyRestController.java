@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import de.yellow.medienverwaltung.business.ArtistService;
 import de.yellow.medienverwaltung.business.GenreService;
 import de.yellow.medienverwaltung.business.TrackService;
+import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Genre;
 import de.yellow.medienverwaltung.database.entity.Track;
+
 
 //Annotation für Controller-Klassen
 @Controller
@@ -57,7 +60,17 @@ public class MyRestController {
 		return new ResponseEntity<List<Genre>>(genres, HttpStatus.OK);
 
 	}
-
+	
+	@RequestMapping(value = "api/artist", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<Artist> getArtist(
+			@RequestParam(value = "name", required = false) String name) {
+		
+		ArtistService service = new ArtistService();
+		Artist artist = service.getArtist(name);
+		
+		return new ResponseEntity<Artist>(artist, HttpStatus.OK);
+	}
+	
 	// weitere Methoden für POST / PUT / DELETE...
 
 }

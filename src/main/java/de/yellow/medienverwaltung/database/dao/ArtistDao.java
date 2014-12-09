@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -35,7 +36,7 @@ public class ArtistDao {
 	/**
 	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
 	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Track} gemappt.
+	 * einem {@link RowMapper} auf die Klasse {@link Artist} gemappt.
 	 * 
 	 * @return
 	 */
@@ -47,20 +48,42 @@ public class ArtistDao {
 
 		List<Artist> list = jdbcTemplate.query("select * from artist",
 				new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Artist artist = new Artist();
+					public Artist mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Artist artist = new Artist();
 
-				artist.setArtistID(rs.getInt("artist_id"));
-				artist.setName(rs.getString("name"));
-				artist.setFormed(rs.getDate("formed"));
-				artist.setFrom(rs.getString("from"));
-				artist.setWebsite(rs.getString("website"));
+						artist.setArtistId(rs.getInt("artist_id"));
+						artist.setName(rs.getString("name"));
+						artist.setFormed(rs.getDate("formed"));
+						artist.setFrom(rs.getString("from"));
+						artist.setWebsite(rs.getString("website"));
 
-				return artist;
-			}
-		});
+						return artist;
+					}
+				});
 
 		return list;
+	}
+
+	public Artist getArtist(String nameOrId) {
+
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select * from artist where name = ?"; // artist_id = ? or 
+
+		Artist artist = new Artist();
+
+		artist = (Artist) jdbcTemplate.queryForObject(sql,
+				new Object[] { nameOrId /*, nameOrId */ }, new BeanPropertyRowMapper<Artist>(
+						Artist.class));
+
+		// artist.setArtistID(14);
+		// artist.setFormed(new Date(1,1,1988));
+		// artist.setFrom("Gelsenkirchen");
+		// artist.setName("Band1");
+		// artist.setWebsite("www.www.www");
+		return artist;
 	}
 }
