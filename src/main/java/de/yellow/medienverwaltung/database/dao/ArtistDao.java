@@ -65,25 +65,20 @@ public class ArtistDao {
 		return list;
 	}
 
-	public Artist getArtist(String nameOrId) {
+	public Artist getArtist(String name) {
 
 		DataSource dataSource = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		String sql = "select * from artist where name = ?"; // artist_id = ? or 
+		String sql = "select * from artist where name = ?";
 
 		Artist artist = new Artist();
 
 		artist = (Artist) jdbcTemplate.queryForObject(sql,
-				new Object[] { nameOrId /*, nameOrId */ }, new BeanPropertyRowMapper<Artist>(
+				new Object[] { name }, new BeanPropertyRowMapper<Artist>(
 						Artist.class));
 
-		// artist.setArtistID(14);
-		// artist.setFormed(new Date(1,1,1988));
-		// artist.setFrom("Gelsenkirchen");
-		// artist.setName("Band1");
-		// artist.setWebsite("www.www.www");
 		return artist;
 	}
 }

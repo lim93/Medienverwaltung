@@ -19,7 +19,7 @@ public class ConnectionFactory {
 	private String db = "media";
 	private String port = "3306";
 	private String user = "root";
-	private String pw = "test";
+	private String pw = "";
 
 	public DataSource getDataSource() {
 
