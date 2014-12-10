@@ -4,16 +4,16 @@ import java.util.List;
 
 public class Genre {
 
-	private int genreID;
+	private int genreId;
 	private String name;
 	private List<Subgenre> subgenres;
 
-	public int getGenreID() {
-		return genreID;
+	public int getGenreId() {
+		return genreId;
 	}
 
-	public void setGenreID(int genreID) {
-		this.genreID = genreID;
+	public void setGenreId(int genreId) {
+		this.genreId = genreId;
 	}
 
 	public String getName() {

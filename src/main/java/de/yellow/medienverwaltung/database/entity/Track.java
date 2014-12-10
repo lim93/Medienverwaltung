@@ -8,17 +8,17 @@ package de.yellow.medienverwaltung.database.entity;
  */
 public class Track {
 
-	private int trackID;
+	private int trackId;
 	private int number;
 	private String title;
 	private String duration;
 
-	public int getTrackID() {
-		return trackID;
+	public int getTrackId() {
+		return trackId;
 	}
 
-	public void setTrackID(int trackID) {
-		this.trackID = trackID;
+	public void setTrackId(int trackId) {
+		this.trackId = trackId;
 	}
 
 	public int getNumber() {

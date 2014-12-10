@@ -5,27 +5,27 @@ import java.sql.Blob;
 
 public class Master {
 
-	private int masterID;
-	private int artistID;
+	private int masterId;
+	private int artistId;
 	private String title;
 	private Date released;
 	private String imageURL;
 	private Blob image;
 
-	public int getMasterID() {
-		return masterID;
+	public int getMasterId() {
+		return masterId;
 	}
 
-	public void setMasterID(int masterID) {
-		this.masterID = masterID;
+	public void setMasterId(int masterId) {
+		this.masterId = masterId;
 	}
 
-	public int getArtistID() {
-		return artistID;
+	public int getArtistId() {
+		return artistId;
 	}
 
-	public void setArtistID(int artistID) {
-		this.artistID = artistID;
+	public void setArtistId(int artistId) {
+		this.artistId = artistId;
 	}
 
 	public String getTitle() {

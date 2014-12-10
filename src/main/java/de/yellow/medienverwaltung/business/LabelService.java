@@ -24,5 +24,14 @@ public class LabelService {
 		// TODO: Do something useful with data
 		return labels;
 	}
+	
+	public Label getLabelById(int id) {
+		
+		dao = new LabelDao();
+		
+		Label label = dao.getLabelById(id);
+		
+		return label;
+	}
 
 }

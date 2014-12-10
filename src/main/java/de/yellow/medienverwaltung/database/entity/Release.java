@@ -4,46 +4,46 @@ import java.sql.Date;
 
 public class Release {
 
-	private int releaseID;
-	private int masterID;
-	private int labelID;
-	private int formatID;
+	private int releaseId;
+	private int masterId;
+	private int labelId;
+	private int formatId;
 	private Date released;
 	private String catalog;
 	private String labelCode;
 	private String barcode;
 	private String comment;
 	
-	public int getReleaseID() {
-		return releaseID;
+	public int getReleaseId() {
+		return releaseId;
 	}
 	
-	public void setReleaseID(int releaseID) {
-		this.releaseID = releaseID;
+	public void setReleaseId(int releaseId) {
+		this.releaseId = releaseId;
 	}
 	
-	public int getMasterID() {
-		return masterID;
+	public int getMasterId() {
+		return masterId;
 	}
 	
-	public void setMasterID(int masterID) {
-		this.masterID = masterID;
+	public void setMasterId(int masterId) {
+		this.masterId = masterId;
 	}
 	
-	public int getLabelID() {
-		return labelID;
+	public int getLabelId() {
+		return labelId;
 	}
 	
-	public void setLabelID(int labelID) {
-		this.labelID = labelID;
+	public void setLabelId(int labelId) {
+		this.labelId = labelId;
 	}
 	
-	public int getFormatID() {
-		return formatID;
+	public int getFormatId() {
+		return formatId;
 	}
 	
-	public void setFormatID(int formatID) {
-		this.formatID = formatID;
+	public void setFormatId(int formatId) {
+		this.formatId = formatId;
 	}
 	
 	public Date getReleased() {

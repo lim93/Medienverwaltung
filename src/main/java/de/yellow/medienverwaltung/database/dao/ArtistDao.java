@@ -65,7 +65,7 @@ public class ArtistDao {
 		return list;
 	}
 
-	public Artist getArtist(String name) {
+	public Artist getArtistByName(String name) {
 
 		DataSource dataSource = getDataSource();
 
@@ -78,6 +78,22 @@ public class ArtistDao {
 		artist = (Artist) jdbcTemplate.queryForObject(sql,
 				new Object[] { name }, new BeanPropertyRowMapper<Artist>(
 						Artist.class));
+
+		return artist;
+	}
+
+	public Artist getArtistById(int id) {
+
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select * from artist where artist_id = ?";
+
+		Artist artist = new Artist();
+
+		artist = (Artist) jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Artist>(Artist.class));
 
 		return artist;
 	}

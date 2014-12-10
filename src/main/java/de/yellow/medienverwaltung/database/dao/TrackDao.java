@@ -51,7 +51,7 @@ public class TrackDao {
 					throws SQLException {
 				Track track = new Track();
 
-				track.setTrackID(rs.getInt("track_id"));
+				track.setTrackId(rs.getInt("track_id"));
 				track.setNumber(rs.getInt("number"));
 				track.setTitle(rs.getString("title"));
 				track.setDuration(rs.getString("duration"));

@@ -51,17 +51,16 @@ public class ReleaseDao {
 					throws SQLException {
 				Release release = new Release();
 
-				release.setReleaseID(rs.getInt("release_id"));
-				release.setMasterID(rs.getInt("master_id"));
-				release.setLabelID(rs.getInt("label_id"));
-				release.setFormatID(rs.getInt("format_id"));
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				release.setLabelId(rs.getInt("label_id"));
+				release.setFormatId(rs.getInt("format_id"));
 				release.setReleased(rs.getDate("released"));
 				release.setCatalog(rs.getString("cat_no"));
 				release.setLabelCode(rs.getString("lc"));
 				release.setBarcode(rs.getString("barcode"));
 				release.setComment(rs.getString("comment"));
 				
-
 				return release;
 			}
 		});

@@ -49,7 +49,7 @@ public class GenreDao {
 							if (!map.containsKey(id)) {
 								Genre genre = new Genre();
 
-								genre.setGenreID(id);
+								genre.setGenreId(id);
 								genre.setName(rs.getString("genre"));
 
 								List<Subgenre> subgenres = new ArrayList<Subgenre>();
@@ -61,9 +61,9 @@ public class GenreDao {
 							if (rs.getInt("subgenre_id") != 0) {
 								Subgenre subgenre = new Subgenre();
 
-								subgenre.setSubgenreID(rs
+								subgenre.setSubgenreId(rs
 										.getInt("subgenre_id"));
-								subgenre.setGenreID(id);
+								subgenre.setGenreId(id);
 								subgenre.setName(rs
 										.getString("subgenre"));
 

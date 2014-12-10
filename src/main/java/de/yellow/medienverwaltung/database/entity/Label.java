@@ -2,16 +2,16 @@ package de.yellow.medienverwaltung.database.entity;
 
 public class Label {
 
-	private int labelID;
+	private int labelId;
 	private String name;
 	private String website;
 	
-	public int getLabelID() {
-		return labelID;
+	public int getLabelId() {
+		return labelId;
 	}
 	
-	public void setLabelID(int labelID) {
-		this.labelID = labelID;
+	public void setLabelId(int labelId) {
+		this.labelId = labelId;
 	}
 	
 	public String getName() {

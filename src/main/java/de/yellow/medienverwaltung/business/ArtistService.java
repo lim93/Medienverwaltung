@@ -25,11 +25,20 @@ public class ArtistService {
 		return artists;
 	}
 	
-	public Artist getArtist(String name) {
+	public Artist getArtistByName(String name) {
 		
 		dao = new ArtistDao();
 		
-		Artist artist = dao.getArtist(name);
+		Artist artist = dao.getArtistByName(name);
+		
+		return artist;
+	}
+	
+	public Artist getArtistById(int id) {
+		
+		dao = new ArtistDao();
+		
+		Artist artist = dao.getArtistById(id);
 		
 		return artist;
 	}

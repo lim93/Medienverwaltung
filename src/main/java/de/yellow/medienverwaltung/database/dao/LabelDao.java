@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -47,18 +48,34 @@ public class LabelDao {
 
 		List<Label> list = jdbcTemplate.query("select * from label",
 				new RowMapper<Label>() {
-			public Label mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Label label = new Label();
+					public Label mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Label label = new Label();
 
-				label.setLabelID(rs.getInt("label_id"));
-				label.setName(rs.getString("name"));
-				label.setWebsite(rs.getString("website"));
+						label.setLabelId(rs.getInt("label_id"));
+						label.setName(rs.getString("name"));
+						label.setWebsite(rs.getString("website"));
 
-				return label;
-			}
-		});
+						return label;
+					}
+				});
 
 		return list;
+	}
+
+	public Label getLabelById(int id) {
+
+		DataSource ds = getDataSource();
+
+		JdbcTemplate jt = new JdbcTemplate(ds);
+
+		String sql = "select * from label where label_id = ?";
+
+		Label label = new Label();
+
+		label = (Label) jt.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Label>(Label.class));
+
+		return label;
 	}
 }

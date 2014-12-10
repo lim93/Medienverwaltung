@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -51,8 +52,8 @@ public class UserDao {
 					throws SQLException {
 				User user = new User();
 
-				user.setUserID(rs.getInt("user_id"));
-				user.setName(rs.getString("user_name"));
+				user.setUserId(rs.getInt("user_id"));
+				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
 				user.setEmail(rs.getString("email"));
 
@@ -62,4 +63,39 @@ public class UserDao {
 
 		return list;
 	}
+	
+	public User getUserById(int id) {
+		
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select user_id, user_name, email from user where user_id = ?";
+
+		User user = new User();
+
+		user = (User) jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<User>(User.class));
+
+		return user;
+
+	}
+	
+	public User getUserByName(String name) {
+		
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select user_id, user_name, email from user where user_name = ?";
+
+		User user = new User();
+
+		user = (User) jdbcTemplate.queryForObject(sql, new Object[] { name },
+				new BeanPropertyRowMapper<User>(User.class));
+
+		return user;
+	
+	}
+	
 }

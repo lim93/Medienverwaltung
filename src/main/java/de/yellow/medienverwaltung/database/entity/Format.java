@@ -2,15 +2,15 @@ package de.yellow.medienverwaltung.database.entity;
 
 public class Format {
 	
-	private int formatID;
+	private int formatId;
 	private String type;
 	
-	public int getFormatID() {
-		return formatID;
+	public int getFormatId() {
+		return formatId;
 	}
 	
-	public void setFormatID(int formatID) {
-		this.formatID = formatID;
+	public void setFormatId(int formatId) {
+		this.formatId = formatId;
 	}
 	
 	public String getType() {

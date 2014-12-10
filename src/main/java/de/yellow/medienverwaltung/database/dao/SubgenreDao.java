@@ -51,8 +51,8 @@ public class SubgenreDao {
 					throws SQLException {
 				Subgenre subgenre = new Subgenre();
 
-				subgenre.setSubgenreID(rs.getInt("subgenre_id"));
-				subgenre.setGenreID(rs.getInt("genre_id"));
+				subgenre.setSubgenreId(rs.getInt("subgenre_id"));
+				subgenre.setGenreId(rs.getInt("genre_id"));
 				subgenre.setName(rs.getString("name"));
 
 				return subgenre;

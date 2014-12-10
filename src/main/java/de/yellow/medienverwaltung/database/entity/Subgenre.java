@@ -2,24 +2,24 @@ package de.yellow.medienverwaltung.database.entity;
 
 public class Subgenre {
 
-	private int subgenreID;
-	private int genreID;
+	private int subgenreId;
+	private int genreId;
 	private String name;
 	
-	public int getSubgenreID() {
-		return subgenreID;
+	public int getSubgenreId() {
+		return subgenreId;
 	}
 	
-	public void setSubgenreID(int subgenreID) {
-		this.subgenreID = subgenreID;
+	public void setSubgenreId(int subgenreId) {
+		this.subgenreId = subgenreId;
 	}
 	
-	public int getGenreID() {
-		return genreID;
+	public int getGenreId() {
+		return genreId;
 	}
 	
-	public void setGenreID(int genreID) {
-		this.genreID = genreID;
+	public void setGenreId(int genreId) {
+		this.genreId = genreId;
 	}
 	
 	public String getName() {

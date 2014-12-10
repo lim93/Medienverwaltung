@@ -25,4 +25,21 @@ public class UserService {
 		return users;
 	}
 
+	public User getUserById(int id) {
+		
+		dao = new UserDao();
+		
+		User user = dao.getUserById(id);
+		
+		return user;
+	}
+	
+	public User getUserByName(String name) {
+		
+		dao = new UserDao();
+		
+		User user = dao.getUserByName(name);
+		
+		return user;
+	}
 }

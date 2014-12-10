@@ -51,8 +51,8 @@ public class MasterDao {
 					throws SQLException {
 				Master master = new Master();
 
-				master.setMasterID(rs.getInt("master_id"));
-				master.setArtistID(rs.getInt("artist_id"));
+				master.setMasterId(rs.getInt("master_id"));
+				master.setArtistId(rs.getInt("artist_id"));
 				master.setTitle(rs.getString("title"));
 				master.setReleased(rs.getDate("released"));
 				master.setImageURL(rs.getString("image_url"));

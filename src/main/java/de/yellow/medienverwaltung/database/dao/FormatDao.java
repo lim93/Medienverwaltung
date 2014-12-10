@@ -51,7 +51,7 @@ public class FormatDao {
 					throws SQLException {
 				Format format = new Format();
 
-				format.setFormatID(rs.getInt("format_id"));
+				format.setFormatId(rs.getInt("format_id"));
 				format.setType(rs.getString("type"));
 
 				return format;

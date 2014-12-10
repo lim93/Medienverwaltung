@@ -2,25 +2,25 @@ package de.yellow.medienverwaltung.database.entity;
 
 public class User {
 
-	private int userID;
-	private String name;
+	private int userId;
+	private String userName;
 	private String password;
 	private String email;
 	
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 	
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	public String getPassword() {
