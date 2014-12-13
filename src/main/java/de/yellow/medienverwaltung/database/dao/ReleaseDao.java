@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -47,24 +48,43 @@ public class ReleaseDao {
 
 		List<Release> list = jdbcTemplate.query("select * from release",
 				new RowMapper<Release>() {
-			public Release mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Release release = new Release();
+					public Release mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Release release = new Release();
 
-				release.setReleaseId(rs.getInt("release_id"));
-				release.setMasterId(rs.getInt("master_id"));
-				release.setLabelId(rs.getInt("label_id"));
-				release.setFormatId(rs.getInt("format_id"));
-				release.setReleased(rs.getDate("released"));
-				release.setCatalog(rs.getString("cat_no"));
-				release.setLabelCode(rs.getString("lc"));
-				release.setBarcode(rs.getString("barcode"));
-				release.setComment(rs.getString("comment"));
-				
-				return release;
-			}
-		});
+						release.setReleaseId(rs.getInt("release_id"));
+						release.setMasterId(rs.getInt("master_id"));
+						release.setLabelId(rs.getInt("label_id"));
+						release.setFormatId(rs.getInt("format_id"));
+						release.setReleased(rs.getDate("released"));
+						release.setCatalogNo(rs.getString("catalog_no"));
+						release.setLabelCode(rs.getString("lable_code"));
+						release.setBarcode(rs.getString("barcode"));
+						release.setComment(rs.getString("comment"));
+
+						return release;
+					}
+				});
 
 		return list;
 	}
+
+	public Release getReleaseById(int id) {
+
+		DataSource ds = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+		String sql = "select * from media.release where release_id = ?";
+
+		Release release = new Release();
+
+		release = (Release) jdbcTemplate.queryForObject(sql,
+				new Object[] { id }, new BeanPropertyRowMapper<Release>(
+						Release.class));
+
+		return release;
+
+	}
+	
 }

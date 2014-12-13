@@ -24,5 +24,15 @@ public class ReleaseService {
 		// TODO: Do something useful with data
 		return releases;
 	}
+	
+	public Release getReleaseById(int id) {
+		
+		dao = new ReleaseDao();
+		
+		//
+		Release release = dao.getReleaseById(id);
+
+		return release;
+	}
 
 }

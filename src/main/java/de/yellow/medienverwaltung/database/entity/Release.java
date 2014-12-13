@@ -9,7 +9,7 @@ public class Release {
 	private int labelId;
 	private int formatId;
 	private Date released;
-	private String catalog;
+	private String catalogNo;
 	private String labelCode;
 	private String barcode;
 	private String comment;
@@ -54,12 +54,12 @@ public class Release {
 		this.released = released;
 	}
 	
-	public String getCatalog() {
-		return catalog;
+	public String getCatalogNo() {
+		return catalogNo;
 	}
 	
-	public void setCatalog(String catalog) {
-		this.catalog = catalog;
+	public void setCatalogNo(String catalogNo) {
+		this.catalogNo = catalogNo;
 	}
 	
 	public String getLabelCode() {
