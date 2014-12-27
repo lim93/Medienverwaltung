@@ -19,7 +19,20 @@
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/bootstrap-select.min.css"
 	rel="stylesheet">
+<!-- Styles ---------------------->
+<style type="text/css">
+a { /
+	word-wrap: break-word;
+}
 
+.genre {
+	margin-bottom: 5px;
+}
+
+.subselect {
+	
+}
+</style>
 </head>
 <body style="margin-top: 72px">
 	<jsp:include page="includes/includeScriptImports.jsp" />
@@ -69,47 +82,10 @@
 						<h4 class="panel-title">Genre</h4>
 					</div>
 
-					<div class="panel-body">
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-primary"> <input type="radio"
-								name="rock" id="rock" autocomplete="off"> Rock
-							</label> <label class="btn btn-primary"> <input type="radio"
-								name="metal" id="metal" autocomplete="off"> Metal
-							</label> <label class="btn btn-primary"> <input type="radio"
-								name="bullshit" id="bullshit" autocomplete="off">
-								Bullshit
-							</label>
+					<div id="genrePanel" class="panel-body">
 
-
-						</div>
-
-						<div id="rockDiv" class="hide"
-							style="margin-top: 20px; width: 200px">
-							<p>Subgenre</p>
-							<select class="selectpicker" name="rockSelect" id="rockSelect"
-								data-width="auto" multiple>
-
-							</select>
-
-						</div>
-						<div id="metalDiv" class="hide"
-							style="margin-top: 20px; width: 200px">
-							<p>Subgenre</p>
-							<select class="selectpicker" name="metalSelect" id="metalSelect"
-								data-width="auto" multiple>
-
-							</select>
-
-						</div>
-						<div id="bullshitDiv" class="hide"
-							style="margin-top: 20px; width: 200px">
-							<p>Subgenre</p>
-							<select class="selectpicker" name="bullshitSelect"
-								id="bullshitSelect" data-width="auto" multiple>
-
-							</select>
-
-						</div>
+						<div id="genreDiv"></div>
+						<div id="subGenreDiv"></div>
 
 					</div>
 				</div>

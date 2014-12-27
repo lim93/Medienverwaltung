@@ -1,17 +1,16 @@
 $(document).ready(function() {
-	
-	
+
 	// Speichern-Button
 	$("#speichernButton").button({}).click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		
+
 		alert("gespeichert");
 
 		window.location = "../medienverwaltung/profil";
 
 	});
-	
+
 	// Weiter-Button
 	$("#weiterButton").button({}).click(function(e) {
 		e.preventDefault();
@@ -20,71 +19,89 @@ $(document).ready(function() {
 		window.location = "../medienverwaltung/anlegen_version";
 
 	});
-	
-	
-	
-	var subSelect = $('#rockSelect')[0];
-	initSub(subSelect, "rock");
-	
-	var subSelect = $('#metalSelect')[0];
-	initSub(subSelect, "metal");
-	
-	var subSelect = $('#bullshitSelect')[0];
-	initSub(subSelect, "bullshit");
 
-	$("#rock").change(function() {
-		hideSelects();
-		$('#rockDiv').removeClass('hide');
-	});
-
-	$("#metal").change(function() {
-		hideSelects();
-		$('#metalDiv').removeClass('hide');
-
-	});
-
-	$("#bullshit").change(function() {
-		hideSelects();
-		$('#bullshitDiv').removeClass('hide');
-
-	});
+	// Genres laden
+	getGenres();
 
 });
 
-function initSub(subSelect, genre) {
-	
-	
-	if(genre == "rock"){
-		subSelect.add(new Option("Punk", 1));
-		subSelect.add(new Option("Alternative", 2));
-		subSelect.add(new Option("Ska", 3));
-	}
-	
-	if(genre == "metal"){
-		subSelect.add(new Option("Nu Metal", 1));
-		subSelect.add(new Option("Alternative Metal", 2));
-		subSelect.add(new Option("Thrash Metal", 3));
-	}
-	
-	if(genre == "bullshit"){
-		subSelect.add(new Option("Pop", 1));
-		subSelect.add(new Option("Techno", 2));
-		subSelect.add(new Option("Dubstep", 3));
-	}
-	
+function getGenres() {
+	$
+			.getJSON("api/genres/", function(genres) {
 
-	
+				initGenres(genres);
 
-
-	$('.selectpicker').selectpicker('refresh');
-
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim laden der Genres ist ein Fehler aufgetreten: "
+								+ textStatus + ", " + error;
+						showErrorMsg(errorMessage, "Fehler");
+					});
 
 }
 
-function hideSelects(){
-	
-	$('#rockDiv').addClass('hide');
-	$('#metalDiv').addClass('hide');
-	$('#bullshitDiv').addClass('hide');
-	
+function initGenres(genres) {
+
+	var genreString = "<div class='btn-group' data-toggle='buttons'>";
+	var subGenreString = "";
+
+	$
+			.each(
+					genres,
+					function(pos, genre) {
+						genreString = genreString
+								+ "<label class='btn btn-primary genre'>"
+								+ "<input type='radio' name='" + genre.name
+								+ "' id='" + genre.name
+								+ "' autocomplete='off'> " + genre.name
+								+ "</label>";
+
+						if (genre.subgenres.length !== 0) {
+							subGenreString = subGenreString
+									+ "<div id='"
+									+ genre.name
+									+ "Div"
+									+ "'class='hide subselect' style='margin-top: 20px; width: 200px'>"
+									+ "<p>Subgenre</p><select class='selectpicker' "
+									+ "id='" + genre.name + "Select"
+									+ "' data-width='auto' "
+									+ "multiple></select></div>";
+						}
+
+					});
+
+	genreString = genreString + "</div>";
+
+	$('#genreDiv').html(genreString);
+	$('#subGenreDiv').html(subGenreString);
+
+	$.each(genres, function(pos, genre) {
+
+		if (genre.subgenres.length !== 0) {
+
+			var subselect = $('#' + genre.name + 'Select')[0];
+
+			$.each(genre.subgenres, function(pos, subgenre) {
+				subselect.add(new Option(subgenre.name, subgenre.subgenreId));
+
+			});
+		}
+	});
+
+	$('.selectpicker').selectpicker('refresh');
+
+	$.each(genres, function(pos, genre) {
+		$("#" + genre.name).change(function() {
+			hideSelects();
+			$('#' + genre.name + 'Div').removeClass('hide');
+		});
+	});
+
+}
+
+function hideSelects() {
+
+	$('.subselect').addClass('hide');
+
 }
