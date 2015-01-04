@@ -52,9 +52,11 @@ public class GuiController {
 
 	// medienverwaltung/anlegen_version => anlegen_verion.jsp
 	@RequestMapping("/anlegen_version")
-	public ModelAndView showAnlegenVersion() {
+	public ModelAndView showAnlegenVersion(
+			@RequestParam(value = "masterId", required = true) int masterId) {
 
 		ModelAndView mv = new ModelAndView("anlegen_version");
+		mv.addObject("masterId", masterId);
 		return mv;
 	}
 

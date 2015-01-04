@@ -21,7 +21,7 @@
 	rel="stylesheet">
 <!-- Styles ---------------------->
 <style type="text/css">
-a { /
+p {
 	word-wrap: break-word;
 }
 
@@ -54,7 +54,7 @@ a { /
 		<div id="editDiv" class="panel panel-default"
 			style="float: left; display: inline; width: 70%; padding: 20px 20px 20px 20px">
 
-			<form action="">
+			<form action="" id="inputForm">
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -95,8 +95,11 @@ a { /
 						<h4 class="panel-title">Coverbild</h4>
 					</div>
 					<div class="panel-body">
-						<button id="uploadButton" class="btn btn-default">Datei
-							ausw&auml;hlen</button>
+						<!--  <button id="uploadButton" class="btn btn-default">Datei
+							ausw&auml;hlen</button>-->
+						<input style="width: 250px; display: inline; float: left"
+							name="coverURL" id="coverURL" type="text" class="form-control"
+							placeholder="www.example.com/images/1234" />
 					</div>
 				</div>
 
@@ -108,26 +111,19 @@ a { /
 						<div>
 							<input style="width: 150px; display: inline; float: left"
 								name="releaseDate" id="releaseDate" type="text"
-								class="form-control" /> <span
-								style="margin-left: 7px; display: inline-block; padding-top: 7px; padding-bottom: 7px; min-height: 20px">dd.mm.yyyy
-								oder mm.yyyy oder yyyy</span>
+								class="form-control" />
 						</div>
 					</div>
 				</div>
 
+				<div id="errorDiv"></div>
+
 
 				<button style="float: right; margin-left: 15px;" id="weiterButton"
 					class="btn btn-success">Speichern und weiter</button>
-				<button style="float: right;" id="speichernButton"
-					class="btn btn-default">Als Master speichern</button>
-
-
 
 
 			</form>
-
-
-
 
 
 
@@ -135,15 +131,47 @@ a { /
 
 		<div id="guideDiv"
 			style="float: right; display: inline; max-width: 25%">
-			<p style="font-size: 16px; word-wrap: break-word;">Auf dieser
-				Seite k&ouml;nnen Sie die Basis-Informationen zu einer
-				Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen K&uuml;nstler,
-				Titel, Genre und das Erscheinungsjahr.</p>
-			<p style="font-size: 16px; word-wrap: break-word;">Im Anschluss
-				können Sie Ihre konkrete Version der Veröffentlichung anlegen
-				(Format, Pressung...), oder die Veröffentlichung als Master
-				speichern und Ihre Version später anlegen.</p>
+			<p style="font-size: 16px;">Auf dieser Seite k&ouml;nnen Sie die
+				Basis-Informationen zu einer Ver&ouml;ffentlichung eintragen. Dazu
+				z&auml;hlen K&uuml;nstler, Titel, Genre und das Erscheinungsjahr.</p>
+			<p style="font-size: 16px;">Im Anschluss können Sie Ihre konkrete
+				Version der Veröffentlichung anlegen (Format, Pressung, etc.).</p>
+
+			<p>
+				<b>K&uuml;nstler: </b>Name des K&uuml;nstlers, der Gruppe, etc.
+				Beachten Sie die Groß- und Kleinschreibung.
+			</p>
+
+			<p>
+				<b>Titel: </b>&Uuml;bernehmen Sie den Titel so exakt wie
+				m&ouml;glich von der Ver&ouml;ffentlichung. Beachten Sie die Groß-
+				und Kleinschreibung.
+			</p>
+
+			<p>
+				<b>Genre: </b>Ordnen Sie die Ver&ouml;ffentlichung einem Genre zu.
+				Danach k&ouml;nnen Sie optional beliebig viele Subgenres
+				ausw&auml;hlen.
+			</p>
+
+			<p>
+				<b>Coverbild: </b>Eine Internetadresse (URL), unter der das Bild
+				abrufbar ist.
+			</p>
+
+			<p>
+				<b>Erscheinungsdatum: </b>Geben Sie m&ouml;glichst exakt das
+				Erscheinungsdatum an. G&uuml;ltige Formate sind:
+			</p>
+			<ul>
+				<li>dd.mm.yyyy</li>
+				<li>mm.yyyy</li>
+				<li>yyyy</li>
+			</ul>
+
+
 		</div>
+
 
 
 

@@ -4,7 +4,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
+	<!-- Styles ---------------------->
+<style type="text/css">
+a { /
+	word-wrap: break-word;
+}
+
+.logo {
+	margin-top: 8px;
+	margin-bottom: 5px;
+	color: white;
+}
+
+
+</style>
 </head>
 <body>
 
@@ -14,7 +27,8 @@
         <div class="collapse navbar-collapse">
              <ul class="nav navbar-nav">
                 <li> 
-                    <img src="/medienverwaltung/resources/NOTHING" width="85" height="34" style="margin:8px 0px 8px 0px">
+                    <!-- <img src="/medienverwaltung/resources/NOTHING" width="85" height="34" style="margin:8px 0px 8px 0px"> -->
+                    <h2 class="logo">Medienverwaltung</h2>
                 </li>
             </ul> 
             <form class="navbar-form navbar-left">
