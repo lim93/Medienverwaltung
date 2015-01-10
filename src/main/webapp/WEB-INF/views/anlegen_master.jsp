@@ -97,7 +97,7 @@ p {
 					<div class="panel-body">
 						<!--  <button id="uploadButton" class="btn btn-default">Datei
 							ausw&auml;hlen</button>-->
-						<input style="width: 250px; display: inline; float: left"
+						<input style="width: 450px; display: inline; float: left"
 							name="coverURL" id="coverURL" type="text" class="form-control"
 							placeholder="www.example.com/images/1234" />
 					</div>

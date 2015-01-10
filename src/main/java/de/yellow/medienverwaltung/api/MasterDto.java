@@ -4,10 +4,10 @@ import java.util.List;
 
 public class MasterDto {
 
-	// TODO: Krispin: Artist-Id verwenden. Dazu in der GUI nach Eingabe des
-	// Künstlers eine Abfrage starten, um die Id zu ermitteln.
 	private String artist;
+	private int artistId;
 	private String title;
+	private String genre;
 	private int genreId;
 	private List<Integer> subgenreIds;
 	private String url;
@@ -21,12 +21,28 @@ public class MasterDto {
 		this.artist = artist;
 	}
 
+	public int getArtistId() {
+		return artistId;
+	}
+
+	public void setArtistId(int artistId) {
+		this.artistId = artistId;
+	}
+
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 
 	public int getGenreId() {
@@ -63,9 +79,10 @@ public class MasterDto {
 
 	@Override
 	public String toString() {
-		return "MasterDto [artist=" + artist + ", title=" + title
-				+ ", genreId=" + genreId + ", subgenreIds=" + subgenreIds
-				+ ", url=" + url + ", releaseDate=" + releaseDate + "]";
+		return "MasterDto [artist=" + artist + ", artistId=" + artistId
+				+ ", title=" + title + ", genre=" + genre + ", genreId="
+				+ genreId + ", subgenreIds=" + subgenreIds + ", url=" + url
+				+ ", releaseDate=" + releaseDate + "]";
 	}
 
 }
