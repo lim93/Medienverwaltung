@@ -4,6 +4,7 @@ import java.util.List;
 
 public class MasterDto {
 
+	private int masterId;
 	private String artist;
 	private int artistId;
 	private String title;
@@ -12,6 +13,14 @@ public class MasterDto {
 	private List<Integer> subgenreIds;
 	private String url;
 	private String releaseDate;
+
+	public int getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(int masterId) {
+		this.masterId = masterId;
+	}
 
 	public String getArtist() {
 		return artist;
@@ -79,10 +88,11 @@ public class MasterDto {
 
 	@Override
 	public String toString() {
-		return "MasterDto [artist=" + artist + ", artistId=" + artistId
-				+ ", title=" + title + ", genre=" + genre + ", genreId="
-				+ genreId + ", subgenreIds=" + subgenreIds + ", url=" + url
-				+ ", releaseDate=" + releaseDate + "]";
+		return "MasterDto [masterId=" + masterId + ", artist=" + artist
+				+ ", artistId=" + artistId + ", title=" + title + ", genre="
+				+ genre + ", genreId=" + genreId + ", subgenreIds="
+				+ subgenreIds + ", url=" + url + ", releaseDate=" + releaseDate
+				+ "]";
 	}
 
 }

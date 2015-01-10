@@ -76,10 +76,10 @@
 			style="float: left; display: inline; width: 70%; padding: 0px 20px 20px 20px">
 
 			<h4>
-				Version anlegen für "<span id="titelSpan">Sonic Highways</span>" von
-				"<span id="artistSpan">Foo Fighters</span>"
+				Version anlegen für "<span id="titelSpan"></span>" von "<span
+					id="artistSpan"></span>"
 			</h4>
-			<form action="">
+			<form action="" id="inputForm">
 
 
 
@@ -88,19 +88,9 @@
 						<h4 class="panel-title">Format</h4>
 					</div>
 					<div class="panel-body">
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-primary"> <input type="radio"
-								name="vinyl" id="rock" autocomplete="off"> Vinyl
-							</label> <label class="btn btn-primary"> <input type="radio"
-								name="cd" id="metal" autocomplete="off"> CD
-							</label> <label class="btn btn-primary"> <input type="radio"
-								name="kassette" id="kassette" autocomplete="off">
-								Kassette
-							</label> <label class="btn btn-primary"> <input type="radio"
-								name="mp3" id="mp3" autocomplete="off"> mp3
-							</label>
 
-						</div>
+						<div id="formatDiv"></div>
+
 					</div>
 				</div>
 
@@ -141,49 +131,7 @@
 						<h4 class="panel-title">Tracklist</h4>
 					</div>
 					<div class="panel-body">
-						<div id="tracks" name="tracks">
-							<div class="track">
-								<input name="number" type="text"
-									class="form-control trackNumber" placeholder="#" /> <input
-									name="track" type="text" class="form-control trackTitel"
-									placeholder="Titel" /> <input name="duration" type="text"
-									class="form-control trackDuration" placeholder="00:00" />
-							</div>
-
-							<div class="track">
-								<input name="number" type="text"
-									class="form-control trackNumber" placeholder="#" /> <input
-									name="track" type="text" class="form-control trackTitel"
-									placeholder="Titel" /> <input name="duration" type="text"
-									class="form-control trackDuration" placeholder="00:00" />
-							</div>
-
-							<div class="track">
-								<input name="number" type="text"
-									class="form-control trackNumber" placeholder="#" /> <input
-									name="track" type="text" class="form-control trackTitel"
-									placeholder="Titel" /> <input name="duration" type="text"
-									class="form-control trackDuration" placeholder="00:00" />
-							</div>
-
-							<div class="track">
-								<input name="number" type="text"
-									class="form-control trackNumber" placeholder="#" /> <input
-									name="track" type="text" class="form-control trackTitel"
-									placeholder="Titel" /> <input name="duration" type="text"
-									class="form-control trackDuration" placeholder="00:00" />
-							</div>
-
-							<div class="track">
-								<input name="number" type="text"
-									class="form-control trackNumber" placeholder="#" /> <input
-									name="track" type="text" class="form-control trackTitel"
-									placeholder="Titel" /> <input name="duration" type="text"
-									class="form-control trackDuration" placeholder="00:00" />
-							</div>
-
-
-						</div>
+						<div id="tracks" name="tracks"></div>
 					</div>
 				</div>
 
@@ -204,6 +152,8 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="errorDiv"></div>
 
 
 				<button style="float: right; margin-left: 15px;"
