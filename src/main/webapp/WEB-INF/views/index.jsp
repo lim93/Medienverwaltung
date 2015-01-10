@@ -13,8 +13,7 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css"
-	rel="stylesheet">
+	href="/medienverwaltung/resources/css/bootstrap.css" rel="stylesheet">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" media="screen"
@@ -30,9 +29,7 @@
 	<jsp:include page="navigation.jsp" />
 
 
-	<div id=content>
-	
-	
-	</div>
+	<div id=content></div>
+	<jsp:include page="footer.jsp" />
 </body>
 </html>

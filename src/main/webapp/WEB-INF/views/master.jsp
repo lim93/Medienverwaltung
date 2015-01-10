@@ -93,9 +93,11 @@ a { /
 					<div id="tableDiv" class="dataTable"></div>
 
 					<h5>
-						<span style="float: right; display: inline">Ihre Version
-							nicht dabei? Jetzt anlegen
-							<button id="anlegenButton" class="btn btn-success"><b>+</b></button>
+						<span style="float: right; display: inline">Ihre Version ist
+							nicht dabei?
+							<button id="anlegenButton" class="btn btn-success">
+								<b>+ Anlegen</b>
+							</button>
 						</span>
 					</h5>
 
@@ -104,7 +106,7 @@ a { /
 
 		</div>
 	</div>
-
+	<jsp:include page="footer.jsp" />
 </body>
 
 </html>

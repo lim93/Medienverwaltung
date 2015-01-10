@@ -13,8 +13,7 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css"
-	rel="stylesheet">
+	href="/medienverwaltung/resources/css/bootstrap.css" rel="stylesheet">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" media="screen"
@@ -63,9 +62,10 @@ a { /
 </head>
 <body style="margin-top: 72px">
 	<jsp:include page="includes/includeScriptImports.jsp" />
-	
+
 	<!-- Profil JS -->
-<script type="text/javascript" src="/medienverwaltung/resources/js/profil.js"></script>
+	<script type="text/javascript"
+		src="/medienverwaltung/resources/js/profil.js"></script>
 
 
 	<!-- Navbar importieren -->
@@ -126,6 +126,8 @@ a { /
 
 		</div>
 	</div>
+
+	<jsp:include page="footer.jsp" />
 
 </body>
 

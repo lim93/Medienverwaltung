@@ -58,8 +58,9 @@
 			</h2>
 			<h4>
 				<span style="float: right; display: inline">Gesuchte
-					Ver&ouml;ffentlichung nicht dabei? Jetzt hinzuf&uuml;gen
-					<button id="anlegenButton" class="btn btn-success">+</button>
+					Ver&ouml;ffentlichung nicht dabei?
+					<button id="anlegenButton" class="btn btn-success">+
+						Anlegen</button>
 				</span>
 			</h4>
 
@@ -88,5 +89,7 @@
 
 
 	</div>
+
+	<jsp:include page="footer.jsp" />
 </body>
 </html>
