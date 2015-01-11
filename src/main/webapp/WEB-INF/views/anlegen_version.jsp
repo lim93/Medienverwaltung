@@ -24,6 +24,14 @@
 
 <!-- Styles ---------------------->
 <style type="text/css">
+p {
+	word-wrap: break-word;
+}
+
+tr {
+	height: 44px;
+}
+
 .track {
 	height: 34px;
 	margin-bottom: 10px;
@@ -50,6 +58,12 @@
 	margin-left: 10px;
 }
 
+.addButton {
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+}
 .reducedPanelPadding {
 	padding-top: 0px;
 }
@@ -132,6 +146,10 @@
 					</div>
 					<div class="panel-body">
 						<div id="tracks" name="tracks"></div>
+						<div id=tracksControl>
+							<button id="addButton" class="btn btn-success addButton">+
+								weiterer</button>
+						</div>
 					</div>
 				</div>
 
@@ -146,9 +164,7 @@
 						<div>
 							<input style="width: 150px; display: inline; float: left"
 								name="releaseDate" id="releaseDate" type="text"
-								class="form-control" /> <span
-								style="margin-left: 7px; display: inline-block; padding-top: 7px; padding-bottom: 7px; min-height: 20px">dd.mm.yyyy
-								oder mm.yyyy oder yyyy. Kann vom Master abweichen.</span>
+								class="form-control" />
 						</div>
 					</div>
 				</div>
@@ -177,6 +193,52 @@
 				Seite k&ouml;nnen Sie eine konkrete Version einer
 				Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen Format, Label, die
 				Trackliste und weitere Identifikationsmerkmale.</p>
+
+			<p>
+				<b>Format: </b>Geben Sie hier den physikalischen oder digitalen
+				Tonträgr ihrer Version an.
+			</p>
+
+			<p>
+				<b>Label: </b>Hier können Sie den Namen des Labels eintragen, unter
+				dem Ihre Version der Ver&ouml;ffentlichung erschienen ist.<br>Der
+				<b>Labelcode</b> setzt sich aus den Buchstaben "LC" und einer vier-
+				bis f&uuml;nfstelligen Zahl zusammen. Jedes Label besitzt einen
+				eigenen Labelcode, der in der Regel auf allen
+				Ver&ouml;ffentlichungen des Labels abgedruckt ist.
+			</p>
+
+			<p>
+				<b>Identifikation: </b>Zur eindeutigen Identifikation Ihrer Version
+				empfehlen wir, weitere Merkmale anzugeben. <br> Dazu
+				geh&ouml;rt die <b>Katalog-</b> oder <b>CAT-Nummer</b>, welche vom
+				Label f&uuml;r jede Ver&ouml;ffentlichung vergeben wird und
+				besonders bei Schallplatten auch direkt auf dem Tonträger zu finden
+				ist.
+			</p>
+
+			<p>
+				<b>Tracklist: </b>Geben Sie hier die Titel in der Reihenfolge an,
+				wie sie auf der Ver&ouml;ffentlichung vorkommen. &Uuml;bernehmen Sie
+				bei der Nummerierung den Stil von der Ver&ouml;ffentlichung,
+				beispielsweise "1, 2, 3, 4" oder "A01, A02, B01, B02". Beachten Sie
+				die Groß- und Kleinschreibung.
+			</p>
+
+			<p>
+				<b>Erscheinungsdatum: </b>Das Erscheinungsdatum Ihrer Version kann
+				vom urspr&uuml;nglichen Erscheinungsdatum der Ver&ouml;ffentlichung
+				abweichen (bei Nachpressungen, Jubil&auml;umsausgaben oder
+				regionalen Unterschieden). Geben Sie daher hier m&ouml;glichst exakt
+				das Erscheinungsdatum ihrer konkreten Version an. G&uuml;ltige
+				Formate sind:
+			</p>
+			<ul>
+				<li>dd.mm.yyyy</li>
+				<li>mm.yyyy</li>
+				<li>yyyy</li>
+			</ul>
+
 		</div>
 
 

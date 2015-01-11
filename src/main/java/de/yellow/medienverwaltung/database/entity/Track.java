@@ -45,4 +45,10 @@ public class Track {
 		this.duration = duration;
 	}
 
+	@Override
+	public String toString() {
+		return "Track [trackId=" + trackId + ", number=" + number + ", title="
+				+ title + ", duration=" + duration + "]";
+	}
+
 }

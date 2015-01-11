@@ -5,9 +5,8 @@ $(document).ready(function() {
 		e.preventDefault();
 		e.stopPropagation();
 
-		alert("gespeichert");
+		validateAndSubmit();
 
-		window.location = "../medienverwaltung/profil";
 
 	});
 
@@ -30,6 +29,12 @@ $(document).ready(function() {
 
 	});
 
+	// addButton => Weiteres Feld für die Tracklist
+	$("#addButton").button({}).click(function(e) {
+		addRow();
+
+	});
+
 	// Master über dessen id holen und damit Meta-Informationen setzen
 	getMaster();
 
@@ -43,17 +48,35 @@ $(document).ready(function() {
 
 function initTracks() {
 
-	for (i = 0; i < 6; i++) {
-		$('#tracks')
-				.html(
-						$('#tracks').html()
-								+ '<div class="track"><input name="number"'
-								+ 'type="text"class="form-control trackNumber"'
-								+ 'placeholder="#" /> <input name="track" type="text"'
-								+ 'class="form-control trackTitel"placeholder="Titel"/>'
-								+ '<input name="duration" type="text"class="form-control '
-								+ 'trackDuration" placeholder="00:00" /></div>');
+	$('#tracks').html("<table id='trackTable'></table>");
+
+	for (i = 0; i < 5; i++) {
+
+		addRow();
 	}
+
+}
+
+function addRow() {
+
+	var table = document.getElementById("trackTable");
+
+	var rowId = table.rows.length;
+
+	var row = table.insertRow(rowId);
+
+	var number = row.insertCell(0);
+	var title = row.insertCell(1);
+	var duration = row.insertCell(2);
+
+	number.innerHTML = '<input id="number' + rowId + '" '
+			+ 'type="text"class="form-control trackNumber"'
+			+ 'placeholder="#" />';
+	title.innerHTML = '<input id="title' + rowId + '" type="text"'
+			+ 'class="form-control trackTitel"placeholder="Titel"/>';
+	duration.innerHTML = '<input id="duration' + rowId
+			+ '" type="text"class="form-control '
+			+ 'trackDuration" placeholder="00:00" />';
 
 }
 
@@ -122,6 +145,142 @@ function initFormats(formats) {
 
 	$('#formatDiv').html(formatString);
 
+}
+
+function validateAndSubmit() {
+
+	var masterId = $.urlParam("masterId");
+	var formatId = 0;
+	var formattype = '';
+	var label = $("#label").val();
+	var labelcode = $("#lc").val();
+	var catalogNo = $("#cat").val();
+	var barcode = $("#barcode").val();
+	var tracklist = [];
+	var releaseDate = $("#releaseDate").val();
+
+	$('.format').each(function(i, format) {
+		if ($(format).hasClass('active')) {
+			formatId = $(format).data('formatid');
+			formattype = $(format).data('formattype');
+		}
+	});
+
+	var table = document.getElementById("trackTable");
+
+	var rowCount = table.rows.length;
+
+	for (i = 0; i < rowCount; i++) {
+		var number = $('#number' + i).val();
+		var title = $('#title' + i).val();
+		var duration = $('#duration' + i).val();
+
+		if (number === "" | title === "" | duration === "") {
+
+			if (number === "" & title === "" & duration === "") {
+				// komplett leer => alles ok
+			} else {
+				showErrorMsg("Geben Sie zu jedem Track die Nummer, den Titel und die Länge an");
+				return false;
+
+			}
+
+		} else {
+			var track = {
+				number : number,
+				title : title,
+				duration : duration
+			};
+
+			tracklist[i] = track;
+		}
+
+	}
+
+	if (tracklist.length < 1) {
+		showErrorMsg("Geben Sie mindestens einen Titel in der Tracklist an");
+		return false;
+	}
+
+	// TODO: LC validieren
+
+	isvalid = true;
+	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
+	if (formatId == "0" | formattype == "") {
+		// Format muss gesetzt sein
+		errorMessage = errorMessage + "<li>Format</li>";
+		isvalid = false;
+	}
+
+	if (label === "") {
+		// Label muss gesetzt sein
+		errorMessage = errorMessage + "<li>Label</li>";
+		isvalid = false;
+	}
+
+	if (labelcode == "") {
+		// Labelcode muss gesetzt sein
+		errorMessage = errorMessage + "<li>Labelcode</li>";
+		isvalid = false;
+	}
+
+	if (releaseDate == "") {
+		errorMessage = errorMessage + "<li>Erscheinungsdatum</li>";
+		isvalid = false;
+	}
+
+	if (!isvalid) {
+		// Falls eine Information nicht gesetzt ist:
+		errorMessage = errorMessage + "</ul>";
+		showErrorMsg(unescape(errorMessage));
+		errorMessage = undefined;
+		return;
+	} else {
+
+		if (validateReleaseDate(releaseDate) == false) {
+			return false;
+		}
+
+	}
+
+	// Wenn bis hierhin alles ok: POST an den Rest-Service
+	saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
+			tracklist, releaseDate).done(function(result) {
+
+		alert("ANGELEGT!");
+
+		// TODO: Auf fertige Version weiterleiten
+		window.location = "../medienverwaltung/profil";
+	}).fail(
+			function(jqxhr, textStatus, error) {
+				var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "
+						+ textStatus + ", " + error;
+				showErrorMsg(errorMessage);
+				return false;
+			});
+
+}
+
+function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
+		tracklist, releaseDate) {
+	return $.ajax({
+		url : 'api/release/',
+		type : 'POST',
+		data : JSON.stringify({
+			"masterId" : masterId,
+			"formatId" : formatId,
+			"label" : label,
+			"labelcode" : labelcode,
+			"catalogNo" : catalogNo,
+			"barcode" : barcode,
+			"releaseDate" : releaseDate,
+			"tracklist" : tracklist
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	});
 }
 
 function validateReleaseDate(date) {
