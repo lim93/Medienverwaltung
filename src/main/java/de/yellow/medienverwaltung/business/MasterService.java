@@ -2,6 +2,7 @@ package de.yellow.medienverwaltung.business;
 
 import java.util.List;
 
+import de.yellow.medienverwaltung.api.MasterDto;
 import de.yellow.medienverwaltung.database.dao.MasterDao;
 import de.yellow.medienverwaltung.database.entity.Master;
 
@@ -23,6 +24,14 @@ public class MasterService {
 		List<Master> masters = dao.getAllMasters();
 		// TODO: Do something useful with data
 		return masters;
+	}
+	
+	public int insertMaster(MasterDto master) {
+		dao = new MasterDao();
+		
+		int row = dao.insertMaster(master);
+		
+		return row;
 	}
 
 }

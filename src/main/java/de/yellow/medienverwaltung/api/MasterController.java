@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import de.yellow.medienverwaltung.business.MasterService;
+
 @Controller
 public class MasterController {
 
@@ -34,7 +36,8 @@ public class MasterController {
 
 		System.out.println(master.toString());
 		// TODO: Gruppe: Service aufrufen, um Master zu speichern
-		int id = 5;
+		MasterService service = new MasterService();
+		int id = service.insertMaster(master);
 
 		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 

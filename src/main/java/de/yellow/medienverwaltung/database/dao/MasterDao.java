@@ -2,6 +2,11 @@ package de.yellow.medienverwaltung.database.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -9,6 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import de.yellow.medienverwaltung.api.MasterDto;
 import de.yellow.medienverwaltung.database.entity.Master;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
@@ -63,5 +69,43 @@ public class MasterDao {
 		});
 
 		return list;
+	}
+	
+	public int insertMaster(MasterDto master) {
+		
+		DataSource dataSource = getDataSource();
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		Timestamp date = createTimestampDDMMYYYY(master.getReleaseDate());
+		
+		int artistId = 1;
+		
+		String sql = "INSERT INTO master(artist_id, title, released, image_url) VALUES(?, ?, ?, ?)";
+		
+		Object[] params = new Object[] {1, master.getTitle(), date, master.getUrl()};
+		
+		int row = jdbcTemplate.update(sql, params);
+		
+		System.out.println(row);
+		
+		return row;
+		
+	}
+	
+	/**
+	* Erstellt aus einem String im Format "dd.MM.yyyy" einen Timestamp. Die
+	* Stunden, Minuten etc. sind dabei 0.
+	*/
+	public static Timestamp createTimestampDDMMYYYY(String stringDate) {
+		Timestamp timestamp = new Timestamp(0);
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		try {
+		timestamp.setTime(df.parse(stringDate).getTime());
+		} catch (ParseException parseException) {
+		throw new IllegalArgumentException(stringDate
+		+ " ist keine gültige Zeitangabe. Zeitangaben müssen im Format DD.MM.YYYY übergeben werden.", parseException);
+		}
+		return timestamp;
 	}
 }
