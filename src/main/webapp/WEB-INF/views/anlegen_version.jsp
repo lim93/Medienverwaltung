@@ -14,7 +14,8 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css" rel="stylesheet">
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet">
 
 <!-- Bootstrap Selectpicker CSS-->
 <link rel="stylesheet" media="screen"
@@ -147,8 +148,9 @@ tr {
 					<div class="panel-body">
 						<div id="tracks" name="tracks"></div>
 						<div id=tracksControl>
-							<button id="addButton" class="btn btn-success addButton">+
-								weiterer</button>
+							<button id="addButton" class="btn btn-success addButton">
+								<span class="glyphicon glyphicon-plus"></span> <b>weiterer</b> 
+							</button>
 						</div>
 					</div>
 				</div>
@@ -173,7 +175,9 @@ tr {
 
 
 				<button style="float: right; margin-left: 15px;"
-					id="speichernButton" class="btn btn-success">Speichern</button>
+					id="speichernButton" class="btn btn-success">
+					<span class="glyphicon glyphicon-save"></span> <b>Speichern</b>
+				</button>
 
 
 

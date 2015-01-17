@@ -35,19 +35,20 @@ a { /
                 <div class="form-group">
                     <input id="suchInput" type="text" style="width:350px" class="form-control" placeholder="Katalog durchsuchen">
                 </div>
-                <button id="suchButton" type="submit" class="btn btn-info">Suchen</button>
+                <button id="suchButton" type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span> <b>Suchen</b>
+							</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Krispin Limbach <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Einstellungen</a>
+                        <li><a href="#">Einstellungen <span class="glyphicon glyphicon-cog"></span></a>
                         </li>
-                        <li><a href="#">Hilfe</a>
+                        <li><a href="#">Hilfe <span class="glyphicon glyphicon-question-sign"></span></a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#">Abmelden</a>
+                        <li><a href="#">Abmelden <span class="glyphicon glyphicon-log-out"></span></a>
                         </li>
                     </ul>
                 </li>

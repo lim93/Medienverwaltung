@@ -13,7 +13,7 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css" rel="stylesheet">
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 <!-- Bootstrap Selectpicker CSS-->
 <link rel="stylesheet" media="screen"
@@ -120,7 +120,7 @@ p {
 
 
 				<button style="float: right; margin-left: 15px;" id="weiterButton"
-					class="btn btn-success">Speichern und weiter</button>
+					class="btn btn-success">	<span class="glyphicon glyphicon-save"></span> <b>Speichern und weiter</b></button>
 
 
 			</form>

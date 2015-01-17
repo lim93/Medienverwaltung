@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/medienverwaltung/resources/js/jquery.dataTables.js"></script>
 
 <!-- Bootstrap JS -->
-<script type="text/javascript" src="/medienverwaltung/resources/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/medienverwaltung/resources/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Bootstrap SelectpickerJS -->
 <script type="text/javascript" src="/medienverwaltung/resources/js/bootstrap-select.js"></script>

@@ -3,11 +3,28 @@
  */
 $(document).ready(function() {
 
+	// Anlegen-Button => weitere Version anlegen
+	$("#anlegenButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		versionAnlegen();
+
+	});
+
 	fillTable();
 
 });
 
 releases;
+
+function versionAnlegen() {
+	var masterId = urlParam("masterId");
+
+	window.location = "../medienverwaltung/anlegen_version?masterId="
+			+ masterId;
+
+}
 
 function fillTable() {
 
@@ -90,4 +107,15 @@ function check(value) {
 	}
 
 	return true;
+}
+
+
+function urlParam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+			.exec(window.location.href);
+	if (results == null) {
+		return null;
+	} else {
+		return results[1] || 0;
+	}
 }

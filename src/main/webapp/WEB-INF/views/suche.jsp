@@ -13,7 +13,8 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css" rel="stylesheet">
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" media="screen"
@@ -59,8 +60,9 @@
 			<h4>
 				<span style="float: right; display: inline">Gesuchte
 					Ver&ouml;ffentlichung nicht dabei?
-					<button id="anlegenButton" class="btn btn-success">+
-						Anlegen</button>
+					<button id="anlegenButton" class="btn btn-success">
+						<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
+					</button>
 				</span>
 			</h4>
 

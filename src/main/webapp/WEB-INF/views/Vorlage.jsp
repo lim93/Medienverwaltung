@@ -13,7 +13,7 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css"
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css"
 	rel="stylesheet">
 
 <!-- DataTables CSS -->

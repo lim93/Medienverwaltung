@@ -82,7 +82,7 @@ function addRow() {
 
 function getMaster() {
 
-	var masterId = $.urlParam("masterId");
+	var masterId = urlParam("masterId");
 
 	$
 			.getJSON("api/master/" + masterId + "/", function(master) {
@@ -345,7 +345,8 @@ function showErrorMsg(message) {
 
 }
 
-$.urlParam = function(name) {
+
+function urlParam(name) {
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)')
 			.exec(window.location.href);
 	if (results == null) {

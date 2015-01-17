@@ -13,7 +13,8 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/css/bootstrap.css" rel="stylesheet">
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" media="screen"
@@ -58,6 +59,12 @@ a { /
 .searchFilterPadding {
 	padding-right: 7px;
 }
+
+.labelMargin {
+	font-size:90%;
+	display: inline-block;
+	margin-bottom: 3px;
+}
 </style>
 </head>
 <body style="margin-top: 72px">
@@ -80,24 +87,25 @@ a { /
 			<h3>Krispin Limbach</h3>
 
 			<hr>
-			Genres: <span class="label label-primary">Rock</span> <span
-				class="label label-primary">Punk</span> <span
-				class="label label-primary">Ska</span> <span
-				class="label label-primary">Metal</span> <span
-				class="label label-primary">Nu-Metal</span> <span
-				class="label label-primary">Ska-Punk</span> <span
-				class="label label-primary">Hardrock</span>
+			Genres:
+			<div class="label label-primary labelMargin">Rock</div>
+			<div class="label label-primary labelMargin">Punk</div>
+			<div class="label label-primary labelMargin">Ska</div>
+			<div class="label label-primary labelMargin">Metal</div>
+			<div class="label label-primary labelMargin">Nu-Metal</div>
+			<div class="label label-primary labelMargin">Ska-Punk</div>
+			<div class="label label-primary labelMargin">Hardrock</div>
 			<hr>
-			Favoriten: <span class="label label-success">die ärzte</span> <span
-				class="label label-success">System Of A Down</span> <span
-				class="label label-success">Donots</span> <span
-				class="label label-success">Farin Urlaub Racing Team</span> <span
-				class="label label-success">Foo Fighters</span> <span
-				class="label label-success">Linkin Park</span> <span
-				class="label label-success">Metallica</span> <span
-				class="label label-success">Nirvana</span> <span
-				class="label label-success">Rise Against</span> <span
-				class="label label-success">Sondaschule</span>
+			Favoriten: <span class="label label-success labelMargin">die
+				ärzte</span> <span class="label label-success labelMargin">System Of
+				A Down</span> <span class="label label-success labelMargin">Donots</span> <span
+				class="label label-success labelMargin">Farin Urlaub Racing
+				Team</span> <span class="label label-success labelMargin">Foo
+				Fighters</span> <span class="label label-success labelMargin">Linkin
+				Park</span> <span class="label label-success labelMargin">Metallica</span>
+			<span class="label label-success labelMargin">Nirvana</span> <span
+				class="label label-success labelMargin">Rise Against</span> <span
+				class="label label-success labelMargin">Sondaschule</span>
 
 			<hr>
 			<p>Sammlung: 12</p>
@@ -112,11 +120,14 @@ a { /
 					<button id="listButton"
 						style="margin-right: 7.5px; float: right; display: inline"
 						type="submit" class="btn btn-default hide"
-						onclick="listenAnsicht();">Listenansicht</button>
+						onclick="listenAnsicht();">
+						<span class="glyphicon glyphicon-th-list"></span> Listenansicht
+					</button>
 					<button id="bigButton"
 						style="margin-right: 7.5px; float: right; display: inline"
-						type="submit" class="btn btn-default" onclick="grosseAnsicht();">Große
-						Ansicht</button>
+						type="submit" class="btn btn-default" onclick="grosseAnsicht();">
+						<span class="glyphicon glyphicon-th-large"></span> Große Ansicht
+					</button>
 				</div>
 
 				<div id="tableDiv" class="dataTable"></div>

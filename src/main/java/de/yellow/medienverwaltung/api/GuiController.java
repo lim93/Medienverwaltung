@@ -26,9 +26,21 @@ public class GuiController {
 
 	// medienverwaltung/master => master.jsp
 	@RequestMapping("/master")
-	public ModelAndView showMaster() {
+	public ModelAndView showMaster(
+			@RequestParam(value = "masterId", required = true) int masterId) {
 
 		ModelAndView mv = new ModelAndView("master");
+		mv.addObject("masterId", masterId);
+		return mv;
+	}
+
+	// medienverwaltung/version => version.jsp
+	@RequestMapping("/version")
+	public ModelAndView showVersion(
+			@RequestParam(value = "versionId", required = true) int versionId) {
+
+		ModelAndView mv = new ModelAndView("version");
+		mv.addObject("versionId", versionId);
 		return mv;
 	}
 

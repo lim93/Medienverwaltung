@@ -45,7 +45,7 @@ a { /
 }
 
 .labelMargin {
-	font-size:90%;
+	font-size: 90%;
 	display: inline-block;
 	margin-bottom: 3px;
 }
@@ -56,7 +56,7 @@ a { /
 
 	<!-- Profil JS -->
 	<script type="text/javascript"
-		src="/medienverwaltung/resources/js/master.js"></script>
+		src="/medienverwaltung/resources/js/version.js"></script>
 
 
 	<!-- Navbar importieren -->
@@ -73,10 +73,23 @@ a { /
 			<hr>
 			Genre: <span class="label label-primary labelMargin">Rock</span>
 			<hr>
-			Subgenres: <span class="label label-success labelMargin">Punk</span> <span
-				class="label label-success labelMargin">Ska</span>
+			Subgenres: <span class="label label-success labelMargin">Punk</span>
+			<span class="label label-success labelMargin">Ska</span>
 			<hr>
-			Ver&ouml;ffentlicht: <span>2014</span>
+
+			<button style="margin-bottom: 15px;" id="addButton"
+				class="btn btn-success">
+				<span class="glyphicon glyphicon-headphones"></span> <b>Zur
+					Sammlung hinfuf&uuml;gen</b>
+			</button>
+			<hr>
+
+			<button id="allButton" class="btn btn-primary">
+				<span class="glyphicon glyphicon-list"></span> <b>Andere
+					Versionen</b>
+			</button>
+
+
 
 		</div>
 
@@ -93,22 +106,75 @@ a { /
 				</div>
 
 				<div>
-					<h4 style="float: left;">Versionen:</h4>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">&Uuml;ber diese Version:</h4>
+						</div>
+						<div class="panel-body">
+
+							<p>
+								<b>Label:</b> <a>Völker hört die Tonträger</a>, Labelcode:
+								LC11590
+							</p>
+							<p>
+								<b>Format:</b> Vinyl
+							</p>
+							<p>
+								<b>Ver&ouml;ffentlicht:</b> 14. Oktober 2014
+							</p>
+
+
+						</div>
+					</div>
+
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Trackliste:</h4>
+						</div>
+						<div class="panel-body">
+
+							<div id="tableDiv" class="dataTable"></div>
+						</div>
+					</div>
+
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Notiz:</h4>
+						</div>
+						<div class="panel-body">
+
+							<p>Doppel-Vinyl inklusive Booklet und Download-Code.</p>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Barcode und andere
+								Identifikationsmerkmale:</h4>
+						</div>
+						<div class="panel-body">
+
+							<p>
+								<b>Barcode:</b> 4 019593 007699
+							</p>
+							<p>
+								<b>Katalog-Nummer (CAT):</b> 930 076-9
+							</p>
+						</div>
+					</div>
 
 
 
-					<div id="tableDiv" class="dataTable"></div>
-
-					<h5>
-						<span style="float: right; display: inline">Ihre Version
-							ist nicht dabei?
-							<button id="anlegenButton" class="btn btn-success">
-								<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
-							</button>
-						</span>
-					</h5>
 
 				</div>
+
+
+
+
+
 			</div>
 
 		</div>
