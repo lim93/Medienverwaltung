@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,6 +21,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import de.yellow.medienverwaltung.api.MasterDto;
+import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Master;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
@@ -111,6 +113,44 @@ public class MasterDao {
 		
 		return masterId;
 		
+	}
+	
+	public MasterDto getMasterById(long id) {
+		
+//		Benötigt werden:
+//		aus der Master-Tabelle:
+//		int masterId; 		(nicht wirklich aus Tabelle, ist ja schon bekannt)
+//		int artistId; 		(artist_id)
+//		String title; 		(title)
+//		String releaseDate; (released)
+//		String url;   		(image_url)
+		
+//		aus der Artist-Tabelle:
+//		String artist; (name)
+		
+//		aus der master_subgenre-Tabelle:
+//		List<Integer> subgenreIds; (subgenre_id)
+		
+//		aus der Subgenre-Tabelle:
+//		String genre; (name)
+//		int genreId;  (genre_id)
+		
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		MasterDto masterDto = new MasterDto();
+		
+		String sql = "SELECT artist_id, title, released, image_url FROM master WHERE master_id = ?";
+		
+		Master master = new Master();
+		
+		master = (Master) jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Master>(Master.class));
+		
+		
+		
+		return masterDto;
 	}
 	
 	/**

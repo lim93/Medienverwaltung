@@ -33,5 +33,13 @@ public class MasterService {
 		
 		return masterId;
 	}
+	
+	public MasterDto getMasterById(long id) {
+		dao = new MasterDao();
+		
+		MasterDto master = dao.getMasterById(id);
+		
+		return master;
+	}
 
 }
