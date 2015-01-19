@@ -26,12 +26,12 @@ public class MasterService {
 		return masters;
 	}
 	
-	public int insertMaster(MasterDto master) {
+	public long insertMaster(MasterDto master) {
 		dao = new MasterDao();
 		
-		int row = dao.insertMaster(master);
+		long masterId = dao.insertMaster(master);
 		
-		return row;
+		return masterId;
 	}
 
 }

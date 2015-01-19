@@ -32,14 +32,14 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = "api/master/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Integer> postNewMaster(@RequestBody MasterDto master) {
+	public ResponseEntity<Long> postNewMaster(@RequestBody MasterDto master) {
 
 		System.out.println(master.toString());
 		// TODO: Gruppe: Service aufrufen, um Master zu speichern
 		MasterService service = new MasterService();
-		int id = service.insertMaster(master);
+		long masterId = service.insertMaster(master);
 
-		return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		return new ResponseEntity<Long>(masterId, HttpStatus.OK);
 
 	}
 

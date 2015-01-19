@@ -1,18 +1,23 @@
 package de.yellow.medienverwaltung.database.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import de.yellow.medienverwaltung.api.MasterDto;
 import de.yellow.medienverwaltung.database.entity.Master;
@@ -71,25 +76,40 @@ public class MasterDao {
 		return list;
 	}
 	
-	public int insertMaster(MasterDto master) {
+	public long insertMaster(MasterDto master) {
 		
 		DataSource dataSource = getDataSource();
 		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
-		Timestamp date = createTimestampDDMMYYYY(master.getReleaseDate());
+		// TODO: Artist überprüfen: Falls Artist schon vorhanden in DB -> vorhandene Artist-ID benutzen;
+		// sonst -> zuerst Artist anlegen.
+		final int artistId = 1;
 		
-		int artistId = 1;
+		final String title = master.getTitle();
+		final Timestamp releaseDate = createTimestampDDMMYYYY(master.getReleaseDate());
+		final String imageUrl = master.getUrl();
 		
-		String sql = "INSERT INTO master(artist_id, title, released, image_url) VALUES(?, ?, ?, ?)";
+		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
-		Object[] params = new Object[] {1, master.getTitle(), date, master.getUrl()};
+		final String sql = "INSERT INTO master(master_id, artist_id, title, released, image_url) VALUES(NULL, ?, ?, ?, ?)";
 		
-		int row = jdbcTemplate.update(sql, params);
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				ps.setInt(1, artistId);
+				ps.setString(2, title);
+				ps.setTimestamp(3, releaseDate);
+				ps.setString(4, imageUrl);
+				return ps;
+			}
+		}, keyHolder);
+			
+		long masterId = keyHolder.getKey().longValue();
 		
-		System.out.println(row);
+		System.out.println("Master wurde eingefügt mit der id: " + masterId);
 		
-		return row;
+		return masterId;
 		
 	}
 	
