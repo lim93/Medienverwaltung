@@ -1,6 +1,5 @@
 package de.yellow.medienverwaltung.database.entity;
 
-import java.sql.Date;
 import java.sql.Blob;
 
 public class Master {
@@ -8,9 +7,12 @@ public class Master {
 	private int masterId;
 	private int artistId;
 	private String title;
-	private Date released;
+	private int releaseDay;
+	private int releaseMonth;
+	private int releaseYear;
 	private String imageURL;
 	private Blob image;
+	private int genreId;
 
 	public int getMasterId() {
 		return masterId;
@@ -36,12 +38,28 @@ public class Master {
 		this.title = title;
 	}
 
-	public Date getReleased() {
-		return released;
+	public int getReleaseDay() {
+		return releaseDay;
 	}
 
-	public void setReleased(Date released) {
-		this.released = released;
+	public void setReleaseDay(int releaseDay) {
+		this.releaseDay = releaseDay;
+	}
+
+	public int getReleaseMonth() {
+		return releaseMonth;
+	}
+
+	public void setReleaseMonth(int releaseMonth) {
+		this.releaseMonth = releaseMonth;
+	}
+
+	public int getReleaseYear() {
+		return releaseYear;
+	}
+
+	public void setReleaseYear(int releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
 	public String getImageURL() {
@@ -52,10 +70,20 @@ public class Master {
 		this.imageURL = imageURL;
 	}
 
-	public Blob getImage(){
+	public Blob getImage() {
 		return image;
 	}
+
 	public void setImage(Blob image) {
 		this.image = image;
 	}
+
+	public int getGenreId() {
+		return genreId;
+	}
+
+	public void setGenreId(int genreId) {
+		this.genreId = genreId;
+	}
+
 }

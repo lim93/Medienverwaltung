@@ -48,23 +48,25 @@ public class ReleaseDao {
 
 		List<Release> list = jdbcTemplate.query("select * from release",
 				new RowMapper<Release>() {
-					public Release mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Release release = new Release();
+			public Release mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Release release = new Release();
 
-						release.setReleaseId(rs.getInt("release_id"));
-						release.setMasterId(rs.getInt("master_id"));
-						release.setLabelId(rs.getInt("label_id"));
-						release.setFormatId(rs.getInt("format_id"));
-						release.setReleased(rs.getDate("released"));
-						release.setCatalogNo(rs.getString("catalog_no"));
-						release.setLabelCode(rs.getString("lable_code"));
-						release.setBarcode(rs.getString("barcode"));
-						release.setComment(rs.getString("comment"));
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				release.setLabelId(rs.getInt("label_id"));
+				release.setFormatId(rs.getInt("format_id"));
+				release.setReleaseDay(rs.getInt("release_day"));
+				release.setReleaseMonth(rs.getInt("release_month"));
+				release.setReleaseYear(rs.getInt("release_year"));
+				release.setCatalogNo(rs.getString("catalog_no"));
+				release.setLabelCode(rs.getString("lable_code"));
+				release.setBarcode(rs.getString("barcode"));
+				release.setComment(rs.getString("comment"));
 
-						return release;
-					}
-				});
+				return release;
+			}
+		});
 
 		return list;
 	}
@@ -79,12 +81,11 @@ public class ReleaseDao {
 
 		Release release = new Release();
 
-		release = (Release) jdbcTemplate.queryForObject(sql,
-				new Object[] { id }, new BeanPropertyRowMapper<Release>(
-						Release.class));
+		release = jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Release>(Release.class));
 
 		return release;
 
 	}
-	
+
 }

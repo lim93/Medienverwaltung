@@ -26,7 +26,9 @@ public class SuchController {
 		m1.setGenre("Metal");
 		m1.setGenreId(2);
 		m1.setUrl("cover/0001.jpeg");
-		m1.setReleaseDate("1992");
+		m1.setReleaseDay(0);
+		m1.setReleaseMonth(0);
+		m1.setReleaseYear(1992);
 		returnList.add(m1);
 
 		return new ResponseEntity<List<MasterDto>>(returnList, HttpStatus.OK);

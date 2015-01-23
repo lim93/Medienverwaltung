@@ -77,7 +77,7 @@ a { /
 			<span class="label label-success labelMargin">Ska</span>
 			<hr>
 
-			<button style="margin-bottom: 15px;" id="addButton"
+			<button id="addButton"
 				class="btn btn-success">
 				<span class="glyphicon glyphicon-headphones"></span> <b>Zur
 					Sammlung hinzuf&uuml;gen</b>

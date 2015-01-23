@@ -7,7 +7,6 @@ $(document).ready(function() {
 
 		validateAndSubmit();
 
-
 	});
 
 	// Enter => funktionslos
@@ -149,7 +148,7 @@ function initFormats(formats) {
 
 function validateAndSubmit() {
 
-	var masterId = $.urlParam("masterId");
+	var masterId = urlParam("masterId");
 	var formatId = 0;
 	var formattype = '';
 	var label = $("#label").val();
@@ -158,6 +157,9 @@ function validateAndSubmit() {
 	var barcode = $("#barcode").val();
 	var tracklist = [];
 	var releaseDate = $("#releaseDate").val();
+	var releaseDay = 0;
+	var releaseMonth = 0;
+	var releaseYear = 0;
 
 	$('.format').each(function(i, format) {
 		if ($(format).hasClass('active')) {
@@ -239,19 +241,39 @@ function validateAndSubmit() {
 
 		if (validateReleaseDate(releaseDate) == false) {
 			return false;
+
+
+		}
+		
+		var releaseArray = releaseDate.split(".");
+
+		if (releaseArray.length === 1) {
+			releaseYear = releaseArray[0];
+		}
+
+		if (releaseArray.length === 2) {
+			releaseMonth = releaseArray[0];
+			releaseYear = releaseArray[1];
+		}
+
+		if (releaseArray.length === 3) {
+			releaseDay = releaseArray[0];
+			releaseMonth = releaseArray[1];
+			releaseYear = releaseArray[2];
 		}
 
 	}
 
 	// Wenn bis hierhin alles ok: POST an den Rest-Service
 	saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
-			tracklist, releaseDate).done(function(result) {
+			tracklist, releaseDay, releaseMonth, releaseYear).done(
+			function(result) {
 
-		alert("ANGELEGT!");
+				alert("ANGELEGT!");
 
-		// TODO: Auf fertige Version weiterleiten
-		window.location = "../medienverwaltung/profil";
-	}).fail(
+				// TODO: Auf fertige Version weiterleiten
+				window.location = "../medienverwaltung/profil";
+			}).fail(
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "
 						+ textStatus + ", " + error;
@@ -262,7 +284,7 @@ function validateAndSubmit() {
 }
 
 function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
-		tracklist, releaseDate) {
+		tracklist, releaseDay, releaseMonth, releaseYear) {
 	return $.ajax({
 		url : 'api/release/',
 		type : 'POST',
@@ -273,7 +295,9 @@ function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
 			"labelcode" : labelcode,
 			"catalogNo" : catalogNo,
 			"barcode" : barcode,
-			"releaseDate" : releaseDate,
+			"releaseDay" : releaseDay,
+			"releaseMonth" : releaseMonth,
+			"releaseYear" : releaseYear,
 			"tracklist" : tracklist
 
 		}),
@@ -344,7 +368,6 @@ function showErrorMsg(message) {
 					+ '</div>');
 
 }
-
 
 function urlParam(name) {
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)')

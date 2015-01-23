@@ -136,6 +136,9 @@ function validateAndSubmit() {
 	var genreId = 0;
 	var genreName = '';
 	var subgenreIds = [];
+	var releaseDay = 0;
+	var releaseMonth = 0;
+	var releaseYear = 0;
 
 	$('.genre').each(function(i, genre) {
 		if ($(genre).hasClass('active')) {
@@ -161,7 +164,7 @@ function validateAndSubmit() {
 		errorMessage = errorMessage + "<li>Titel</li>";
 		isvalid = false;
 	}
-	
+
 	if (genreId === 0 | genreId === undefined) {
 		// Genre muss gesetzt sein
 		errorMessage = errorMessage + "<li>Genre</li>";
@@ -190,15 +193,34 @@ function validateAndSubmit() {
 			return false;
 		}
 
+		var releaseArray = releaseDate.split(".");
+
+		if (releaseArray.length === 1) {
+			releaseYear = releaseArray[0];
+		}
+
+		if (releaseArray.length === 2) {
+			releaseMonth = releaseArray[0];
+			releaseYear = releaseArray[1];
+		}
+
+		if (releaseArray.length === 3) {
+			releaseDay = releaseArray[0];
+			releaseMonth = releaseArray[1];
+			releaseYear = releaseArray[2];
+		}
+
 	}
 
 	// Wenn bis hierhin alles ok: POST an den Rest-Service
-	saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDate)
-			.done(function(result) {
+	saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay, releaseMonth, releaseYear)
+			.done(
+					function(result) {
 
-				window.location = "../medienverwaltung/anlegen_version?masterId=" + result;
+						window.location = "../medienverwaltung/anlegen_version?masterId="
+								+ result;
 
-			})
+					})
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "
@@ -209,7 +231,8 @@ function validateAndSubmit() {
 
 }
 
-function saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDate) {
+function saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay,
+		releaseMonth, releaseYear) {
 	return $.ajax({
 		url : 'api/master/',
 		type : 'POST',
@@ -219,7 +242,9 @@ function saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDate) 
 			"genreId" : genreId,
 			"subgenreIds" : subgenreIds,
 			"url" : coverUrl,
-			"releaseDate" : releaseDate
+			"releaseDay" : releaseDay,
+			"releaseMonth" : releaseMonth,
+			"releaseYear" : releaseYear,
 
 		}),
 		contentType : "application/json; charset=utf-8",

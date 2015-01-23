@@ -12,7 +12,9 @@ public class ReleaseDto {
 	private String labelcode;
 	private String catalogNo;
 	private String barcode;
-	private String releaseDate;
+	private int releaseDay;
+	private int releaseMonth;
+	private int releaseYear;
 	private List<Track> tracklist;
 
 	public int getMasterId() {
@@ -63,12 +65,28 @@ public class ReleaseDto {
 		this.barcode = barcode;
 	}
 
-	public String getReleaseDate() {
-		return releaseDate;
+	public int getReleaseDay() {
+		return releaseDay;
 	}
 
-	public void setReleaseDate(String releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setReleaseDay(int releaseDay) {
+		this.releaseDay = releaseDay;
+	}
+
+	public int getReleaseMonth() {
+		return releaseMonth;
+	}
+
+	public void setReleaseMonth(int releaseMonth) {
+		this.releaseMonth = releaseMonth;
+	}
+
+	public int getReleaseYear() {
+		return releaseYear;
+	}
+
+	public void setReleaseYear(int releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
 	public List<Track> getTracklist() {
@@ -81,11 +99,12 @@ public class ReleaseDto {
 
 	@Override
 	public String toString() {
-		return "VersionsDto [masterId=" + masterId + ", formatId=" + formatId
+		return "ReleaseDto [masterId=" + masterId + ", formatId=" + formatId
 				+ ", label=" + label + ", labelcode=" + labelcode
 				+ ", catalogNo=" + catalogNo + ", barcode=" + barcode
-				+ ", releaseDate=" + releaseDate + ", tracklist=" + tracklist
-				+ "]";
+				+ ", releaseDay=" + releaseDay + ", releaseMonth="
+				+ releaseMonth + ", releaseYear=" + releaseYear
+				+ ", tracklist=" + tracklist + "]";
 	}
 
 }

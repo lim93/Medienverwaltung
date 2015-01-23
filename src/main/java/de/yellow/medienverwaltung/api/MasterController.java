@@ -16,22 +16,10 @@ public class MasterController {
 	@RequestMapping(value = "api/master/{id}/", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<MasterDto> getMaster(@PathVariable("id") long id) {
 
-		// TODO: LUKAS: Master aus DB besorgen
-
-//		MasterDto master = new MasterDto();
-//		master.setMasterId(id);
-//		master.setArtist("Farin Urlaub Racing Team");
-//		master.setArtistId(1);
-//		master.setTitle("Faszination Weltraum");
-//		master.setGenre("Rock");
-//		master.setGenreId(1);
-//		master.setUrl("cover/0000.jpeg");
-//		master.setReleaseDate("2014");
-
 		MasterService masterService = new MasterService();
-		
+
 		MasterDto master = masterService.getMasterById(id);
-		
+
 		return new ResponseEntity<MasterDto>(master, HttpStatus.OK);
 	}
 
@@ -39,7 +27,6 @@ public class MasterController {
 	public ResponseEntity<Long> postNewMaster(@RequestBody MasterDto master) {
 
 		System.out.println(master.toString());
-		// TODO: Gruppe: Service aufrufen, um Master zu speichern
 		MasterService service = new MasterService();
 		long masterId = service.insertMaster(master);
 

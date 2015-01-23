@@ -12,7 +12,9 @@ public class MasterDto {
 	private int genreId;
 	private List<Integer> subgenreIds;
 	private String url;
-	private String releaseDate;
+	private int releaseDay;
+	private int releaseMonth;
+	private int releaseYear;
 
 	public int getMasterId() {
 		return masterId;
@@ -78,12 +80,28 @@ public class MasterDto {
 		this.url = url;
 	}
 
-	public String getReleaseDate() {
-		return releaseDate;
+	public int getReleaseDay() {
+		return releaseDay;
 	}
 
-	public void setReleaseDate(String releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setReleaseDay(int releaseDay) {
+		this.releaseDay = releaseDay;
+	}
+
+	public int getReleaseMonth() {
+		return releaseMonth;
+	}
+
+	public void setReleaseMonth(int releaseMonth) {
+		this.releaseMonth = releaseMonth;
+	}
+
+	public int getReleaseYear() {
+		return releaseYear;
+	}
+
+	public void setReleaseYear(int releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
 	@Override
@@ -91,8 +109,9 @@ public class MasterDto {
 		return "MasterDto [masterId=" + masterId + ", artist=" + artist
 				+ ", artistId=" + artistId + ", title=" + title + ", genre="
 				+ genre + ", genreId=" + genreId + ", subgenreIds="
-				+ subgenreIds + ", url=" + url + ", releaseDate=" + releaseDate
-				+ "]";
+				+ subgenreIds + ", url=" + url + ", releaseDay=" + releaseDay
+				+ ", releaseMonth=" + releaseMonth + ", releaseYear="
+				+ releaseYear + "]";
 	}
 
 }
