@@ -156,6 +156,7 @@ function validateAndSubmit() {
 	var catalogNo = $("#cat").val();
 	var barcode = $("#barcode").val();
 	var tracklist = [];
+	var comment = $("#comment").val();
 	var releaseDate = $("#releaseDate").val();
 	var releaseDay = 0;
 	var releaseMonth = 0;
@@ -242,9 +243,8 @@ function validateAndSubmit() {
 		if (validateReleaseDate(releaseDate) == false) {
 			return false;
 
-
 		}
-		
+
 		var releaseArray = releaseDate.split(".");
 
 		if (releaseArray.length === 1) {
@@ -266,7 +266,7 @@ function validateAndSubmit() {
 
 	// Wenn bis hierhin alles ok: POST an den Rest-Service
 	saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
-			tracklist, releaseDay, releaseMonth, releaseYear).done(
+			tracklist, comment, releaseDay, releaseMonth, releaseYear).done(
 			function(result) {
 
 				alert("ANGELEGT!");
@@ -284,7 +284,7 @@ function validateAndSubmit() {
 }
 
 function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
-		tracklist, releaseDay, releaseMonth, releaseYear) {
+		tracklist, comment, releaseDay, releaseMonth, releaseYear) {
 	return $.ajax({
 		url : 'api/release/',
 		type : 'POST',
@@ -295,6 +295,7 @@ function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
 			"labelcode" : labelcode,
 			"catalogNo" : catalogNo,
 			"barcode" : barcode,
+			"comment" : comment,
 			"releaseDay" : releaseDay,
 			"releaseMonth" : releaseMonth,
 			"releaseYear" : releaseYear,

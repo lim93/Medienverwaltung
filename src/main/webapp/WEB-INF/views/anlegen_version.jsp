@@ -149,13 +149,24 @@ tr {
 						<div id="tracks" name="tracks"></div>
 						<div id=tracksControl>
 							<button id="addButton" class="btn btn-success addButton">
-								<span class="glyphicon glyphicon-plus"></span> <b>weiterer</b> 
+								<span class="glyphicon glyphicon-plus"></span> <b>weiterer</b>
 							</button>
 						</div>
 					</div>
 				</div>
 
-
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">Notizen</h4>
+					</div>
+					<div class="panel-body">
+						<div>
+							<textarea rows="4"
+								style="width: 100%; max-width: 100%; min-width: 100%; display: inline; float: left"
+								name="comment" id="comment" class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
 
 
 				<div class="panel panel-default">
@@ -228,6 +239,17 @@ tr {
 				beispielsweise "1, 2, 3, 4" oder "A01, A02, B01, B02". Beachten Sie
 				die Groß- und Kleinschreibung.
 			</p>
+
+			<p>
+				<b>Notizen: </b>Hier können Sie beliebige Zusatzinformationen zu
+				Ihrer Version angeben. Beispiele:
+			</p>
+			<ul>
+				<li>"Auf rotem Vinyl"</li>
+				<li>"Auf 500 Stück limitiert + signiert"</li>
+				<li>"Inklusive Download-Code"</li>
+			</ul>
+
 
 			<p>
 				<b>Erscheinungsdatum: </b>Das Erscheinungsdatum Ihrer Version kann

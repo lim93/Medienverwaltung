@@ -12,6 +12,7 @@ public class ReleaseDto {
 	private String labelcode;
 	private String catalogNo;
 	private String barcode;
+	private String comment;
 	private int releaseDay;
 	private int releaseMonth;
 	private int releaseYear;
@@ -65,6 +66,14 @@ public class ReleaseDto {
 		this.barcode = barcode;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public int getReleaseDay() {
 		return releaseDay;
 	}
@@ -102,9 +111,9 @@ public class ReleaseDto {
 		return "ReleaseDto [masterId=" + masterId + ", formatId=" + formatId
 				+ ", label=" + label + ", labelcode=" + labelcode
 				+ ", catalogNo=" + catalogNo + ", barcode=" + barcode
-				+ ", releaseDay=" + releaseDay + ", releaseMonth="
-				+ releaseMonth + ", releaseYear=" + releaseYear
-				+ ", tracklist=" + tracklist + "]";
+				+ ", comment=" + comment + ", releaseDay=" + releaseDay
+				+ ", releaseMonth=" + releaseMonth + ", releaseYear="
+				+ releaseYear + ", tracklist=" + tracklist + "]";
 	}
 
 }
