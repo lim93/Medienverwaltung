@@ -5,6 +5,7 @@ import java.util.List;
 import de.yellow.medienverwaltung.api.MasterDto;
 import de.yellow.medienverwaltung.database.dao.MasterDao;
 import de.yellow.medienverwaltung.database.entity.Master;
+import de.yellow.medienverwaltung.database.util.MasterDtoConverter;
 
 /**
  * Verbindungselement zwischen Api (REST-Service) und Database-Schicht. Kann
@@ -25,20 +26,30 @@ public class MasterService {
 		// TODO: Do something useful with data
 		return masters;
 	}
-	
+
 	public long insertMaster(MasterDto master) {
 		dao = new MasterDao();
-		
+
 		long masterId = dao.insertMaster(master);
-		
+
 		return masterId;
 	}
-	
-	public MasterDto getMasterById(long id) {
+
+	public MasterDto getMasterDtoById(long id) {
 		dao = new MasterDao();
-		
-		MasterDto master = dao.getMasterById(id);
-		
+
+		Master master = dao.getMasterById(id);
+
+		MasterDto masterDto = MasterDtoConverter.convertMaster(master);
+
+		return masterDto;
+	}
+
+	public Master getMasterById(long id) {
+		dao = new MasterDao();
+
+		Master master = dao.getMasterById(id);
+
 		return master;
 	}
 

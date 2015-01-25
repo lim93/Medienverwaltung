@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -21,6 +22,24 @@ public class GenreDao {
 	private ConnectionFactory factory;
 
 	/**
+	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
+	 * 
+	 * @return
+	 */
+	private DataSource getDataSource() {
+		ConnectionFactory factory = new ConnectionFactory();
+
+		DataSource ds = factory.getDataSource();
+
+		if (ds != null) {
+			return ds;
+		} else {
+			throw new IllegalStateException(
+					"Es konnte keine DataSource erstellt werden");
+		}
+	}
+
+	/**
 	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
 	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
 	 * einem {@link ResultSetExtractor} (Für Maps!) auf die Klasse {@link Genre}
@@ -30,9 +49,7 @@ public class GenreDao {
 	 */
 	public Map<Integer, Genre> getAllGenres() {
 
-		factory = new ConnectionFactory();
-
-		DataSource ds = factory.getDataSource();
+		DataSource ds = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
@@ -78,6 +95,22 @@ public class GenreDao {
 
 		return map;
 
+	}
+
+	public Genre getGenreById(int id) {
+
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select * from genre where genre_id = ?";
+
+		Genre genre = new Genre();
+
+		genre = jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Genre>(Genre.class));
+
+		return genre;
 	}
 
 }

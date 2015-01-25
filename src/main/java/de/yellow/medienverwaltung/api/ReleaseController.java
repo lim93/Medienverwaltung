@@ -25,14 +25,13 @@ public class ReleaseController {
 	}
 
 	@RequestMapping(value = "api/release/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Integer> postNewRelease(
-			@RequestBody ReleaseDto release) {
+	public ResponseEntity<Long> postNewRelease(@RequestBody ReleaseDto release) {
 
 		System.out.println(release.toString());
-		// TODO: Lukas: Service aufrufen, um Version zu speichern
-		int id = 10;
+		ReleaseService service = new ReleaseService();
+		long id = service.insertRelease(release);
 
-		return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		return new ResponseEntity<Long>(id, HttpStatus.OK);
 
 	}
 

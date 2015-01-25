@@ -1,18 +1,21 @@
 package de.yellow.medienverwaltung.database.entity;
 
 import java.sql.Blob;
+import java.util.List;
 
 public class Master {
 
 	private int masterId;
-	private int artistId;
+	private Artist artist;
 	private String title;
 	private int releaseDay;
 	private int releaseMonth;
 	private int releaseYear;
 	private String imageURL;
 	private Blob image;
-	private int genreId;
+	private Genre genre;
+	private List<Subgenre> subgenres;
+	private List<Release> releases;
 
 	public int getMasterId() {
 		return masterId;
@@ -22,12 +25,12 @@ public class Master {
 		this.masterId = masterId;
 	}
 
-	public int getArtistId() {
-		return artistId;
+	public Artist getArtist() {
+		return artist;
 	}
 
-	public void setArtistId(int artistId) {
-		this.artistId = artistId;
+	public void setArtist(Artist artist) {
+		this.artist = artist;
 	}
 
 	public String getTitle() {
@@ -78,12 +81,28 @@ public class Master {
 		this.image = image;
 	}
 
-	public int getGenreId() {
-		return genreId;
+	public Genre getGenre() {
+		return genre;
 	}
 
-	public void setGenreId(int genreId) {
-		this.genreId = genreId;
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	public List<Subgenre> getSubgenres() {
+		return subgenres;
+	}
+
+	public void setSubgenres(List<Subgenre> subgenres) {
+		this.subgenres = subgenres;
+	}
+
+	public List<Release> getReleases() {
+		return releases;
+	}
+
+	public void setReleases(List<Release> releases) {
+		this.releases = releases;
 	}
 
 }

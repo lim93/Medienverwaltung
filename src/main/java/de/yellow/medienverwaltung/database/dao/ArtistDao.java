@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -48,19 +49,19 @@ public class ArtistDao {
 
 		List<Artist> list = jdbcTemplate.query("select * from artist",
 				new RowMapper<Artist>() {
-					public Artist mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Artist artist = new Artist();
+			public Artist mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Artist artist = new Artist();
 
-						artist.setArtistId(rs.getInt("artist_id"));
-						artist.setName(rs.getString("name"));
-						artist.setFormed(rs.getDate("formed"));
-						artist.setFrom(rs.getString("from"));
-						artist.setWebsite(rs.getString("website"));
+				artist.setArtistId(rs.getInt("artist_id"));
+				artist.setName(rs.getString("name"));
+				artist.setFormed(rs.getInt("formed"));
+				artist.setFrom(rs.getString("from"));
+				artist.setWebsite(rs.getString("website"));
 
-						return artist;
-					}
-				});
+				return artist;
+			}
+		});
 
 		return list;
 	}
@@ -73,13 +74,16 @@ public class ArtistDao {
 
 		String sql = "select * from artist where name = ?";
 
-		Artist artist = new Artist();
+		try {
+			Artist artist = jdbcTemplate.queryForObject(sql,
+					new Object[] { name }, new BeanPropertyRowMapper<Artist>(
+							Artist.class));
 
-		artist = (Artist) jdbcTemplate.queryForObject(sql,
-				new Object[] { name }, new BeanPropertyRowMapper<Artist>(
-						Artist.class));
-
-		return artist;
+			return artist;
+		} catch (EmptyResultDataAccessException e) {
+			throw new IllegalArgumentException(
+					"Dieser Künstler ist uns nicht bekannt.");
+		}
 	}
 
 	public Artist getArtistById(int id) {
@@ -92,7 +96,7 @@ public class ArtistDao {
 
 		Artist artist = new Artist();
 
-		artist = (Artist) jdbcTemplate.queryForObject(sql, new Object[] { id },
+		artist = jdbcTemplate.queryForObject(sql, new Object[] { id },
 				new BeanPropertyRowMapper<Artist>(Artist.class));
 
 		return artist;

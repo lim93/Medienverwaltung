@@ -9,7 +9,7 @@ package de.yellow.medienverwaltung.database.entity;
 public class Track {
 
 	private int trackId;
-	private int number;
+	private String number;
 	private String title;
 	private String duration;
 
@@ -21,11 +21,11 @@ public class Track {
 		this.trackId = trackId;
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 

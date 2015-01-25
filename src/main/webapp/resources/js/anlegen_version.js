@@ -84,7 +84,7 @@ function getMaster() {
 	var masterId = urlParam("masterId");
 
 	$
-			.getJSON("api/master/" + masterId + "/", function(master) {
+			.getJSON("api/masterdto/" + masterId + "/", function(master) {
 
 				initMeta(master);
 

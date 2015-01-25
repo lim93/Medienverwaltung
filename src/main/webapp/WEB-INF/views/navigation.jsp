@@ -43,12 +43,12 @@ a { /
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Krispin Limbach <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Einstellungen <span class="glyphicon glyphicon-cog"></span></a>
+                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Einstellungen</a>
                         </li>
-                        <li><a href="#">Hilfe <span class="glyphicon glyphicon-question-sign"></span></a>
+                        <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> Hilfe</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#">Abmelden <span class="glyphicon glyphicon-log-out"></span></a>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a>
                         </li>
                     </ul>
                 </li>

@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,9 +17,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import de.yellow.medienverwaltung.api.MasterDto;
+import de.yellow.medienverwaltung.database.entity.Artist;
+import de.yellow.medienverwaltung.database.entity.Genre;
 import de.yellow.medienverwaltung.database.entity.Master;
+import de.yellow.medienverwaltung.database.entity.Release;
+import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
-import de.yellow.medienverwaltung.database.util.MasterDtoConverter;
 
 public class MasterDao {
 
@@ -56,23 +59,23 @@ public class MasterDao {
 
 		List<Master> list = jdbcTemplate.query("select * from master",
 				new RowMapper<Master>() {
-					public Master mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Master master = new Master();
+			public Master mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Master master = new Master();
 
-						master.setMasterId(rs.getInt("master_id"));
-						master.setArtistId(rs.getInt("artist_id"));
-						master.setTitle(rs.getString("title"));
-						master.setReleaseDay(rs.getInt("release_day"));
-						master.setReleaseMonth(rs.getInt("release_month"));
-						master.setReleaseYear(rs.getInt("release_year"));
-						master.setImageURL(rs.getString("image_url"));
-						master.setImage(rs.getBlob("image_data"));
-						master.setGenreId(rs.getInt("genre_id"));
+				master.setMasterId(rs.getInt("master_id"));
+				// master.setArtistId(rs.getInt("artist_id"));
+				master.setTitle(rs.getString("title"));
+				master.setReleaseDay(rs.getInt("release_day"));
+				master.setReleaseMonth(rs.getInt("release_month"));
+				master.setReleaseYear(rs.getInt("release_year"));
+				master.setImageURL(rs.getString("image_url"));
+				master.setImage(rs.getBlob("image_data"));
+				// master.setGenreId(rs.getInt("genre_id"));
 
-						return master;
-					}
-				});
+				return master;
+			}
+		});
 
 		return list;
 	}
@@ -83,32 +86,35 @@ public class MasterDao {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		// TODO: Artist überprüfen: Falls Artist schon vorhanden in DB ->
-		// vorhandene Artist-ID benutzen;
-		// sonst -> zuerst Artist anlegen.
-		final int artistId = 1;
+		// Artist prüfen: Ist der angegebene Name bekannt?
+		ArtistDao aDao = new ArtistDao();
+		final Artist artist = aDao.getArtistByName(master.getArtist());
+
+		if (artist == null || artist.getArtistId() == 0) {
+			throw new IllegalArgumentException(
+					"Dieser Künstler ist uns nicht bekannt.");
+		}
 
 		final String title = master.getTitle();
+		final String imageUrl = master.getUrl();
+		final int genreId = master.getGenreId();
 
 		// TODO: Zusätzliche Validierung des Datums im Backend
 		final Integer day = master.getReleaseDay();
 		final Integer month = master.getReleaseMonth();
 		final Integer year = master.getReleaseYear();
 
-		final String imageUrl = master.getUrl();
-
-		final int genreId = master.getGenreId();
-
+		// Master speichern & ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		final String sql = "INSERT INTO master(master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)";
+		final String masterSql = "INSERT INTO master(master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)";
 
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(sql,
+				PreparedStatement ps = conn.prepareStatement(masterSql,
 						Statement.RETURN_GENERATED_KEYS);
-				ps.setInt(1, artistId);
+				ps.setInt(1, artist.getArtistId());
 				ps.setString(2, title);
 				ps.setInt(3, day);
 				ps.setInt(4, month);
@@ -121,49 +127,71 @@ public class MasterDao {
 
 		long masterId = keyHolder.getKey().longValue();
 
+		// Subgenres speichern
+		final String subgenreSql = "INSERT INTO master_subgenre(master_id, subgenre_id) VALUES(?, ?)";
+
+		for (int subgenreId : master.getSubgenreIds()) {
+
+			Object[] params = new Object[] { masterId, subgenreId };
+
+			jdbcTemplate.update(subgenreSql, params);
+
+		}
+
 		System.out.println("Master wurde eingefügt mit der id: " + masterId);
 
 		return masterId;
 
 	}
 
-	public MasterDto getMasterById(long id) {
-
-		// Benötigt werden:
-		// aus der Master-Tabelle:
-		// int masterId; (nicht wirklich aus Tabelle, ist ja schon bekannt)
-		// int artistId; (artist_id)
-		// String title; (title)
-		// int release_day, release_month, release_year
-		// String url; (image_url)
-
-		// aus der Artist-Tabelle:
-		// String artist; (name)
-
-		// aus der master_subgenre-Tabelle:
-		// List<Integer> subgenreIds; (subgenre_id)
-
-		// aus der Subgenre-Tabelle:
-		// String genre; (name)
-		// int genreId; (genre_id)
-
-		// aus der Genre-Tabelle:
-		// String genre; (name)
+	public Master getMasterById(long id) {
 
 		DataSource dataSource = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		MasterDto masterDto = new MasterDto();
+		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE master_id = ?";
 
-		String sql = "SELECT artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE master_id = ?";
+		List<Master> masterList = jdbcTemplate.query(sql, new Object[] { id },
+				new RowMapper<Master>() {
+			public Master mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Master master = new Master();
+				Artist artist = new Artist();
+				Genre genre = new Genre();
+				List<Subgenre> subgenres = new ArrayList<Subgenre>();
+				List<Release> releases = new ArrayList<Release>();
 
-		Master master = jdbcTemplate.queryForObject(sql, new Object[] { id },
-				new BeanPropertyRowMapper<Master>(Master.class));
+				master.setMasterId(rs.getInt("master_id"));
+				master.setTitle(rs.getString("title"));
+				master.setReleaseDay(rs.getInt("release_day"));
+				master.setReleaseMonth(rs.getInt("release_month"));
+				master.setReleaseYear(rs.getInt("release_year"));
+				master.setImageURL(rs.getString("image_url"));
 
-		masterDto = MasterDtoConverter.convertMaster(master);
+				ArtistDao aDao = new ArtistDao();
+				artist = aDao.getArtistById(rs.getInt("artist_id"));
+				master.setArtist(artist);
 
-		return masterDto;
+				GenreDao gDao = new GenreDao();
+				genre = gDao.getGenreById(rs.getInt("genre_id"));
+				master.setGenre(genre);
+
+				SubgenreDao sDao = new SubgenreDao();
+				subgenres = sDao.getSubgenresByMasterId(master
+						.getMasterId());
+				master.setSubgenres(subgenres);
+
+				ReleaseDao rDao = new ReleaseDao();
+				releases = rDao.getReleasesByMasterId(master
+						.getMasterId());
+				master.setReleases(releases);
+
+				return master;
+			}
+		});
+
+		return masterList.get(0);
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -48,17 +49,17 @@ public class LabelDao {
 
 		List<Label> list = jdbcTemplate.query("select * from label",
 				new RowMapper<Label>() {
-					public Label mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Label label = new Label();
+			public Label mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Label label = new Label();
 
-						label.setLabelId(rs.getInt("label_id"));
-						label.setName(rs.getString("name"));
-						label.setWebsite(rs.getString("website"));
+				label.setLabelId(rs.getInt("label_id"));
+				label.setName(rs.getString("name"));
+				label.setWebsite(rs.getString("website"));
 
-						return label;
-					}
-				});
+				return label;
+			}
+		});
 
 		return list;
 	}
@@ -73,9 +74,29 @@ public class LabelDao {
 
 		Label label = new Label();
 
-		label = (Label) jt.queryForObject(sql, new Object[] { id },
+		label = jt.queryForObject(sql, new Object[] { id },
 				new BeanPropertyRowMapper<Label>(Label.class));
 
 		return label;
+	}
+
+	public Label getLabelByName(String name) {
+
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select * from label where name = ?";
+
+		try {
+			Label label = jdbcTemplate.queryForObject(sql,
+					new Object[] { name }, new BeanPropertyRowMapper<Label>(
+							Label.class));
+
+			return label;
+		} catch (EmptyResultDataAccessException e) {
+			throw new IllegalArgumentException(
+					"Dieses Label ist uns nicht bekannt.");
+		}
 	}
 }

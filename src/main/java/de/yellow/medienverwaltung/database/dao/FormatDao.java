@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -47,17 +48,33 @@ public class FormatDao {
 
 		List<Format> list = jdbcTemplate.query("select * from format",
 				new RowMapper<Format>() {
-			public Format mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Format format = new Format();
+					public Format mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Format format = new Format();
 
-				format.setFormatId(rs.getInt("format_id"));
-				format.setType(rs.getString("type"));
+						format.setFormatId(rs.getInt("format_id"));
+						format.setType(rs.getString("type"));
 
-				return format;
-			}
-		});
+						return format;
+					}
+				});
 
 		return list;
+	}
+
+	public Format getFormatById(int id) {
+
+		DataSource ds = getDataSource();
+
+		JdbcTemplate jt = new JdbcTemplate(ds);
+
+		String sql = "select * from format where format_id = ?";
+
+		Format format = new Format();
+
+		format = jt.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Format>(Format.class));
+
+		return format;
 	}
 }

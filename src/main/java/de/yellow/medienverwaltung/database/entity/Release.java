@@ -1,12 +1,13 @@
 package de.yellow.medienverwaltung.database.entity;
 
+import java.util.List;
 
 public class Release {
 
 	private int releaseId;
 	private int masterId;
-	private int labelId;
-	private int formatId;
+	private Label label;
+	private Format format;
 	private int releaseDay;
 	private int releaseMonth;
 	private int releaseYear;
@@ -14,6 +15,7 @@ public class Release {
 	private String labelCode;
 	private String barcode;
 	private String comment;
+	private List<Track> tracklist;
 
 	public int getReleaseId() {
 		return releaseId;
@@ -31,20 +33,20 @@ public class Release {
 		this.masterId = masterId;
 	}
 
-	public int getLabelId() {
-		return labelId;
+	public Label getLabel() {
+		return label;
 	}
 
-	public void setLabelId(int labelId) {
-		this.labelId = labelId;
+	public void setLabel(Label label) {
+		this.label = label;
 	}
 
-	public int getFormatId() {
-		return formatId;
+	public Format getFormat() {
+		return format;
 	}
 
-	public void setFormatId(int formatId) {
-		this.formatId = formatId;
+	public void setFormat(Format format) {
+		this.format = format;
 	}
 
 	public int getReleaseDay() {
@@ -101,6 +103,14 @@ public class Release {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public List<Track> getTracklist() {
+		return tracklist;
+	}
+
+	public void setTracklist(List<Track> tracklist) {
+		this.tracklist = tracklist;
 	}
 
 }

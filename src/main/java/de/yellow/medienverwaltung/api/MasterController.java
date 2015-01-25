@@ -9,18 +9,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import de.yellow.medienverwaltung.business.MasterService;
+import de.yellow.medienverwaltung.database.entity.Master;
 
 @Controller
 public class MasterController {
 
 	@RequestMapping(value = "api/master/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<MasterDto> getMaster(@PathVariable("id") long id) {
+	public ResponseEntity<Master> getMaster(@PathVariable("id") long id) {
 
 		MasterService masterService = new MasterService();
 
-		MasterDto master = masterService.getMasterById(id);
+		Master master = masterService.getMasterById(id);
 
-		return new ResponseEntity<MasterDto>(master, HttpStatus.OK);
+		return new ResponseEntity<Master>(master, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "api/masterdto/{id}/", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<MasterDto> getMasterDto(@PathVariable("id") long id) {
+
+		MasterService masterService = new MasterService();
+
+		MasterDto masterDto = masterService.getMasterDtoById(id);
+
+		return new ResponseEntity<MasterDto>(masterDto, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "api/master/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")

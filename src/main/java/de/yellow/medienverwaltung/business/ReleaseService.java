@@ -2,6 +2,7 @@ package de.yellow.medienverwaltung.business;
 
 import java.util.List;
 
+import de.yellow.medienverwaltung.api.ReleaseDto;
 import de.yellow.medienverwaltung.database.dao.ReleaseDao;
 import de.yellow.medienverwaltung.database.entity.Release;
 
@@ -24,12 +25,19 @@ public class ReleaseService {
 		// TODO: Do something useful with data
 		return releases;
 	}
-	
-	public Release getReleaseById(int id) {
-		
+
+	public long insertRelease(ReleaseDto release) {
 		dao = new ReleaseDao();
-		
-		//
+
+		long releaseId = dao.insertRelease(release);
+
+		return releaseId;
+	}
+
+	public Release getReleaseById(int id) {
+
+		dao = new ReleaseDao();
+
 		Release release = dao.getReleaseById(id);
 
 		return release;

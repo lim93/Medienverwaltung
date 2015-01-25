@@ -6,6 +6,7 @@ import de.yellow.medienverwaltung.database.entity.Track;
 
 public class ReleaseDto {
 
+	private int releaseId;
 	private int masterId;
 	private int formatId;
 	private String label;
@@ -17,6 +18,14 @@ public class ReleaseDto {
 	private int releaseMonth;
 	private int releaseYear;
 	private List<Track> tracklist;
+
+	public int getReleaseId() {
+		return releaseId;
+	}
+
+	public void setReleaseId(int releaseId) {
+		this.releaseId = releaseId;
+	}
 
 	public int getMasterId() {
 		return masterId;

@@ -47,18 +47,44 @@ public class SubgenreDao {
 
 		List<Subgenre> list = jdbcTemplate.query("select * from subgenre",
 				new RowMapper<Subgenre>() {
-			public Subgenre mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Subgenre subgenre = new Subgenre();
+					public Subgenre mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Subgenre subgenre = new Subgenre();
 
-				subgenre.setSubgenreId(rs.getInt("subgenre_id"));
-				subgenre.setGenreId(rs.getInt("genre_id"));
-				subgenre.setName(rs.getString("name"));
+						subgenre.setSubgenreId(rs.getInt("subgenre_id"));
+						subgenre.setGenreId(rs.getInt("genre_id"));
+						subgenre.setName(rs.getString("name"));
 
-				return subgenre;
-			}
-		});
+						return subgenre;
+					}
+				});
 
 		return list;
+	}
+
+	public List<Subgenre> getSubgenresByMasterId(int id) {
+
+		DataSource ds = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+		String sql = "SELECT m.subgenre_id, s.genre_id, s.name FROM master_subgenre m JOIN subgenre s on m.subgenre_id = s.subgenre_id WHERE master_id = ?";
+
+		List<Subgenre> subgenres = jdbcTemplate.query(sql, new Object[] { id },
+				new RowMapper<Subgenre>() {
+					public Subgenre mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Subgenre subgenre = new Subgenre();
+
+						subgenre.setSubgenreId(rs.getInt("subgenre_id"));
+						subgenre.setGenreId(rs.getInt("genre_id"));
+						subgenre.setName(rs.getString("name"));
+
+						return subgenre;
+					}
+				});
+
+		return subgenres;
+
 	}
 }
