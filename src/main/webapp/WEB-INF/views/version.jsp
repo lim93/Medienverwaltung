@@ -67,18 +67,15 @@ a { /
 
 
 		<div class=coverPane>
-			<img src="/medienverwaltung/resources/cover/0009.jpeg" width="210px"
-				height="210px">
+			<div id="imageDiv"></div>
 
 			<hr>
-			Genre: <span class="label label-primary labelMargin">Rock</span>
+			Genre: <span id="genreSpan"></span>
 			<hr>
-			Subgenres: <span class="label label-success labelMargin">Punk</span>
-			<span class="label label-success labelMargin">Ska</span>
+			Subgenres: <span id="subgenreSpan"></span>
 			<hr>
 
-			<button id="addButton"
-				class="btn btn-success">
+			<button id="addButton" class="btn btn-success">
 				<span class="glyphicon glyphicon-headphones"></span> <b>Zur
 					Sammlung hinzuf&uuml;gen</b>
 			</button>
@@ -97,10 +94,9 @@ a { /
 
 			<div>
 				<div id="controls" style="margin-bottom: 5px;">
-					<h2 style="margin-top: 0px;">Faszination Weltraum</h2>
-					<h3 style="margin-top: 0px;">
-						<a>Farin Urlaub Racing Team</a>
-					</h3>
+					<div id="errorDiv"></div>
+					<h2 id="titleHeading" style="margin-top: 0px;"></h2>
+					<h3 id="artistHeading" style="margin-top: 0px;"></h3>
 					<hr>
 
 				</div>
@@ -114,14 +110,14 @@ a { /
 						<div class="panel-body">
 
 							<p>
-								<b>Label:</b> <a>Völker hört die Tonträger</a>, Labelcode:
-								LC11590
+								<b>Label:</b> <span id="labelSpan"></span>, Labelcode: <span
+									id="lcSpan"></span>
 							</p>
 							<p>
-								<b>Format:</b> Vinyl
+								<b>Format:</b> <span id="formatSpan"></span>
 							</p>
 							<p>
-								<b>Ver&ouml;ffentlicht:</b> 14. Oktober 2014
+								<b>Ver&ouml;ffentlicht:</b> <span id="releaseSpan"></span>
 							</p>
 
 
@@ -146,7 +142,7 @@ a { /
 						</div>
 						<div class="panel-body">
 
-							<p>Doppel-Vinyl inklusive Booklet und Download-Code.</p>
+							<p><span id="noteSpan"></span></p>
 						</div>
 					</div>
 
@@ -158,10 +154,10 @@ a { /
 						<div class="panel-body">
 
 							<p>
-								<b>Barcode:</b> 4 019593 007699
+								<b>Barcode:</b> <span id="barcodeSpan"></span>
 							</p>
 							<p>
-								<b>Katalog-Nummer (CAT):</b> 930 076-9
+								<b>Katalog-Nummer (CAT):</b> <span id="catSpan"></span>
 							</p>
 						</div>
 					</div>

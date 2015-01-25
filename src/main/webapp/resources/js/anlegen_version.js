@@ -269,10 +269,8 @@ function validateAndSubmit() {
 			tracklist, comment, releaseDay, releaseMonth, releaseYear).done(
 			function(result) {
 
-				alert("ANGELEGT!");
-
-				// TODO: Auf fertige Version weiterleiten
-				window.location = "../medienverwaltung/profil";
+				window.location = "../medienverwaltung/version?versionId="
+						+ result + "&masterId=" + masterId;
 			}).fail(
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "

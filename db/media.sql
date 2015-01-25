@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 25. Jan 2015 um 01:32
+-- Erstellungszeit: 25. Jan 2015 um 16:54
 -- Server Version: 5.6.21
 -- PHP-Version: 5.6.3
 
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `release` (
   `label_code` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `barcode` varchar(30) COLLATE latin1_general_ci NOT NULL,
   `comment` text COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `release`
@@ -209,7 +209,8 @@ CREATE TABLE IF NOT EXISTS `release` (
 
 INSERT INTO `release` (`release_id`, `master_id`, `label_id`, `format_id`, `release_day`, `release_month`, `release_year`, `catalog_no`, `label_code`, `barcode`, `comment`) VALUES
 (2, 1, 1, 1, 25, 8, 2014, '825646278541', 'LC14666', '825646278541', 'Heißer Scheiß'),
-(5, 20, 2, 2, 0, 0, 2007, '12345', 'LC-01515', '67890', 'CD kommt in einem Pizza-Karton. Mit Bonus-EP.');
+(5, 20, 2, 2, 13, 4, 2012, '12345', 'LC-01515', '67890', 'CD kommt in einem Pappkarton. Das "Booklet" kann zu einem großen Spielplan auseinander gefaltet werden, auf dem dann mit  der CD "Flaschendrehen" gespielt werden kann. Mit vielen lustigen Aufgaben und drei Kronkorken als Spielfiguren. '),
+(6, 20, 2, 1, 13, 4, 2012, '930 065 8', 'LC-01515', '4 019593 006586', 'Doppelvinyl inklusive CD und Brettspiel.');
 
 -- --------------------------------------------------------
 
@@ -275,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `track` (
   `number` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `duration` time NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `track`
@@ -286,7 +287,23 @@ INSERT INTO `track` (`track_id`, `number`, `title`, `duration`) VALUES
 (2, '2', 'Come On Over', '00:02:51'),
 (4, '1', 'Himmelblau', '03:52:00'),
 (5, '2', 'Breit', '06:55:00'),
-(6, '3', 'Perfekt', '04:22:00');
+(6, '3', 'Perfekt', '04:22:00'),
+(7, 'A1', 'Ist das noch Punkrock?', '02:59:00'),
+(8, 'A2', 'Bettmagnet', '03:07:00'),
+(9, 'A3', 'Sohn der Leere', '03:42:00'),
+(10, 'A4', 'TCR', '03:44:00'),
+(11, 'B1', 'Das darfst du', '03:20:00'),
+(12, 'B2', 'Tamagotchi', '03:06:00'),
+(13, 'B3', 'M&F', '04:16:00'),
+(14, 'B4', 'Freundschaft ist Kunst', '03:22:00'),
+(15, 'C1', 'Angekumpelt', '02:34:00'),
+(16, 'C2', 'Waldspaziergang mit Folgen', '03:27:00'),
+(17, 'C3', 'Fiasko', '02:44:00'),
+(18, 'C4', 'Miststück', '03:39:00'),
+(19, 'D1', 'Das finde ich gut', '02:27:00'),
+(20, 'D2', 'Cpt. Metal', '04:36:00'),
+(21, 'D3', 'Die Hard', '02:20:00'),
+(22, 'D4', 'zeiDverschwÄndung', '02:59:00');
 
 -- --------------------------------------------------------
 
@@ -298,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `tracklist_item` (
 `tracklist_item_id` int(11) NOT NULL,
   `release_id` int(11) NOT NULL,
   `track_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `tracklist_item`
@@ -309,7 +326,23 @@ INSERT INTO `tracklist_item` (`tracklist_item_id`, `release_id`, `track_id`) VAL
 (4, 2, 2),
 (6, 5, 4),
 (7, 5, 5),
-(8, 5, 6);
+(8, 5, 6),
+(9, 6, 7),
+(10, 6, 8),
+(11, 6, 9),
+(12, 6, 10),
+(13, 6, 11),
+(14, 6, 12),
+(15, 6, 13),
+(16, 6, 14),
+(17, 6, 15),
+(18, 6, 16),
+(19, 6, 17),
+(20, 6, 18),
+(21, 6, 19),
+(22, 6, 20),
+(23, 6, 21),
+(24, 6, 22);
 
 -- --------------------------------------------------------
 
@@ -450,7 +483,7 @@ MODIFY `master_subg_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT für Tabelle `release`
 --
 ALTER TABLE `release`
-MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT für Tabelle `subgenre`
 --
@@ -460,12 +493,12 @@ MODIFY `subgenre_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
 -- AUTO_INCREMENT für Tabelle `track`
 --
 ALTER TABLE `track`
-MODIFY `track_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `track_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT für Tabelle `tracklist_item`
 --
 ALTER TABLE `tracklist_item`
-MODIFY `tracklist_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `tracklist_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --

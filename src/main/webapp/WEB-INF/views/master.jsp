@@ -39,13 +39,14 @@ a { /
 
 .infoPane {
 	width: 1250px;
+	min-height:450px;
 	margin-left: 7.5px;
 	padding: 0px 5px 5px 235px;
 	float: left;
 }
 
 .labelMargin {
-	font-size:90%;
+	font-size: 90%;
 	display: inline-block;
 	margin-bottom: 3px;
 }
@@ -67,16 +68,14 @@ a { /
 
 
 		<div class=coverPane>
-			<img src="/medienverwaltung/resources/cover/0009.jpeg" width="210px"
-				height="210px">
+			<div id="imageDiv"></div>
 
 			<hr>
-			Genre: <span class="label label-primary labelMargin">Rock</span>
+			Genre: <span id="genreSpan"></span>
 			<hr>
-			Subgenres: <span class="label label-success labelMargin">Punk</span> <span
-				class="label label-success labelMargin">Ska</span>
+			Subgenres: <span id="subgenreSpan"></span>
 			<hr>
-			Ver&ouml;ffentlicht: <span>2014</span>
+			Ver&ouml;ffentlicht: <span id="releaseSpan"></span>
 
 		</div>
 
@@ -84,10 +83,9 @@ a { /
 
 			<div>
 				<div id="controls" style="margin-bottom: 5px;">
-					<h2 style="margin-top: 0px;">Faszination Weltraum</h2>
-					<h3 style="margin-top: 0px;">
-						<a>Farin Urlaub Racing Team</a>
-					</h3>
+					<div id="errorDiv"></div>
+					<h2 id="titleHeading" style="margin-top: 0px;"></h2>
+					<h3 id="artistHeading" style="margin-top: 0px;"></h3>
 					<hr>
 
 				</div>

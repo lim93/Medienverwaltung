@@ -7,16 +7,15 @@ $(document).ready(function() {
 	$("#anlegenButton").button({}).click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		
+
 		versionAnlegen();
 
 	});
 
-	fillTable();
+	// Master über dessen id holen + Informationen in die Seite schreiben
+	getMaster();
 
 });
-
-releases;
 
 function versionAnlegen() {
 	var masterId = urlParam("masterId");
@@ -26,74 +25,135 @@ function versionAnlegen() {
 
 }
 
-function fillTable() {
+function getMaster() {
+
+	var masterId = urlParam("masterId");
+
+	$
+			.getJSON("api/master/" + masterId + "/", function(master) {
+
+				initPage(master);
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
+								+ textStatus + ", " + error;
+						showErrorMsg(errorMessage, "Fehler");
+					});
+
+}
+
+function initPage(master) {
+
+	if (master !== null & master !== undefined) {
+
+		$('#titleHeading').html(master.title);
+
+		// TODO: Weiterleitung auf Artist-Seite sobald vorhanden
+		$('#artistHeading').html("<a>" + master.artist.name + "</a>");
+
+		$('#imageDiv').html(
+				'<img src="' + master.imageURL
+						+ '" width="210px" height="210px">')
+
+		$('#genreSpan').html(
+				'<span class="label label-primary labelMargin">'
+						+ master.genre.name + '</span>');
+
+		var subgenres = "";
+		$.each(master.subgenres, function(pos, subgenre) {
+
+			subgenres = subgenres
+					+ '<span class="label label-success labelMargin">'
+					+ subgenre.name + '</span> ';
+
+		});
+
+		$('#subgenreSpan').html(subgenres);
+
+		var releaseDate = master.releaseYear;
+
+		if (master.releaseMonth !== 0) {
+			releaseDate = getMonth(master.releaseMonth) + " "
+					+ master.releaseYear;
+		}
+
+		if (master.releaseMonth !== 0 & master.releaseDay !== 0) {
+			releaseDate = master.releaseDay + ". "
+					+ getMonth(master.releaseMonth) + " " + master.releaseYear;
+		}
+
+		$('#releaseSpan').html(releaseDate);
+
+		createReleaseTable(master);
+
+	}
+
+}
+
+function createReleaseTable(master) {
 
 	$('#tableDiv')
 			.html(
-					'<table id="table" class="display" style="margin-top:30px;"><thead><tr><th></th><th>Titel</th><th>Label</th><th>Format</th><th>Jahr</th></tr></thead><tbody></tbody></table>');
+					'<table id="table" class="display" style="margin-top:30px;"><thead><tr><th></th><th>Titel</th><th>CAT#</th><th>Label</th><th>Format</th><th>Jahr</th></tr></thead><tbody></tbody></table>');
 
-	$('#table').DataTable({
-		"bPaginate" : false,
-		"bInfo" : false,
-		"bFilter" : false,
-		"sPaginationType" : "full_numbers",
-		"oLanguage" : {
+	$('#table')
+			.DataTable(
+					{
+						"bPaginate" : false,
+						"bInfo" : false,
+						"bFilter" : false,
+						"sPaginationType" : "full_numbers",
+						"oLanguage" : {
 
-			"sEmptyTable" : "Keine Versionen vorhanden",
-			"sInfo" : "_START_ bis _END_ von _TOTAL_",
-			"sInfoEmpty" : "0 bis 0 von 0",
-			"sInfoFiltered" : "(gefiltert von _MAX_ Einträgen)",
-			"sInfoPostFix" : "",
-			"sInfoThousands" : ".",
-			"sLoadingRecords" : "Wird geladen...",
-			"sProcessing" : "Bitte warten...",
-			"sZeroRecords" : "Keine Einträge vorhanden.",
+							"sEmptyTable" : "Zu dieser Ver&ouml;ffentlichung sind noch keine Versionen vorhanden.",
+							"sInfo" : "_START_ bis _END_ von _TOTAL_",
+							"sInfoEmpty" : "0 bis 0 von 0",
+							"sInfoFiltered" : "(gefiltert von _MAX_ Einträgen)",
+							"sInfoPostFix" : "",
+							"sInfoThousands" : ".",
+							"sLoadingRecords" : "Wird geladen...",
+							"sProcessing" : "Bitte warten...",
+							"sZeroRecords" : "Keine Einträge vorhanden.",
 
-		},
-		"oClasses" : {}
+						},
+						"oClasses" : {}
 
-	});
-
-	$
-			.getJSON("/medienverwaltung/resources/releases.json",
-					function(data) {
-
-						var table = $('#table').dataTable();
-						table.fnClearTable();
-
-						releases = data.releases;
-
-						$.each(data.releases, function(pos, release) {
-
-							if (release.release === "Faszination Weltraum") {
-								addRow(release);
-							}
-
-						});
-
-						table.fnDraw();
-
-					})
-			.fail(
-					function(jqxhr, textStatus, error) {
-						var errorMessage = "Bei der Abfrage ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
-						alert(errorMessage);
 					});
+
+	if (master.releases !== null & master.releases.length !== 0) {
+
+		$.each(master.releases, function(pos, release) {
+
+			addRow(release, master);
+
+		});
+
+		$('#table').dataTable().fnDraw();
+
+	}
+
 }
 
-function addRow(release) {
+function addRow(release, master) {
 	var table = $('#table').dataTable();
 
-	var cover = check(release.cover) ? "<img src='/medienverwaltung/resources/"
-			+ release.cover + "' width=85px height=85px>" : "";
-	var title = check(release.release) ? "<a href='/bla' target='_blank'>"
-			+ release.release + "</a>" : "";
-	var format = check(release.format) ? release.format : "";
-	var label = check(release.label) ? release.label : "";
-	var jahr = check(release.jahr) ? release.jahr : "";
+	var cover = check(master.imageURL) ? "<img src='" + master.imageURL
+			+ "' width=85px height=85px>" : "";
+	var title = check(master.title) ? "<a href='/medienverwaltung/version?versionId="
+			+ release.releaseId
+			+ "&masterId="
+			+ master.masterId
+			+ "'>"
+			+ master.title + "</a>"
+			: "";
+	var cat = check(release.catalogNo) ? release.catalogNo : "";
+	var format = check(release.format.type) ? release.format.type : "";
+	var label = check(release.label.name) ? release.label.name : "";
+	var jahr = check(release.releaseYear) ? release.releaseYear : "";
 
-	table.fnAddData([ cover, title, label, format, jahr ], false);
+	table.fnAddData([ cover, title, cat, label, format, jahr ], false);
 
 }
 
@@ -109,7 +169,6 @@ function check(value) {
 	return true;
 }
 
-
 function urlParam(name) {
 	var results = new RegExp('[\?&]' + name + '=([^&#]*)')
 			.exec(window.location.href);
@@ -118,4 +177,35 @@ function urlParam(name) {
 	} else {
 		return results[1] || 0;
 	}
+}
+
+function getMonth(intMonth) {
+
+	var month = new Array();
+	month[0] = "Januar";
+	month[1] = "Februar";
+	month[2] = "M&auml;z";
+	month[3] = "April";
+	month[4] = "Mai";
+	month[5] = "Juni";
+	month[6] = "Juli";
+	month[7] = "August";
+	month[8] = "September";
+	month[9] = "Oktober";
+	month[10] = "November";
+	month[11] = "Dezember";
+	var name = month[intMonth - 1];
+
+	return name;
+}
+
+function showErrorMsg(message) {
+
+	$("#errorDiv").html(
+			'<div class="alert alert-danger alert-dismissible"'
+					+ 'role="alert"><button type="button" class="close" '
+					+ 'data-dismiss="alert" aria-label="Close"><span '
+					+ 'aria-hidden="true">&times;</span></button>' + message
+					+ '</div>');
+
 }

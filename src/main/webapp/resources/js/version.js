@@ -3,11 +3,126 @@
  */
 $(document).ready(function() {
 
-	fillTable();
+	getMaster();
+	getVersion();
+
+	// Zurück zum Master
+	$("#allButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		var masterId = urlParam("masterId");
+
+		window.location = "../medienverwaltung/master?masterId=" + masterId;
+
+	});
 
 });
 
-function fillTable() {
+function getMaster() {
+
+	var masterId = urlParam("masterId");
+
+	$
+			.getJSON("api/master/" + masterId + "/", function(master) {
+
+				initPageMaster(master);
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
+								+ textStatus + ", " + error;
+						showErrorMsg(errorMessage, "Fehler");
+					});
+
+}
+
+function initPageMaster(master) {
+
+	if (master !== null & master !== undefined) {
+
+		$('#titleHeading').html(master.title);
+
+		// TODO: Weiterleitung auf Artist-Seite sobald vorhanden
+		$('#artistHeading').html("<a>" + master.artist.name + "</a>");
+
+		$('#imageDiv').html(
+				'<img src="' + master.imageURL
+						+ '" width="210px" height="210px">')
+
+		$('#genreSpan').html(
+				'<span class="label label-primary labelMargin">'
+						+ master.genre.name + '</span>');
+
+		var subgenres = "";
+		$.each(master.subgenres, function(pos, subgenre) {
+
+			subgenres = subgenres
+					+ '<span class="label label-success labelMargin">'
+					+ subgenre.name + '</span> ';
+
+		});
+
+		$('#subgenreSpan').html(subgenres);
+
+	}
+
+}
+
+function getVersion() {
+
+	var versionId = urlParam("versionId");
+
+	$
+			.getJSON("api/releases/" + versionId + "/", function(release) {
+
+				initPageRelease(release);
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim laden der Version ist ein Fehler aufgetreten: "
+								+ textStatus + ", " + error;
+						showErrorMsg(errorMessage, "Fehler");
+					});
+
+}
+
+function initPageRelease(release) {
+
+	if (release !== null & release !== undefined) {
+
+		$('#labelSpan').html("<a>" + release.label.name + "</a>");
+		$('#lcSpan').html(release.labelCode);
+		$('#formatSpan').html(release.format.type);
+
+		var releaseDate = release.releaseYear;
+
+		if (release.releaseMonth !== 0) {
+			releaseDate = getMonth(release.releaseMonth) + " "
+					+ release.releaseYear;
+		}
+
+		if (release.releaseMonth !== 0 & release.releaseDay !== 0) {
+			releaseDate = release.releaseDay + ". "
+					+ getMonth(release.releaseMonth) + " "
+					+ release.releaseYear;
+		}
+
+		$('#releaseSpan').html(releaseDate);
+
+		createTracklistTable(release);
+
+		$('#noteSpan').html(release.comment);
+		$('#barcodeSpan').html(release.barcode);
+		$('#catSpan').html(release.catalogNo);
+
+	}
+
+}
+
+function createTracklistTable(release) {
 
 	$('#tableDiv')
 			.html(
@@ -38,31 +153,28 @@ function fillTable() {
 
 	});
 
-	addRows();
+	if (release.tracklist !== null) {
+
+		$.each(release.tracklist, function(pos, track) {
+
+			addRow(track);
+
+		});
+
+		$('#table').dataTable().fnDraw();
+
+	}
 
 }
 
-function addRows() {
+function addRow(track) {
 	var table = $('#table').dataTable();
 
-	table.fnAddData([ "A01", "Mein Lied", "2:37" ], false);
-	table.fnAddData([ "A02", "Dynamit", "3:24" ], false);
-	table.fnAddData([ "A03", "Was die Welt jetzt braucht", "2:45" ], false);
-	table.fnAddData([ "A04", "Herz?Verloren", "3:23" ], false);
-	table.fnAddData([ "B05", "AWG", "2:42" ], false);
-	table.fnAddData([ "B06", "Heute tanzen", "2:28" ], false);
-	table.fnAddData([ "B07", "iDisco", "4:03" ], false);
-	table.fnAddData([ "B08", "Find dich gut", "3:10" ], false);
-	table.fnAddData([ "C09", "Keine Angst", "3:56" ], false);
-	table.fnAddData([ "C10", "Fan", "3:40" ], false);
-	table.fnAddData([ "C11", "Newton hatte Recht", "3:17" ], false);
-	table.fnAddData([ "C12", "Das Traurigste", "5:01" ], false);
-	table.fnAddData([ "D13", "3000", "2:45" ], false);
-	table.fnAddData([ "D14", "Sommer", "4:22" ], false);
-	table.fnAddData([ "D15", "Immer dabei", "4:08" ], false);
+	var number = check(track.number) ? track.number : "";
+	var title = check(track.title) ? track.title : "";
+	var duration = check(track.duration) ? track.duration : "";
 
-	table.fnDraw();
-	table.columns.adjust().draw();
+	table.fnAddData([ number, title, duration ], false);
 
 }
 
@@ -86,4 +198,35 @@ function urlParam(name) {
 	} else {
 		return results[1] || 0;
 	}
+}
+
+function getMonth(intMonth) {
+
+	var month = new Array();
+	month[0] = "Januar";
+	month[1] = "Februar";
+	month[2] = "M&auml;z";
+	month[3] = "April";
+	month[4] = "Mai";
+	month[5] = "Juni";
+	month[6] = "Juli";
+	month[7] = "August";
+	month[8] = "September";
+	month[9] = "Oktober";
+	month[10] = "November";
+	month[11] = "Dezember";
+	var name = month[intMonth - 1];
+
+	return name;
+}
+
+function showErrorMsg(message) {
+
+	$("#errorDiv").html(
+			'<div class="alert alert-danger alert-dismissible"'
+					+ 'role="alert"><button type="button" class="close" '
+					+ 'data-dismiss="alert" aria-label="Close"><span '
+					+ 'aria-hidden="true">&times;</span></button>' + message
+					+ '</div>');
+
 }
