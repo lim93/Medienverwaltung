@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -98,7 +99,18 @@ public class MasterDao {
 		final String title = master.getTitle();
 		final String imageUrl = master.getUrl();
 		final int genreId = master.getGenreId();
+		
+		// Prüfen, ob Master schon vorhanden (Titel und Artist)
+		String titleSql = "SELECT * FROM master WHERE title = ? and artist_id = ?";
 
+		Master duplicateMaster = (Master) jdbcTemplate.query(titleSql, 
+				new Object[] { title, artist.getArtistId() }, 
+				new BeanPropertyRowMapper<Master>(Master.class));
+		
+		if (duplicateMaster != null) {
+			throw  new IllegalArgumentException("Master bereits vorhanden.");
+		}
+		
 		// TODO: Zusätzliche Validierung des Datums im Backend
 		final Integer day = master.getReleaseDay();
 		final Integer month = master.getReleaseMonth();
