@@ -213,7 +213,8 @@ function validateAndSubmit() {
 	}
 
 	// Wenn bis hierhin alles ok: POST an den Rest-Service
-	saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay, releaseMonth, releaseYear)
+	saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay,
+			releaseMonth, releaseYear)
 			.done(
 					function(result) {
 
@@ -224,7 +225,7 @@ function validateAndSubmit() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage);
 						return false;
 					});

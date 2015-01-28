@@ -12,7 +12,7 @@ import de.yellow.medienverwaltung.business.MasterService;
 import de.yellow.medienverwaltung.database.entity.Master;
 
 @Controller
-public class MasterController {
+public class MasterController extends AbstractController {
 
 	@RequestMapping(value = "api/master/{id}/", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Master> getMaster(@PathVariable("id") long id) {
@@ -38,6 +38,7 @@ public class MasterController {
 	public ResponseEntity<Long> postNewMaster(@RequestBody MasterDto master) {
 
 		System.out.println(master.toString());
+
 		MasterService service = new MasterService();
 		long masterId = service.insertMaster(master);
 

@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -99,18 +98,25 @@ public class MasterDao {
 		final String title = master.getTitle();
 		final String imageUrl = master.getUrl();
 		final int genreId = master.getGenreId();
-		
-		// Prüfen, ob Master schon vorhanden (Titel und Artist)
-		String titleSql = "SELECT * FROM master WHERE title = ? and artist_id = ?";
 
-		Master duplicateMaster = (Master) jdbcTemplate.query(titleSql, 
-				new Object[] { title, artist.getArtistId() }, 
-				new BeanPropertyRowMapper<Master>(Master.class));
-		
-		if (duplicateMaster != null) {
-			throw  new IllegalArgumentException("Master bereits vorhanden.");
+		// Prüfen, ob Master schon vorhanden (Titel und Artist)
+		String titleSql = "SELECT master_id FROM master WHERE title = ? and artist_id = ?";
+
+		List<Integer> list = jdbcTemplate.query(titleSql, new Object[] { title,
+				artist.getArtistId() }, new RowMapper<Integer>() {
+			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Integer id = rs.getInt("master_id");
+
+				return id;
+			}
+		});
+
+		if (list.size() != 0) {
+			throw new IllegalArgumentException(
+					"Master zu dieser Ver&ouml;ffentlichung ist bereits vorhanden.");
 		}
-		
+
 		// TODO: Zusätzliche Validierung des Datums im Backend
 		final Integer day = master.getReleaseDay();
 		final Integer month = master.getReleaseMonth();
