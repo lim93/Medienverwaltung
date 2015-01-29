@@ -8,10 +8,12 @@ Webanwendung mit globalem Katalog zur Verwaltung der privaten Mediensammlung.
 3. Aktuelle Version des Datenbank-Dumps aus db/ in "media" einspielen. 
 4. Verbindungsparamater in src/main/resources/config.properties anpassen.
 5. Gegebenenfalls in src/main/resources/ die logback.xml anpassen.
-
-Alternativ:
-6a. Maven Projekt in Eclipse importieren und dort auf lokalem Tomcat installieren.
-6b. Mit Maven bauen, erzeugt "medienverwaltung.war" in target/. Die .war - Datei in das webapps/ - Verzeichnis eines Tomcats kopieren. Gegebenenfalls server.xml anpassen / sonstige Konfigurationsänderungen am Tomcat vornehmen.
-
+6. Maven Projekt in Eclipse importieren und dort auf lokalem Tomcat installieren.
 7. Tomcat starten.
-8. Aufrufen: <Pfad_zu_tomcat>/medienverwaltung/profil
+8. Aufrufen: "Pfad_zu_tomcat"/medienverwaltung/profil
+
+
+**Alternativ:**
+Mit Maven bauen, erzeugt "medienverwaltung.war" in target/. Die .war - Datei in das webapps/ - Verzeichnis eines Tomcats kopieren. Gegebenenfalls server.xml anpassen / sonstige Konfigurationsänderungen am Tomcat vornehmen.
+
+
