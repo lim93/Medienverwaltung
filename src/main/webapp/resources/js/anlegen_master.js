@@ -54,7 +54,7 @@ function getGenres() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Genres ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
+							+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 

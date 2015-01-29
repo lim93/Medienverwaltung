@@ -11,15 +11,15 @@ import de.yellow.medienverwaltung.business.LabelService;
 import de.yellow.medienverwaltung.database.entity.Label;
 
 @Controller
-public class LabelController {
+public class LabelController extends AbstractController {
 
-	@RequestMapping(value = "api/labels/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Label> getLabel(@PathVariable("id") int id) {
+    @RequestMapping(value = "api/labels/{id}/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Label> getLabel(@PathVariable("id") int id) {
 
-		LabelService service = new LabelService();
-		Label label = service.getLabelById(id);
+        LabelService service = new LabelService();
+        Label label = service.getLabelById(id);
 
-		return new ResponseEntity<Label>(label, HttpStatus.OK);
-	}
+        return new ResponseEntity<Label>(label, HttpStatus.OK);
+    }
 
 }

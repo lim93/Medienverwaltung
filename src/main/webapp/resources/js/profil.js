@@ -76,7 +76,7 @@ function fillTable() {
             })
         .fail(
             function (jqxhr, textStatus, error) {
-                var errorMessage = "Bei der Abfrage ist ein Fehler aufgetreten: " + textStatus + ", " + error;
+                var errorMessage = "Bei der Abfrage ist ein Fehler aufgetreten: " + jqxhr.responseText;
                 alert(errorMessage);
             });
 }

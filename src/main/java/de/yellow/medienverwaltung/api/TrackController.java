@@ -12,16 +12,16 @@ import de.yellow.medienverwaltung.business.TrackService;
 import de.yellow.medienverwaltung.database.entity.Track;
 
 @Controller
-public class TrackController {
+public class TrackController extends AbstractController {
 
-	@RequestMapping(value = "api/tracks/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<Track>> getTracks() {
+    @RequestMapping(value = "api/tracks/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<Track>> getTracks() {
 
-		TrackService service = new TrackService();
-		List<Track> tracks = service.getAllTracks();
+        TrackService service = new TrackService();
+        List<Track> tracks = service.getAllTracks();
 
-		return new ResponseEntity<List<Track>>(tracks, HttpStatus.OK);
+        return new ResponseEntity<List<Track>>(tracks, HttpStatus.OK);
 
-	}
+    }
 
 }

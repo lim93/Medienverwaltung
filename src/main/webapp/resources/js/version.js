@@ -32,7 +32,7 @@ function getMaster() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
+							+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -83,7 +83,7 @@ function getVersion() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Version ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
+							+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 

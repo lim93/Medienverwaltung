@@ -92,7 +92,7 @@ function getMaster() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
+							+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -120,7 +120,7 @@ function getFormats() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Formate ist ein Fehler aufgetreten: "
-								+ textStatus + ", " + error;
+							+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -274,7 +274,7 @@ function validateAndSubmit() {
 			}).fail(
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "
-						+ textStatus + ", " + error;
+					+ jqxhr.responseText;
 				showErrorMsg(errorMessage);
 				return false;
 			});

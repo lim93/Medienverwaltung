@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,227 +26,214 @@ import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class ReleaseDao {
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
-		ConnectionFactory factory = new ConnectionFactory();
+    private static final Logger LOG = LoggerFactory.getLogger(ReleaseDao.class);
 
-		DataSource ds = factory.getDataSource();
+    /**
+     * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
+     * 
+     * @return
+     */
+    private DataSource getDataSource() {
+        ConnectionFactory factory = new ConnectionFactory();
 
-		if (ds != null) {
-			return ds;
-		} else {
-			throw new IllegalStateException(
-					"Es konnte keine DataSource erstellt werden");
-		}
-	}
+        DataSource ds = factory.getDataSource();
 
-	/**
-	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
-	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Release} gemappt.
-	 * 
-	 * @return
-	 */
-	public List<Release> getAllReleases() {
+        if (ds != null) {
+            return ds;
+        } else {
+            throw new IllegalStateException("Es konnte keine DataSource erstellt werden");
+        }
+    }
 
-		DataSource dataSource = getDataSource();
+    /**
+     * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit wird eine Abfrage gegen die Datenbank gestartet.
+     * Das Ergebnis wird mit einem {@link RowMapper} auf die Klasse {@link Release} gemappt.
+     * 
+     * @return
+     */
+    public List<Release> getAllReleases() {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        DataSource dataSource = getDataSource();
 
-		List<Release> list = jdbcTemplate.query("select * from release",
-				new RowMapper<Release>() {
-			public Release mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Release release = new Release();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-				release.setReleaseId(rs.getInt("release_id"));
-				release.setMasterId(rs.getInt("master_id"));
-				// release.setLabelId(rs.getInt("label_id"));
-				// release.setFormatId(rs.getInt("format_id"));
-				release.setReleaseDay(rs.getInt("release_day"));
-				release.setReleaseMonth(rs.getInt("release_month"));
-				release.setReleaseYear(rs.getInt("release_year"));
-				release.setCatalogNo(rs.getString("catalog_no"));
-				release.setLabelCode(rs.getString("label_code"));
-				release.setBarcode(rs.getString("barcode"));
-				release.setComment(rs.getString("comment"));
+        List<Release> list = jdbcTemplate.query("select * from release", new RowMapper<Release>() {
+            public Release mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Release release = new Release();
 
-				return release;
-			}
-		});
+                release.setReleaseId(rs.getInt("release_id"));
+                release.setMasterId(rs.getInt("master_id"));
+                // release.setLabelId(rs.getInt("label_id"));
+                // release.setFormatId(rs.getInt("format_id"));
+                release.setReleaseDay(rs.getInt("release_day"));
+                release.setReleaseMonth(rs.getInt("release_month"));
+                release.setReleaseYear(rs.getInt("release_year"));
+                release.setCatalogNo(rs.getString("catalog_no"));
+                release.setLabelCode(rs.getString("label_code"));
+                release.setBarcode(rs.getString("barcode"));
+                release.setComment(rs.getString("comment"));
 
-		return list;
-	}
+                return release;
+            }
+        });
 
-	public Release getReleaseById(int id) {
+        return list;
+    }
 
-		DataSource ds = getDataSource();
+    public Release getReleaseById(int id) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+        DataSource ds = getDataSource();
 
-		String sql = "select * from media.release where release_id = ?";
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
-		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
-				new RowMapper<Release>() {
-			public Release mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Release release = new Release();
+        String sql = "select * from media.release where release_id = ?";
 
-				release.setReleaseId(rs.getInt("release_id"));
-				release.setMasterId(rs.getInt("master_id"));
-				release.setReleaseDay(rs.getInt("release_day"));
-				release.setReleaseMonth(rs.getInt("release_month"));
-				release.setReleaseYear(rs.getInt("release_year"));
-				release.setCatalogNo(rs.getString("catalog_no"));
-				release.setLabelCode(rs.getString("label_code"));
-				release.setBarcode(rs.getString("barcode"));
-				release.setComment(rs.getString("comment"));
+        List<Release> list = jdbcTemplate.query(sql, new Object[] { id }, new RowMapper<Release>() {
+            public Release mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Release release = new Release();
 
-				LabelDao lDao = new LabelDao();
-				Label label = lDao.getLabelById(rs.getInt("label_id"));
-				release.setLabel(label);
+                release.setReleaseId(rs.getInt("release_id"));
+                release.setMasterId(rs.getInt("master_id"));
+                release.setReleaseDay(rs.getInt("release_day"));
+                release.setReleaseMonth(rs.getInt("release_month"));
+                release.setReleaseYear(rs.getInt("release_year"));
+                release.setCatalogNo(rs.getString("catalog_no"));
+                release.setLabelCode(rs.getString("label_code"));
+                release.setBarcode(rs.getString("barcode"));
+                release.setComment(rs.getString("comment"));
 
-				FormatDao fDao = new FormatDao();
-				Format format = fDao.getFormatById(rs
-						.getInt("format_id"));
-				release.setFormat(format);
+                LabelDao lDao = new LabelDao();
+                Label label = lDao.getLabelById(rs.getInt("label_id"));
+                release.setLabel(label);
 
-				TrackDao tDao = new TrackDao();
-				List<Track> tracklist = tDao
-						.getTracklistByReleaseId(release.getReleaseId());
-				release.setTracklist(tracklist);
+                FormatDao fDao = new FormatDao();
+                Format format = fDao.getFormatById(rs.getInt("format_id"));
+                release.setFormat(format);
 
-				return release;
-			}
-		});
+                TrackDao tDao = new TrackDao();
+                List<Track> tracklist = tDao.getTracklistByReleaseId(release.getReleaseId());
+                release.setTracklist(tracklist);
 
-		return list.get(0);
+                return release;
+            }
+        });
 
-	}
+        return list.get(0);
 
-	public List<Release> getReleasesByMasterId(int id) {
+    }
 
-		DataSource ds = getDataSource();
+    public List<Release> getReleasesByMasterId(int id) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+        DataSource ds = getDataSource();
 
-		String sql = "select * from media.release where master_id = ?";
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
-		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
-				new RowMapper<Release>() {
-			public Release mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Release release = new Release();
+        String sql = "select * from media.release where master_id = ?";
 
-				release.setReleaseId(rs.getInt("release_id"));
-				release.setMasterId(rs.getInt("master_id"));
-				release.setReleaseDay(rs.getInt("release_day"));
-				release.setReleaseMonth(rs.getInt("release_month"));
-				release.setReleaseYear(rs.getInt("release_year"));
-				release.setCatalogNo(rs.getString("catalog_no"));
-				release.setLabelCode(rs.getString("label_code"));
-				release.setBarcode(rs.getString("barcode"));
-				release.setComment(rs.getString("comment"));
+        List<Release> list = jdbcTemplate.query(sql, new Object[] { id }, new RowMapper<Release>() {
+            public Release mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Release release = new Release();
 
-				LabelDao lDao = new LabelDao();
-				Label label = lDao.getLabelById(rs.getInt("label_id"));
-				release.setLabel(label);
+                release.setReleaseId(rs.getInt("release_id"));
+                release.setMasterId(rs.getInt("master_id"));
+                release.setReleaseDay(rs.getInt("release_day"));
+                release.setReleaseMonth(rs.getInt("release_month"));
+                release.setReleaseYear(rs.getInt("release_year"));
+                release.setCatalogNo(rs.getString("catalog_no"));
+                release.setLabelCode(rs.getString("label_code"));
+                release.setBarcode(rs.getString("barcode"));
+                release.setComment(rs.getString("comment"));
 
-				FormatDao fDao = new FormatDao();
-				Format format = fDao.getFormatById(rs
-						.getInt("format_id"));
-				release.setFormat(format);
+                LabelDao lDao = new LabelDao();
+                Label label = lDao.getLabelById(rs.getInt("label_id"));
+                release.setLabel(label);
 
-				TrackDao tDao = new TrackDao();
-				List<Track> tracklist = tDao
-						.getTracklistByReleaseId(release.getReleaseId());
-				release.setTracklist(tracklist);
+                FormatDao fDao = new FormatDao();
+                Format format = fDao.getFormatById(rs.getInt("format_id"));
+                release.setFormat(format);
 
-				return release;
-			}
-		});
+                TrackDao tDao = new TrackDao();
+                List<Track> tracklist = tDao.getTracklistByReleaseId(release.getReleaseId());
+                release.setTracklist(tracklist);
 
-		return list;
+                return release;
+            }
+        });
 
-	}
+        return list;
 
-	public long insertRelease(ReleaseDto release) {
+    }
 
-		DataSource dataSource = getDataSource();
+    public long insertRelease(ReleaseDto release) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        DataSource dataSource = getDataSource();
 
-		final int masterId = release.getMasterId();
-		final int formatId = release.getFormatId();
-		final String catalogNumber = release.getCatalogNo();
-		final String labelCode = release.getLabelcode();
-		final String barcode = release.getBarcode();
-		final String comment = release.getComment();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		final String labelName = release.getLabel();
+        final int masterId = release.getMasterId();
+        final int formatId = release.getFormatId();
+        final String catalogNumber = release.getCatalogNo();
+        final String labelCode = release.getLabelcode();
+        final String barcode = release.getBarcode();
+        final String comment = release.getComment();
 
-		LabelDao lDao = new LabelDao();
-		final Label label = lDao.getLabelByName(labelName);
+        final String labelName = release.getLabel();
 
-		if (label == null || label.getLabelId() == 0) {
-			throw new IllegalArgumentException(
-					"Dieses Label ist uns nicht bekannt.");
-		}
+        LabelDao lDao = new LabelDao();
+        final Label label = lDao.getLabelByName(labelName);
 
-		final int labelId = label.getLabelId();
+        if ((label == null) || (label.getLabelId() == 0)) {
+            throw new IllegalArgumentException("Dieses Label ist uns nicht bekannt.");
+        }
 
-		// TODO: Zusätzliche Validierung des Datums im Backend
-		final Integer day = release.getReleaseDay();
-		final Integer month = release.getReleaseMonth();
-		final Integer year = release.getReleaseYear();
+        final int labelId = label.getLabelId();
 
-		// Release speichern & ID merken
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+        // TODO: Zusätzliche Validierung des Datums im Backend
+        final Integer day = release.getReleaseDay();
+        final Integer month = release.getReleaseMonth();
+        final Integer year = release.getReleaseYear();
 
-		final String releaseSql = "INSERT INTO `media`.`release` (`release_id`, `master_id`, `label_id`, `format_id`, `release_day`, `release_month`, `release_year`, `catalog_no`, `label_code`, `barcode`, `comment`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        // Release speichern & ID merken
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
-			public PreparedStatement createPreparedStatement(Connection conn)
-					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(releaseSql,
-						Statement.RETURN_GENERATED_KEYS);
-				ps.setInt(1, masterId);
-				ps.setInt(2, labelId);
-				ps.setInt(3, formatId);
-				ps.setInt(4, day);
-				ps.setInt(5, month);
-				ps.setInt(6, year);
-				ps.setString(7, catalogNumber);
-				ps.setString(8, labelCode);
-				ps.setString(9, barcode);
-				ps.setString(10, comment);
-				return ps;
-			}
-		}, keyHolder);
+        final String releaseSql = "INSERT INTO `media`.`release` (`release_id`, `master_id`, `label_id`, `format_id`, `release_day`, `release_month`, `release_year`, `catalog_no`, `label_code`, `barcode`, `comment`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-		long releaseId = keyHolder.getKey().longValue();
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+                PreparedStatement ps = conn.prepareStatement(releaseSql, Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, masterId);
+                ps.setInt(2, labelId);
+                ps.setInt(3, formatId);
+                ps.setInt(4, day);
+                ps.setInt(5, month);
+                ps.setInt(6, year);
+                ps.setString(7, catalogNumber);
+                ps.setString(8, labelCode);
+                ps.setString(9, barcode);
+                ps.setString(10, comment);
+                return ps;
+            }
+        }, keyHolder);
 
-		// Tracks speichern
-		TrackDao tDao = new TrackDao();
-		for (Track track : release.getTracklist()) {
+        long releaseId = keyHolder.getKey().longValue();
 
-			long trackId = tDao.insertTrack(track);
+        // Tracks speichern
+        TrackDao tDao = new TrackDao();
+        for (Track track : release.getTracklist()) {
 
-			final String tracklistSql = "INSERT INTO tracklist_item(release_id, track_id) VALUES(?, ?)";
+            long trackId = tDao.insertTrack(track);
 
-			Object[] params = new Object[] { releaseId, trackId };
+            final String tracklistSql = "INSERT INTO tracklist_item(release_id, track_id) VALUES(?, ?)";
 
-			jdbcTemplate.update(tracklistSql, params);
-		}
+            Object[] params = new Object[] { releaseId, trackId };
 
-		System.out.println("Release wurde eingefügt mit der id: " + releaseId);
+            jdbcTemplate.update(tracklistSql, params);
+        }
 
-		return releaseId;
+        LOG.debug("Release wurde eingefügt mit der id: " + releaseId);
 
-	}
+        return releaseId;
+
+    }
 
 }

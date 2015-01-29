@@ -6,6 +6,8 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -22,6 +24,8 @@ public class ConnectionFactory {
     private String port;
     private String user;
     private String pw;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionFactory.class);
 
     public DataSource getDataSource() {
 
@@ -42,8 +46,7 @@ public class ConnectionFactory {
         user = prop.getProperty("user");
         pw = prop.getProperty("pw");
 
-        // TODO: Logger statt System.out
-        System.out.println("Aus den Parametern ein DataSource für die Datenbank erstellen");
+        LOG.trace("Aus den Parametern ein DataSource für {} auf {} erstellen", db, host);
 
         String url = "jdbc:mysql://" + host + ":" + port + "/" + db;
 

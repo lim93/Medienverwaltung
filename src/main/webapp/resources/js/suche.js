@@ -66,7 +66,7 @@ function doSearch() {
 	}).fail(
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Bei der Suche ist ein Fehler aufgetreten: "
-						+ textStatus + ", " + error;
+					+ jqxhr.responseText;
 				alert(errorMessage);
 			});
 }

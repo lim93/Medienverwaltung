@@ -12,16 +12,16 @@ import de.yellow.medienverwaltung.business.FormatService;
 import de.yellow.medienverwaltung.database.entity.Format;
 
 @Controller
-public class FormatController {
+public class FormatController extends AbstractController {
 
-	@RequestMapping(value = "api/formats/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<Format>> getFormats() {
+    @RequestMapping(value = "api/formats/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<Format>> getFormats() {
 
-		FormatService service = new FormatService();
-		List<Format> formats = service.getAllFormats();
+        FormatService service = new FormatService();
+        List<Format> formats = service.getAllFormats();
 
-		return new ResponseEntity<List<Format>>(formats, HttpStatus.OK);
+        return new ResponseEntity<List<Format>>(formats, HttpStatus.OK);
 
-	}
+    }
 
 }

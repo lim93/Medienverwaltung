@@ -12,16 +12,16 @@ import de.yellow.medienverwaltung.business.GenreService;
 import de.yellow.medienverwaltung.database.entity.Genre;
 
 @Controller
-public class GenreController {
+public class GenreController extends AbstractController {
 
-	@RequestMapping(value = "api/genres/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<Genre>> getGenres() {
+    @RequestMapping(value = "api/genres/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<Genre>> getGenres() {
 
-		GenreService service = new GenreService();
-		List<Genre> genres = service.getAllGenres();
+        GenreService service = new GenreService();
+        List<Genre> genres = service.getAllGenres();
 
-		return new ResponseEntity<List<Genre>>(genres, HttpStatus.OK);
+        return new ResponseEntity<List<Genre>>(genres, HttpStatus.OK);
 
-	}
+    }
 
 }

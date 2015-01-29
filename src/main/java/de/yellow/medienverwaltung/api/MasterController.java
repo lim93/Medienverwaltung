@@ -14,36 +14,36 @@ import de.yellow.medienverwaltung.database.entity.Master;
 @Controller
 public class MasterController extends AbstractController {
 
-	@RequestMapping(value = "api/master/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Master> getMaster(@PathVariable("id") long id) {
+    @RequestMapping(value = "api/master/{id}/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Master> getMaster(@PathVariable("id") long id) {
 
-		MasterService masterService = new MasterService();
+        MasterService masterService = new MasterService();
 
-		Master master = masterService.getMasterById(id);
+        Master master = masterService.getMasterById(id);
 
-		return new ResponseEntity<Master>(master, HttpStatus.OK);
-	}
+        return new ResponseEntity<Master>(master, HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "api/masterdto/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<MasterDto> getMasterDto(@PathVariable("id") long id) {
+    @RequestMapping(value = "api/masterdto/{id}/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<MasterDto> getMasterDto(@PathVariable("id") long id) {
 
-		MasterService masterService = new MasterService();
+        MasterService masterService = new MasterService();
 
-		MasterDto masterDto = masterService.getMasterDtoById(id);
+        MasterDto masterDto = masterService.getMasterDtoById(id);
 
-		return new ResponseEntity<MasterDto>(masterDto, HttpStatus.OK);
-	}
+        return new ResponseEntity<MasterDto>(masterDto, HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "api/master/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Long> postNewMaster(@RequestBody MasterDto master) {
+    @RequestMapping(value = "api/master/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Long> postNewMaster(@RequestBody MasterDto master) {
 
-		System.out.println(master.toString());
+        LOG.debug(master.toString());
 
-		MasterService service = new MasterService();
-		long masterId = service.insertMaster(master);
+        MasterService service = new MasterService();
+        long masterId = service.insertMaster(master);
 
-		return new ResponseEntity<Long>(masterId, HttpStatus.OK);
+        return new ResponseEntity<Long>(masterId, HttpStatus.OK);
 
-	}
+    }
 
 }

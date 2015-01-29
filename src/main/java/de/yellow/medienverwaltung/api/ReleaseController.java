@@ -12,27 +12,27 @@ import de.yellow.medienverwaltung.business.ReleaseService;
 import de.yellow.medienverwaltung.database.entity.Release;
 
 @Controller
-public class ReleaseController {
+public class ReleaseController extends AbstractController {
 
-	@RequestMapping(value = "api/releases/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Release> getRelease(@PathVariable("id") int id) {
+    @RequestMapping(value = "api/releases/{id}/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Release> getRelease(@PathVariable("id") int id) {
 
-		// Rückgabe: Release-Entity mit Liste von Tracks und Master-ID
-		ReleaseService service = new ReleaseService();
-		Release release = service.getReleaseById(id);
+        // Rückgabe: Release-Entity mit Liste von Tracks und Master-ID
+        ReleaseService service = new ReleaseService();
+        Release release = service.getReleaseById(id);
 
-		return new ResponseEntity<Release>(release, HttpStatus.OK);
-	}
+        return new ResponseEntity<Release>(release, HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "api/release/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Long> postNewRelease(@RequestBody ReleaseDto release) {
+    @RequestMapping(value = "api/release/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Long> postNewRelease(@RequestBody ReleaseDto release) {
 
-		System.out.println(release.toString());
-		ReleaseService service = new ReleaseService();
-		long id = service.insertRelease(release);
+        LOG.debug(release.toString());
+        ReleaseService service = new ReleaseService();
+        long id = service.insertRelease(release);
 
-		return new ResponseEntity<Long>(id, HttpStatus.OK);
+        return new ResponseEntity<Long>(id, HttpStatus.OK);
 
-	}
+    }
 
 }

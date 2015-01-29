@@ -12,25 +12,24 @@ import de.yellow.medienverwaltung.business.ArtistService;
 import de.yellow.medienverwaltung.database.entity.Artist;
 
 @Controller
-public class ArtistController {
+public class ArtistController extends AbstractController {
 
-	@RequestMapping(value = "api/artists/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Artist> getArtist(@PathVariable("id") int id) {
+    @RequestMapping(value = "api/artists/{id}/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Artist> getArtist(@PathVariable("id") int id) {
 
-		ArtistService service = new ArtistService();
-		Artist artist = service.getArtistById(id);
+        ArtistService service = new ArtistService();
+        Artist artist = service.getArtistById(id);
 
-		return new ResponseEntity<Artist>(artist, HttpStatus.OK);
-	}
+        return new ResponseEntity<Artist>(artist, HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "api/artists/search/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Artist> getArtist(
-			@RequestParam(value = "name") String name) {
+    @RequestMapping(value = "api/artists/search/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Artist> getArtist(@RequestParam(value = "name") String name) {
 
-		ArtistService service = new ArtistService();
-		Artist artist = service.getArtistByName(name);
+        ArtistService service = new ArtistService();
+        Artist artist = service.getArtistByName(name);
 
-		return new ResponseEntity<Artist>(artist, HttpStatus.OK);
-	}
+        return new ResponseEntity<Artist>(artist, HttpStatus.OK);
+    }
 
 }
