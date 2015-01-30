@@ -81,8 +81,8 @@ public class ArtistDao {
 
 			return artist;
 		} catch (EmptyResultDataAccessException e) {
-			throw new IllegalArgumentException(
-					"Dieser Künstler ist uns nicht bekannt.");
+			throw new IllegalArgumentException("Der K&uuml;nstler '" + name
+					+ "' ist uns nicht bekannt.");
 		}
 	}
 

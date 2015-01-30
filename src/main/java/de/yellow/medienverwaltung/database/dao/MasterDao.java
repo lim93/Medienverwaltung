@@ -140,16 +140,19 @@ public class MasterDao {
 
         long masterId = keyHolder.getKey().longValue();
 
-        // Subgenres speichern
-        final String subgenreSql = "INSERT INTO master_subgenre(master_id, subgenre_id) VALUES(?, ?)";
+		// Subgenres speichern
+		if (master.getSubgenreIds() != null
+				&& master.getSubgenreIds().size() != 0) {
+			final String subgenreSql = "INSERT INTO master_subgenre(master_id, subgenre_id) VALUES(?, ?)";
 
-        for (int subgenreId : master.getSubgenreIds()) {
+			for (int subgenreId : master.getSubgenreIds()) {
 
-            Object[] params = new Object[] { masterId, subgenreId };
+				Object[] params = new Object[] { masterId, subgenreId };
 
-            jdbcTemplate.update(subgenreSql, params);
+				jdbcTemplate.update(subgenreSql, params);
 
-        }
+			}
+		}
 
         LOG.debug("Master wurde eingefügt mit der id: " + masterId);
 
@@ -200,7 +203,68 @@ public class MasterDao {
             }
         });
 
-        return masterList.get(0);
-    }
+		return masterList.get(0);
+	}
+
+	public List<Master> getMasterByArtistName(String name) {
+
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		List<Master> masterList = new ArrayList<Master>();
+
+		// Artist prüfen: Ist der angegebene Name bekannt?
+		ArtistDao aDao = new ArtistDao();
+		final Artist artist = aDao.getArtistByName(name);
+
+		// Nichts gefunden: Return leere Liste
+		if ((artist == null) || (artist.getArtistId() == 0)) {
+			return masterList;
+		}
+
+		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE artist_id = ?";
+
+		masterList = jdbcTemplate.query(sql,
+				new Object[] { artist.getArtistId() }, new RowMapper<Master>() {
+			public Master mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Master master = new Master();
+				Artist artist = new Artist();
+				Genre genre = new Genre();
+				List<Subgenre> subgenres = new ArrayList<Subgenre>();
+				List<Release> releases = new ArrayList<Release>();
+
+				master.setMasterId(rs.getInt("master_id"));
+				master.setTitle(rs.getString("title"));
+				master.setReleaseDay(rs.getInt("release_day"));
+				master.setReleaseMonth(rs.getInt("release_month"));
+				master.setReleaseYear(rs.getInt("release_year"));
+				master.setImageURL(rs.getString("image_url"));
+
+				ArtistDao aDao = new ArtistDao();
+				artist = aDao.getArtistById(rs.getInt("artist_id"));
+				master.setArtist(artist);
+
+				GenreDao gDao = new GenreDao();
+				genre = gDao.getGenreById(rs.getInt("genre_id"));
+				master.setGenre(genre);
+
+				SubgenreDao sDao = new SubgenreDao();
+				subgenres = sDao.getSubgenresByMasterId(master
+						.getMasterId());
+				master.setSubgenres(subgenres);
+
+				ReleaseDao rDao = new ReleaseDao();
+				releases = rDao.getReleasesByMasterId(master
+						.getMasterId());
+				master.setReleases(releases);
+
+				return master;
+			}
+		});
+
+		return masterList;
+	}
 
 }

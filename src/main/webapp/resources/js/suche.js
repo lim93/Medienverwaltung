@@ -47,41 +47,40 @@ function doSearch() {
 
 	});
 
-	$.getJSON("/medienverwaltung/resources/releases.json", function(data) {
+	$.getJSON("/medienverwaltung/api/search/?suche=" + urlParam("suche"),
+			function(masters) {
 
-		var table = $('#releaseTable').dataTable();
-		table.fnClearTable();
-		var searchFilter = $('#releaseTable_filter');
-		searchFilter.addClass('searchFilterPadding');
+				var table = $('#releaseTable').dataTable();
+				table.fnClearTable();
+				var searchFilter = $('#releaseTable_filter');
+				searchFilter.addClass('searchFilterPadding');
 
-		releases = data.releases;
+				$.each(masters, function(pos, master) {
+					addRow(master);
 
-		$.each(data.releases, function(pos, release) {
-			addRow(release);
+				});
 
-		});
+				table.fnDraw();
 
-		table.fnDraw();
-
-	}).fail(
+			}).fail(
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Bei der Suche ist ein Fehler aufgetreten: "
-					+ jqxhr.responseText;
+						+ jqxhr.responseText;
 				alert(errorMessage);
 			});
 }
 
-function addRow(release) {
+function addRow(master) {
 	var table = $('#releaseTable').dataTable();
 
-	var cover = check(release.cover) ? "<img src='/medienverwaltung/resources/"
-			+ release.cover + "' width=100px height=100px>" : "";
-	var title = check(release.release) ? "<a href='/bla' target='_blank'>"
-			+ release.release + "</a>" : "";
-	var artist = check(release.artist) ? "<a href='/bla' target='_blank'>"
-			+ release.artist + "</a>" : "";
-	var jahr = check(release.jahr) ? release.jahr : "";
-	var genre = check(release.genre) ? release.genre : "";
+	var cover = check(master.url) ? "<img src='" + master.url
+			+ "' width=100px height=100px>" : "";
+	var title = check(master.title) ? "<a href='/bla' target='_blank'>"
+			+ master.title + "</a>" : "";
+	var artist = check(master.artist) ? "<a href='/bla' target='_blank'>"
+			+ master.artist + "</a>" : "";
+	var jahr = check(master.releaseYear) ? master.releaseYear : "";
+	var genre = check(master.genre) ? master.genre : "";
 
 	table.fnAddData([ cover, title, artist, jahr, genre ], false);
 
@@ -97,4 +96,14 @@ function check(value) {
 	}
 
 	return true;
+}
+
+function urlParam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+			.exec(window.location.href);
+	if (results == null) {
+		return null;
+	} else {
+		return results[1] || 0;
+	}
 }

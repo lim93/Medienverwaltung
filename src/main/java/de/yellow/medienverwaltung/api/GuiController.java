@@ -8,66 +8,82 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GuiController {
 
-    // medienverwaltung/ => Startseite (index.jsp)
-    @RequestMapping("/")
-    public ModelAndView showIndex() {
+	// medienverwaltung/ => Startseite (index.jsp)
+	@RequestMapping("/")
+	public ModelAndView showIndex() {
 
-        ModelAndView mv = new ModelAndView("index");
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("index");
+		return mv;
+	}
 
-    // medienverwaltung/profil => profil.jsp
-    @RequestMapping("/profil")
-    public ModelAndView showProfil() {
+	// medienverwaltung/profil => profil.jsp
+	@RequestMapping("/profil")
+	public ModelAndView showProfil(
+			@RequestParam(value = "userId", required = true) Integer userId) {
 
-        ModelAndView mv = new ModelAndView("profil");
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("profil");
+		mv.addObject("userId", userId);
+		return mv;
+	}
 
-    // medienverwaltung/master => master.jsp
-    @RequestMapping("/master")
-    public ModelAndView showMaster(@RequestParam(value = "masterId", required = true) int masterId) {
+	// medienverwaltung/master => master.jsp
+	@RequestMapping("/master")
+	public ModelAndView showMaster(
+			@RequestParam(value = "masterId", required = true) int masterId,
+			@RequestParam(value = "userId", required = false) Integer userId) {
 
-        ModelAndView mv = new ModelAndView("master");
-        mv.addObject("masterId", masterId);
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("master");
+		mv.addObject("masterId", masterId);
+		mv.addObject("userId", userId);
+		return mv;
+	}
 
-    // medienverwaltung/version => version.jsp
-    @RequestMapping("/version")
-    public ModelAndView showVersion(@RequestParam(value = "versionId", required = true) int versionId,
-            @RequestParam(value = "masterId", required = true) int masterId) {
+	// medienverwaltung/version => version.jsp
+	@RequestMapping("/version")
+	public ModelAndView showVersion(
+			@RequestParam(value = "versionId", required = true) int versionId,
+			@RequestParam(value = "masterId", required = true) int masterId,
+			@RequestParam(value = "userId", required = false) Integer userId) {
 
-        ModelAndView mv = new ModelAndView("version");
-        mv.addObject("versionId", versionId);
-        mv.addObject("masterId", masterId);
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("version");
+		mv.addObject("versionId", versionId);
+		mv.addObject("masterId", masterId);
+		mv.addObject("userId", userId);
+		return mv;
+	}
 
-    // medienverwaltung/suche => suche.jsp
-    @RequestMapping("/suche")
-    public ModelAndView showSuche(@RequestParam(value = "suche", required = false) String suche) {
+	// medienverwaltung/suche => suche.jsp
+	@RequestMapping("/suche")
+	public ModelAndView showSuche(
+			@RequestParam(value = "suche", required = false) String suche,
+			@RequestParam(value = "userId", required = false) Integer userId) {
 
-        ModelAndView mv = new ModelAndView("suche");
-        mv.addObject("suche", suche);
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("suche");
+		mv.addObject("suche", suche);
+		mv.addObject("userId", userId);
+		return mv;
+	}
 
-    // medienverwaltung/anlegen_master => anlegen_master.jsp
-    @RequestMapping("/anlegen_master")
-    public ModelAndView showAnlegenMaster() {
+	// medienverwaltung/anlegen_master => anlegen_master.jsp
+	@RequestMapping("/anlegen_master")
+	public ModelAndView showAnlegenMaster(
+			@RequestParam(value = "userId", required = false) Integer userId) {
 
-        ModelAndView mv = new ModelAndView("anlegen_master");
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("anlegen_master");
+		mv.addObject("userId", userId);
+		return mv;
+	}
 
-    // medienverwaltung/anlegen_version => anlegen_verion.jsp
-    @RequestMapping("/anlegen_version")
-    public ModelAndView showAnlegenVersion(@RequestParam(value = "masterId", required = true) int masterId) {
+	// medienverwaltung/anlegen_version => anlegen_verion.jsp
+	@RequestMapping("/anlegen_version")
+	public ModelAndView showAnlegenVersion(
+			@RequestParam(value = "masterId", required = true) int masterId,
+			@RequestParam(value = "userId", required = false) Integer userId) {
 
-        ModelAndView mv = new ModelAndView("anlegen_version");
-        mv.addObject("masterId", masterId);
-        return mv;
-    }
+		ModelAndView mv = new ModelAndView("anlegen_version");
+		mv.addObject("masterId", masterId);
+		mv.addObject("userId", userId);
+		return mv;
+	}
 
 }
