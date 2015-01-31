@@ -49,19 +49,19 @@ public class ArtistDao {
 
 		List<Artist> list = jdbcTemplate.query("select * from artist",
 				new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Artist artist = new Artist();
+					public Artist mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Artist artist = new Artist();
 
-				artist.setArtistId(rs.getInt("artist_id"));
-				artist.setName(rs.getString("name"));
-				artist.setFormed(rs.getInt("formed"));
-				artist.setFrom(rs.getString("from"));
-				artist.setWebsite(rs.getString("website"));
+						artist.setArtistId(rs.getInt("artist_id"));
+						artist.setName(rs.getString("name"));
+						artist.setFormed(rs.getInt("formed"));
+						artist.setFrom(rs.getString("from"));
+						artist.setWebsite(rs.getString("website"));
 
-				return artist;
-			}
-		});
+						return artist;
+					}
+				});
 
 		return list;
 	}
@@ -83,6 +83,27 @@ public class ArtistDao {
 		} catch (EmptyResultDataAccessException e) {
 			throw new IllegalArgumentException("Der K&uuml;nstler '" + name
 					+ "' ist uns nicht bekannt.");
+		}
+	}
+
+	public Artist searchArtistByName(String name) {
+
+		// Diese Methode zum Suchen.
+
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		String sql = "select * from artist where name = ?";
+
+		try {
+			Artist artist = jdbcTemplate.queryForObject(sql,
+					new Object[] { name }, new BeanPropertyRowMapper<Artist>(
+							Artist.class));
+
+			return artist;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
 		}
 	}
 

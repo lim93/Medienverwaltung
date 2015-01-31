@@ -66,7 +66,7 @@ function doSearch() {
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Bei der Suche ist ein Fehler aufgetreten: "
 						+ jqxhr.responseText;
-				alert(errorMessage);
+				showErrorMsg(errorMessage);
 			});
 }
 
@@ -75,8 +75,9 @@ function addRow(master) {
 
 	var cover = check(master.url) ? "<img src='" + master.url
 			+ "' width=100px height=100px>" : "";
-	var title = check(master.title) ? "<a href='/bla' target='_blank'>"
-			+ master.title + "</a>" : "";
+	var title = check(master.title) ? "<a href='/medienverwaltung/master?masterId="
+			+ master.masterId + "'>" + master.title + "</a>"
+			: "";
 	var artist = check(master.artist) ? "<a href='/bla' target='_blank'>"
 			+ master.artist + "</a>" : "";
 	var jahr = check(master.releaseYear) ? master.releaseYear : "";
@@ -106,4 +107,16 @@ function urlParam(name) {
 	} else {
 		return results[1] || 0;
 	}
+}
+
+
+function showErrorMsg(message) {
+
+	$("#errorDiv").html(
+			'<div class="alert alert-danger alert-dismissible"'
+					+ 'role="alert"><button type="button" class="close" '
+					+ 'data-dismiss="alert" aria-label="Close"><span '
+					+ 'aria-hidden="true">&times;</span></button>' + message
+					+ '</div>');
+
 }

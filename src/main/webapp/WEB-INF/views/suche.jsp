@@ -52,6 +52,8 @@
 	<div id=content
 		style="max-width: 80%; margin-left: auto; margin-right: auto">
 
+		<div id=errorDiv></div>
+
 		<div style="height: 20px; margin-bottom: 30px;">
 			<h2>
 				<span style="float: left; display: inline">Suchergebnisse
