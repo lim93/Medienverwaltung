@@ -32,8 +32,13 @@ public class Suchservice {
 		}
 
 		// Suche über Release (Name)
-		// TODO:
+		List<Master> byTitle = mDao.getMastersByTitle(suche);
 
+		for (Master master : byTitle) {
+			returnMap.put(master.getMasterId(),
+					MasterDtoConverter.convertMaster(master));
+		}
+		
 		// Suche über Label
 		// optional
 
