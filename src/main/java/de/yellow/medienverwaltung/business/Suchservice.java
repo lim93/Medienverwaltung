@@ -24,7 +24,7 @@ public class Suchservice {
 		Map<Integer, MasterDto> returnMap = new HashMap<Integer, MasterDto>();
 
 		// Suche über Artist
-		List<Master> byArtistList = mDao.getMasterByArtistName(suche);
+		List<Master> byArtistList = mDao.getMastersByArtistName(suche);
 
 		for (Master master : byArtistList) {
 			returnMap.put(master.getMasterId(),

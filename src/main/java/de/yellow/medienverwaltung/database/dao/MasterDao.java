@@ -219,7 +219,7 @@ public class MasterDao {
 		return masterList.get(0);
 	}
 
-	public List<Master> getMasterByArtistName(String name) {
+	public List<Master> getMastersByArtistName(String name) {
 
 		DataSource dataSource = getDataSource();
 
@@ -228,17 +228,22 @@ public class MasterDao {
 		List<Master> masterList = new ArrayList<Master>();
 
 		// Artist prüfen: Ist der angegebene Name bekannt?
+		// Finde alle Artists, die zum Suchbegriff passen.
 		ArtistDao aDao = new ArtistDao();
-		final Artist artist = aDao.searchArtistByName(name);
+		final List<Artist> artists = aDao.searchArtistByName(name);
 
 		// Nichts gefunden: Return leere Liste
-		if ((artist == null) || (artist.getArtistId() == 0)) {
+		if ((artists == null) || (artists.isEmpty())) {
 			return masterList;
 		}
 
 		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE artist_id = ?";
 
-		masterList = jdbcTemplate.query(sql,
+		for (Artist artist : artists) {
+		
+			List<Master> mastersForArtist = new ArrayList<Master>();
+			
+			mastersForArtist = jdbcTemplate.query(sql,
 				new Object[] { artist.getArtistId() }, new RowMapper<Master>() {
 					public Master mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
@@ -276,7 +281,11 @@ public class MasterDao {
 						return master;
 					}
 				});
-
+			
+			masterList.addAll(mastersForArtist);
+			
+		}
+		
 		return masterList;
 	}
 

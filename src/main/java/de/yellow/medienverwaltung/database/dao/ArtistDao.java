@@ -2,6 +2,7 @@ package de.yellow.medienverwaltung.database.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import de.yellow.medienverwaltung.database.entity.Artist;
+import de.yellow.medienverwaltung.database.entity.Master;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class ArtistDao {
@@ -86,25 +88,48 @@ public class ArtistDao {
 		}
 	}
 
-	public Artist searchArtistByName(String name) {
+	public List<Artist> searchArtistByName(String name) {
 
 		// Diese Methode zum Suchen.
 
 		DataSource dataSource = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		List<Artist> artists = new ArrayList<Artist>();
 
-		String sql = "select * from artist where name = ?";
-
-		try {
-			Artist artist = jdbcTemplate.queryForObject(sql,
-					new Object[] { name }, new BeanPropertyRowMapper<Artist>(
-							Artist.class));
-
-			return artist;
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+		// Eingabe des Benutzers in Search-String umwandeln, z.B.
+		// "   die ärzte   " -> "%die%ärzte%"
+		String searchString = '%' + name.trim().replace(' ', '%') + '%';
+		
+		String sql = "select * from artist where name LIKE ?";
+		
+		artists = jdbcTemplate.query(sql, new Object[] { searchString }, new RowMapper<Artist>() {
+			public Artist mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Artist artist = new Artist();
+				
+				artist.setArtistId(rs.getInt("artist_id"));
+				artist.setName(rs.getString("name"));
+				artist.setFormed(rs.getInt("formed"));
+				artist.setFrom(rs.getString("from"));
+				artist.setWebsite(rs.getString("website"));
+				
+				return artist;
+			}
+		
+		});
+		
+		return artists;
+		
+//		try {
+//			Artist artist = jdbcTemplate.queryForObject(sql,
+//					new Object[] { searchString }, new BeanPropertyRowMapper<Artist>(
+//							Artist.class));
+//
+//			return artist;
+//		} catch (EmptyResultDataAccessException e) {
+//			return null;
+//		}
 	}
 
 	public Artist getArtistById(int id) {
