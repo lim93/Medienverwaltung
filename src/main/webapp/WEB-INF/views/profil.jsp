@@ -61,7 +61,7 @@ a { /
 }
 
 .labelMargin {
-	font-size:90%;
+	font-size: 90%;
 	display: inline-block;
 	margin-bottom: 3px;
 }
@@ -80,6 +80,9 @@ a { /
 
 
 	<div id=content>
+
+		
+		<div id=userIdDiv></div>
 
 
 		<div class=profil>

@@ -12,7 +12,50 @@ $(document).ready(function() {
 			window.location = "../medienverwaltung/suche";
 		}
 
-		
 	});
 
+	// Login-Button
+	$("#goToLoginButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		window.location = "../medienverwaltung/login";
+
+	});
+	
+	// Collection-Button
+	$("#collectionButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		window.location = "../medienverwaltung/profil";
+
+	});
+	
+
+	var userId = $('#userId').val();
+
+	if (userId !== "") {
+		$('#loginButtonDiv').addClass("hidden");
+		$('#collectionDiv').removeClass("hidden");
+		$('#loginDropdown').removeClass("hidden");
+
+	} else {
+
+		$('#loginButtonDiv').removeClass("hidden");
+		$('#collectionDiv').addClass("hidden");
+		$('#loginDropdown').addClass("hidden");
+
+	}
+
 });
+
+function urlParam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+			.exec(window.location.href);
+	if (results == null) {
+		return null;
+	} else {
+		return results[1] || 0;
+	}
+}
