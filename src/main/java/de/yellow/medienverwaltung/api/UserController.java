@@ -22,7 +22,8 @@ public class UserController extends AbstractController {
 		// DEBUG
 		LOG.debug(login.getUsername() + login.getPassword());
 		if (login.getUsername().equals("limbach")
-				&& login.getPassword().equals("1234")) {
+				&& login.getPassword()
+						.equals("e397e35f226abb2f146aeb89bcfd81107cf4f1d11c37b13ea476a711")) {
 			userId = 42;
 		}
 
@@ -47,6 +48,23 @@ public class UserController extends AbstractController {
 		User user = service.getUserByName(name);
 
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "api/users/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Integer> postNewUser(@RequestBody User user) {
+
+		Integer userId = 0;
+		// DEBUG
+		LOG.debug(user.toString());
+		if (!user.getUserName().equals("limbach")) {
+			userId = 42;
+		} else {
+			throw new IllegalArgumentException(
+					"Der gew&uuml;nschte Benutzername ist leider bereits vergeben.");
+		}
+
+		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
+
 	}
 
 }

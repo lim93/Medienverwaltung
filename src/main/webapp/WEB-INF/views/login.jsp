@@ -40,6 +40,10 @@ h4 {
 	<script type="text/javascript"
 		src="/medienverwaltung/resources/js/login.js"></script>
 
+	<!-- Password Encryption -->
+	<script
+		src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha3.js"></script>
+
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
 
