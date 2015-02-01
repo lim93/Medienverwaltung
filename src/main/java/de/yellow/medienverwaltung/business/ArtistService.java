@@ -2,6 +2,9 @@ package de.yellow.medienverwaltung.business;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import de.yellow.medienverwaltung.api.ArtistDto;
 import de.yellow.medienverwaltung.database.dao.ArtistDao;
 import de.yellow.medienverwaltung.database.entity.Artist;
 
@@ -41,6 +44,16 @@ public class ArtistService {
 		Artist artist = dao.getArtistById(id);
 		
 		return artist;
+	}
+	
+	@Transactional
+	public long insertArtist(ArtistDto artist) {
+		
+		dao = new ArtistDao();
+		
+		long artistId = dao.insert(artist);
+		
+		return artistId;
 	}
 
 }

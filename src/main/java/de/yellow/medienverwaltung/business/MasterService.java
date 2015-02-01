@@ -2,6 +2,8 @@ package de.yellow.medienverwaltung.business;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import de.yellow.medienverwaltung.api.MasterDto;
 import de.yellow.medienverwaltung.database.dao.MasterDao;
 import de.yellow.medienverwaltung.database.entity.Master;
@@ -27,6 +29,7 @@ public class MasterService {
 		return masters;
 	}
 
+	@Transactional
 	public long insertMaster(MasterDto master) {
 		dao = new MasterDao();
 

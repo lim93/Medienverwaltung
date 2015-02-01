@@ -37,12 +37,13 @@ public class ArtistController extends AbstractController {
 	}
 
 	@RequestMapping(value = "api/artists/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Long> postNewArtist(@RequestBody Artist artist) {
+	public ResponseEntity<Long> postNewArtist(@RequestBody ArtistDto artist) {
 
 		LOG.debug(artist.toString());
 
 		ArtistService service = new ArtistService();
-		long artistId = new Long(42);
+		
+		long artistId = service.insertArtist(artist);
 
 		return new ResponseEntity<Long>(artistId, HttpStatus.OK);
 

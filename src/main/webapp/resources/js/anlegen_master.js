@@ -141,12 +141,15 @@ function validateAndSubmit() {
 
 	if (!artistAnlegenHidden) {
 
-		if (validateAndSubmitArtist() == false) {
+		var result = validateAndSubmitArtist();
+		alert(result);
+		//if (validateAndSubmitArtist() == false) {
+		if (result == false) {
 			return false;
 		}
 		$("#artist").val($("#artistName").val());
 	}
-
+	
 	var artist = $("#artist").val();
 	var title = $("#title").val();
 	var coverUrl = $("#coverURL").val();
@@ -323,7 +326,7 @@ function validateAndSubmitArtist() {
 	saveArtist(artistName, artistFormed, artistFrom, artistWebsite)
 			.done(function(result) {
 
-				return true;
+				return result;
 
 			})
 			.fail(

@@ -89,6 +89,8 @@ public class MasterDao {
 		DataSource dataSource = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		LOG.debug("insertMaster aufgerufen mit Artist Name: " + master.getArtist());
 
 		// Artist prüfen: Ist der angegebene Name bekannt?
 		ArtistDao aDao = new ArtistDao();

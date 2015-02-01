@@ -1,22 +1,32 @@
 package de.yellow.medienverwaltung.database.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import de.yellow.medienverwaltung.api.ArtistDto;
 import de.yellow.medienverwaltung.database.entity.Artist;
-import de.yellow.medienverwaltung.database.entity.Master;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class ArtistDao {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ArtistDao.class);
 
 	/**
 	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
@@ -147,4 +157,60 @@ public class ArtistDao {
 
 		return artist;
 	}
+	
+	public long insert(ArtistDto artist) {
+		
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		final String name = artist.getName();
+		final int formed = artist.getFormed();
+		final String from = artist.getFrom();
+		final String website = artist.getWebsite();
+
+		// Prüfen, ob Artist schon vorhanden <- notwendig?
+//		String artistSql = "SELECT artist_id FROM artist WHERE name = ? and formed = ?";
+//
+//		List<Integer> list = jdbcTemplate.query(artistSql, new Object[] { name,
+//				formed }, new RowMapper<Integer>() {
+//			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+//
+//				Integer id = rs.getInt("artist_id");
+//
+//				return id;
+//			}
+//		});
+
+//		if (list.size() != 0) {
+//			throw new IllegalArgumentException(
+//					"Artist ist bereits vorhanden.");
+//		}
+
+		// Artist speichern & ID merken
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		final String sql = "INSERT INTO artist(artist_id, name, formed, artist.from, website) VALUES(NULL, ?, ?, ?, ?)";
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(sql,
+						Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, name);
+				ps.setInt(2, formed);
+				ps.setString(3, from);
+				ps.setString(4, website);
+				return ps;
+			}
+		}, keyHolder);
+
+		long artistId = keyHolder.getKey().longValue();
+
+		LOG.debug("Artist wurde eingefügt mit der id: " + artistId);
+
+		return artistId;
+
+	}
+	
 }
