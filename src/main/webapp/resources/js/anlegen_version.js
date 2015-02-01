@@ -159,12 +159,62 @@ function validateAndSubmit() {
 	var labelAnlegenHidden = $('#labelAnlegenDiv').hasClass("hidden");
 
 	if (!labelAnlegenHidden) {
+		validateAndSubmitLabel();
 
-		if (validateAndSubmitLabel() == false) {
-			return false;
-		}
-		$("#label").val($("#labelName").val());
+	} else {
+		validateAndSubmitVersion();
 	}
+
+}
+
+function validateAndSubmitLabel() {
+
+	var labelName = $("#labelName").val();
+	var labelWebsite = $("#labelWebsite").val();
+
+	isvalid = true;
+	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
+	if (labelName == "") {
+		// Name muss gesetzt sein
+		errorMessage = errorMessage + "<li>Labelname</li>";
+		isvalid = false;
+	}
+
+	if (labelWebsite == "") {
+		// Webseite muss gesetzt sein
+		errorMessage = errorMessage + "<li>Webseite</li>";
+		isvalid = false;
+	}
+
+	if (!isvalid) {
+		// Falls eine Information nicht gesetzt ist:
+		errorMessage = errorMessage + "</ul>";
+		showErrorMsg(unescape(errorMessage));
+		errorMessage = undefined;
+		return false;
+	}
+
+	// Wenn bis hierhin alles ok: POST an den Rest-Service
+	saveLabel(labelName, labelWebsite)
+			.done(function(result) {
+
+				$("#label").val($("#labelName").val());
+				// Anlegen der Version erst hier anstoßen, damit das Label schon
+				// vorhanden ist
+				validateAndSubmitVersion();
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim Anlegen des Labels ist ein Fehler aufgetreten: "
+								+ jqxhr.responseText;
+						showErrorMsg(errorMessage);
+						return false;
+					});
+
+}
+
+function validateAndSubmitVersion() {
 
 	var masterId = urlParam("masterId");
 	var formatId = 0;
@@ -297,6 +347,21 @@ function validateAndSubmit() {
 
 }
 
+function saveLabel(labelName, labelWebsite) {
+	return $.ajax({
+		url : 'api/labels/',
+		type : 'POST',
+		data : JSON.stringify({
+			"name" : labelName,
+			"website" : labelWebsite,
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	});
+}
+
 function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
 		tracklist, comment, releaseDay, releaseMonth, releaseYear) {
 	return $.ajax({
@@ -314,65 +379,6 @@ function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
 			"releaseMonth" : releaseMonth,
 			"releaseYear" : releaseYear,
 			"tracklist" : tracklist
-
-		}),
-		contentType : "application/json; charset=utf-8",
-		dataType : 'json'
-
-	});
-}
-
-function validateAndSubmitLabel() {
-
-	var labelName = $("#labelName").val();
-	var labelWebsite = $("#labelWebsite").val();
-
-	isvalid = true;
-	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
-	if (labelName == "") {
-		// Name muss gesetzt sein
-		errorMessage = errorMessage + "<li>Labelname</li>";
-		isvalid = false;
-	}
-
-	if (labelWebsite == "") {
-		// Webseite muss gesetzt sein
-		errorMessage = errorMessage + "<li>Webseite</li>";
-		isvalid = false;
-	}
-
-	if (!isvalid) {
-		// Falls eine Information nicht gesetzt ist:
-		errorMessage = errorMessage + "</ul>";
-		showErrorMsg(unescape(errorMessage));
-		errorMessage = undefined;
-		return false;
-	}
-
-	// Wenn bis hierhin alles ok: POST an den Rest-Service
-	saveLabel(labelName, labelWebsite)
-			.done(function(result) {
-
-				return true;
-
-			})
-			.fail(
-					function(jqxhr, textStatus, error) {
-						var errorMessage = "Beim Anlegen des Labels ist ein Fehler aufgetreten: "
-								+ jqxhr.responseText;
-						showErrorMsg(errorMessage);
-						return false;
-					});
-
-}
-
-function saveLabel(labelName, labelWebsite) {
-	return $.ajax({
-		url : 'api/labels/',
-		type : 'POST',
-		data : JSON.stringify({
-			"name" : labelName,
-			"website" : labelWebsite,
 
 		}),
 		contentType : "application/json; charset=utf-8",

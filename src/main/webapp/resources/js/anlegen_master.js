@@ -140,16 +140,84 @@ function validateAndSubmit() {
 	var artistAnlegenHidden = $('#artistAnlegenDiv').hasClass("hidden");
 
 	if (!artistAnlegenHidden) {
+		validateAndSubmitArtist();
 
-		var result = validateAndSubmitArtist();
-		alert(result);
-		//if (validateAndSubmitArtist() == false) {
-		if (result == false) {
+	} else {
+		validateAndSubmitMaster();
+	}
+
+}
+
+function validateAndSubmitArtist() {
+
+	var artistName = $("#artistName").val();
+	var artistFormed = $("#artistFormed").val();
+	var artistFrom = $("#artistFrom").val();
+	var artistWebsite = $("#artistWebsite").val();
+
+	isvalid = true;
+	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
+	if (artistName == "") {
+		// Artist muss gesetzt sein
+		errorMessage = errorMessage + "<li>K&uuml;nstler</li>";
+		isvalid = false;
+	}
+
+	if (artistFormed === "") {
+		// Gründungsjahr muss gesetzt sein
+		errorMessage = errorMessage + "<li>Gr&uuml;ndungsjahr</li>";
+		isvalid = false;
+	}
+
+	if (artistFrom == "") {
+		// Herkunft muss gesetzt sein
+		errorMessage = errorMessage + "<li>Herkunft</li>";
+		isvalid = false;
+	}
+
+	if (artistWebsite == "") {
+		// Webseite muss gesetzt sein
+		errorMessage = errorMessage + "<li>Webseite</li>";
+		isvalid = false;
+	}
+
+	if (!isvalid) {
+		// Falls eine Information nicht gesetzt ist:
+		errorMessage = errorMessage + "</ul>";
+		showErrorMsg(unescape(errorMessage));
+		errorMessage = undefined;
+		return;
+	} else {
+
+		if (validateDate(artistFormed) == false) {
 			return false;
 		}
-		$("#artist").val($("#artistName").val());
+
 	}
-	
+
+	// Wenn bis hierhin alles ok: POST an den Rest-Service
+	saveArtist(artistName, artistFormed, artistFrom, artistWebsite)
+			.done(function(result) {
+
+				$("#artist").val($("#artistName").val());
+				// Erst hier das anlegen des Masters anstoßen. Sonst wird
+				// versucht, den Master anzulegen, bevor der Artist angelegt
+				// wurde
+				validateAndSubmitMaster();
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim Anlegen des K&uuml;nstlers ist ein Fehler aufgetreten: "
+								+ jqxhr.responseText;
+						showErrorMsg(errorMessage);
+						return false;
+					});
+
+}
+
+function validateAndSubmitMaster() {
+
 	var artist = $("#artist").val();
 	var title = $("#title").val();
 	var coverUrl = $("#coverURL").val();
@@ -253,6 +321,23 @@ function validateAndSubmit() {
 
 }
 
+function saveArtist(artistName, artistFormed, artistFrom, artistWebsite) {
+	return $.ajax({
+		url : 'api/artists/',
+		type : 'POST',
+		data : JSON.stringify({
+			"name" : artistName,
+			"formed" : artistFormed,
+			"from" : artistFrom,
+			"website" : artistWebsite,
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	});
+}
+
 function saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay,
 		releaseMonth, releaseYear) {
 	return $.ajax({
@@ -267,87 +352,6 @@ function saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay,
 			"releaseDay" : releaseDay,
 			"releaseMonth" : releaseMonth,
 			"releaseYear" : releaseYear,
-
-		}),
-		contentType : "application/json; charset=utf-8",
-		dataType : 'json'
-
-	});
-}
-
-function validateAndSubmitArtist() {
-
-	var artistName = $("#artistName").val();
-	var artistFormed = $("#artistFormed").val();
-	var artistFrom = $("#artistFrom").val();
-	var artistWebsite = $("#artistWebsite").val();
-
-	isvalid = true;
-	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
-	if (artistName == "") {
-		// Artist muss gesetzt sein
-		errorMessage = errorMessage + "<li>K&uuml;nstler</li>";
-		isvalid = false;
-	}
-
-	if (artistFormed === "") {
-		// Gründungsjahr muss gesetzt sein
-		errorMessage = errorMessage + "<li>Gr&uuml;ndungsjahr</li>";
-		isvalid = false;
-	}
-
-	if (artistFrom == "") {
-		// Herkunft muss gesetzt sein
-		errorMessage = errorMessage + "<li>Herkunft</li>";
-		isvalid = false;
-	}
-
-	if (artistWebsite == "") {
-		// Webseite muss gesetzt sein
-		errorMessage = errorMessage + "<li>Webseite</li>";
-		isvalid = false;
-	}
-
-	if (!isvalid) {
-		// Falls eine Information nicht gesetzt ist:
-		errorMessage = errorMessage + "</ul>";
-		showErrorMsg(unescape(errorMessage));
-		errorMessage = undefined;
-		return;
-	} else {
-
-		if (validateDate(artistFormed) == false) {
-			return false;
-		}
-
-	}
-
-	// Wenn bis hierhin alles ok: POST an den Rest-Service
-	saveArtist(artistName, artistFormed, artistFrom, artistWebsite)
-			.done(function(result) {
-
-				return result;
-
-			})
-			.fail(
-					function(jqxhr, textStatus, error) {
-						var errorMessage = "Beim Anlegen des K&uuml;nstlers ist ein Fehler aufgetreten: "
-								+ jqxhr.responseText;
-						showErrorMsg(errorMessage);
-						return false;
-					});
-
-}
-
-function saveArtist(artistName, artistFormed, artistFrom, artistWebsite) {
-	return $.ajax({
-		url : 'api/artists/',
-		type : 'POST',
-		data : JSON.stringify({
-			"name" : artistName,
-			"formed" : artistFormed,
-			"from" : artistFrom,
-			"website" : artistWebsite,
 
 		}),
 		contentType : "application/json; charset=utf-8",
