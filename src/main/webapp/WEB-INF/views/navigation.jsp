@@ -68,7 +68,7 @@ a { /
 						class="nav navbar-nav navbar-right logo hidden">
 						<button id="goToLoginButton" class="btn btn-success">
 							<span class="glyphicon glyphicon-log-in"></span> <b>
-								Einloggen</b>
+								Anmelden</b>
 						</button>
 					</div>
 

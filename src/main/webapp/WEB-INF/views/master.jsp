@@ -39,7 +39,7 @@ a { /
 
 .infoPane {
 	width: 1250px;
-	min-height:450px;
+	min-height: 450px;
 	margin-left: 7.5px;
 	padding: 0px 5px 5px 235px;
 	float: left;
@@ -98,10 +98,16 @@ a { /
 					<div id="tableDiv" class="dataTable"></div>
 
 					<h5>
-						<span style="float: right; display: inline">Ihre Version
-							ist nicht dabei?
-							<button id="anlegenButton" class="btn btn-success">
+						<span id="anlegenSpan"
+							style="float: right; display: inline; margin-top: 15px; margin-bottom: 20px;">
+
+							<span id="anlegenTextSpan"></span>
+							<button id="anlegenButton" class="btn btn-success hidden">
 								<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
+							</button>
+
+							<button id="loginButton" class="btn btn-success hidden">
+								<span class="glyphicon glyphicon-log-in"></span> <b>Anmelden</b>
 							</button>
 						</span>
 					</h5>

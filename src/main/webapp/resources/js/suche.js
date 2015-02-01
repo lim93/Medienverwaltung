@@ -1,17 +1,43 @@
-$(document).ready(function() {
+$(document)
+		.ready(
+				function() {
 
-	// Anlegen-Button
-	$("#anlegenButton").button({}).click(function(e) {
-		e.preventDefault();
-		e.stopPropagation();
+					var userId = $('#userId').val();
 
-		window.location = "../medienverwaltung/anlegen_master";
+					if (check(userId)) {
 
-	});
+						$('#anlegenTextSpan').html(
+								"Gesuchte Ver&ouml;ffentlichung nicht dabei?");
+						$('#anlegenButton').removeClass('hidden');
+					} else {
 
-	doSearch();
+						$('#anlegenTextSpan')
+								.html(
+										"Einloggen oder registrieren, um eine Ver&ouml;ffentlichung anzulegen ");
+						$('#loginButton').removeClass('hidden');
+					}
 
-});
+					// Anlegen-Button
+					$("#anlegenButton").button({}).click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						window.location = "../medienverwaltung/anlegen_master";
+
+					});
+
+					// Login-Button
+					$("#loginButton").button({}).click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						window.location = "../medienverwaltung/login";
+
+					});
+
+					doSearch();
+
+				});
 
 function doSearch() {
 
@@ -88,6 +114,9 @@ function addRow(master) {
 }
 
 function check(value) {
+	if (value == "") {
+		return false;
+	}
 	if (value == null) {
 		return false;
 	}
@@ -108,7 +137,6 @@ function urlParam(name) {
 		return results[1] || 0;
 	}
 }
-
 
 function showErrorMsg(message) {
 

@@ -39,6 +39,14 @@ $(document).ready(function() {
 
 	});
 
+	$('#artist').blur(function() {
+
+		var artist = this.value;
+
+		checkArtist(artist);
+
+	});
+
 	// Genres laden
 	getGenres();
 
@@ -54,7 +62,7 @@ function getGenres() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Genres ist ein Fehler aufgetreten: "
-							+ jqxhr.responseText;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -129,6 +137,16 @@ function hideSelects() {
 
 function validateAndSubmit() {
 
+	var artistAnlegenHidden = $('#artistAnlegenDiv').hasClass("hidden");
+
+	if (!artistAnlegenHidden) {
+
+		if (validateAndSubmitArtist() == false) {
+			return false;
+		}
+		$("#artist").val($("#artistName").val());
+	}
+
 	var artist = $("#artist").val();
 	var title = $("#title").val();
 	var coverUrl = $("#coverURL").val();
@@ -189,7 +207,7 @@ function validateAndSubmit() {
 		return;
 	} else {
 
-		if (validateReleaseDate(releaseDate) == false) {
+		if (validateDate(releaseDate) == false) {
 			return false;
 		}
 
@@ -254,7 +272,88 @@ function saveMaster(artist, title, genreId, subgenreIds, coverUrl, releaseDay,
 	});
 }
 
-function validateReleaseDate(date) {
+function validateAndSubmitArtist() {
+
+	var artistName = $("#artistName").val();
+	var artistFormed = $("#artistFormed").val();
+	var artistFrom = $("#artistFrom").val();
+	var artistWebsite = $("#artistWebsite").val();
+
+	isvalid = true;
+	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
+	if (artistName == "") {
+		// Artist muss gesetzt sein
+		errorMessage = errorMessage + "<li>K&uuml;nstler</li>";
+		isvalid = false;
+	}
+
+	if (artistFormed === "") {
+		// Gründungsjahr muss gesetzt sein
+		errorMessage = errorMessage + "<li>Gr&uuml;ndungsjahr</li>";
+		isvalid = false;
+	}
+
+	if (artistFrom == "") {
+		// Herkunft muss gesetzt sein
+		errorMessage = errorMessage + "<li>Herkunft</li>";
+		isvalid = false;
+	}
+
+	if (artistWebsite == "") {
+		// Webseite muss gesetzt sein
+		errorMessage = errorMessage + "<li>Webseite</li>";
+		isvalid = false;
+	}
+
+	if (!isvalid) {
+		// Falls eine Information nicht gesetzt ist:
+		errorMessage = errorMessage + "</ul>";
+		showErrorMsg(unescape(errorMessage));
+		errorMessage = undefined;
+		return;
+	} else {
+
+		if (validateDate(artistFormed) == false) {
+			return false;
+		}
+
+	}
+
+	// Wenn bis hierhin alles ok: POST an den Rest-Service
+	saveArtist(artistName, artistFormed, artistFrom, artistWebsite)
+			.done(function(result) {
+
+				return true;
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim Anlegen des K&uuml;nstlers ist ein Fehler aufgetreten: "
+								+ jqxhr.responseText;
+						showErrorMsg(errorMessage);
+						return false;
+					});
+
+}
+
+function saveArtist(artistName, artistFormed, artistFrom, artistWebsite) {
+	return $.ajax({
+		url : 'api/artists/',
+		type : 'POST',
+		data : JSON.stringify({
+			"name" : artistName,
+			"formed" : artistFormed,
+			"from" : artistFrom,
+			"website" : artistWebsite,
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	});
+}
+
+function validateDate(date) {
 
 	var errorMessage = "";
 
@@ -301,6 +400,42 @@ function validateReleaseDate(date) {
 		}
 
 		return true;
+	}
+
+}
+
+function checkArtist(artist) {
+
+	if (artist !== "") {
+
+		$
+				.getJSON(
+						"api/artists/search/?name=" + artist,
+						function(artist) {
+
+							if (artist.name !== "") {
+
+								$("#messageDiv")
+										.html(
+												'<div class="alert alert-success" role="alert">'
+														+ 'K&uuml;nstler im Katalog vorhanden.</div>');
+
+								$('#artistAnlegenDiv').addClass("hidden");
+							}
+
+						})
+				.fail(
+						function(jqxhr, textStatus, error) {
+							$("#messageDiv")
+									.html(
+											'<div class="alert alert-danger" role="alert">'
+													+ 'Dieser K&uuml;nstler ist uns nicht bekannt. '
+													+ 'Pr&uuml;fen Sie die Schreibweise oder legen '
+													+ 'Sie einen neuen K&uuml;nstler an.</div>');
+
+							$('#artistAnlegenDiv').removeClass("hidden");
+						});
+
 	}
 
 }

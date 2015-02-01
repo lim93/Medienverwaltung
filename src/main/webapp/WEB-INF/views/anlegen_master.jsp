@@ -13,7 +13,8 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet">
 
 <!-- Bootstrap Selectpicker CSS-->
 <link rel="stylesheet" media="screen"
@@ -63,6 +64,32 @@ p {
 					<div class="panel-body">
 						<input style="width: 250px" name="artist" id="artist" type="text"
 							class="form-control" placeholder="K&uuml;nstler" />
+
+						<div id="messageDiv" style="margin-top: 15px;"></div>
+						<div id="artistAnlegenDiv" class="hidden">
+							<hr>
+
+							<h5>Name der Gruppe / des K&uuml;nstlers:</h5>
+							<input style="width: 250px" name="artistName" id="artistName"
+								type="text" class="form-control" placeholder="Name" />
+
+							<h5>Gr&uuml;ndungsjahr:</h5>
+							<input style="width: 250px" name="artistFormed" id="artistFormed"
+								type="text" class="form-control" placeholder="Jahr" />
+
+							<h5>Herkunft:</h5>
+							<input style="width: 250px" name="artistFrom" id="artistFrom"
+								type="text" class="form-control" placeholder="Stadt, Land" />
+
+							<h5>Webseite:</h5>
+							<input style="width: 250px" name="artistWebsite"
+								id="artistWebsite" type="text" class="form-control"
+								placeholder="www.example.com" />
+
+
+						</div>
+
+
 					</div>
 				</div>
 
@@ -120,7 +147,10 @@ p {
 
 
 				<button style="float: right; margin-left: 15px;" id="weiterButton"
-					class="btn btn-success">	<span class="glyphicon glyphicon-save"></span> <b>Speichern und weiter</b></button>
+					class="btn btn-success">
+					<span class="glyphicon glyphicon-save"></span> <b>Speichern und
+						weiter</b>
+				</button>
 
 
 			</form>

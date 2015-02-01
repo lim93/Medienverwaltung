@@ -1,21 +1,48 @@
 /**
  * Initialisierungen nach Laden der Seite
  */
-$(document).ready(function() {
+$(document)
+		.ready(
+				function() {
 
-	// Anlegen-Button => weitere Version anlegen
-	$("#anlegenButton").button({}).click(function(e) {
-		e.preventDefault();
-		e.stopPropagation();
+					var userId = $('#userId').val();
 
-		versionAnlegen();
+					if (check(userId)) {
 
-	});
+						$('#anlegenTextSpan').html(
+								"Ihre Version ist nicht dabei?");
+						$('#anlegenButton').removeClass('hidden');
+					} else {
 
-	// Master über dessen id holen + Informationen in die Seite schreiben
-	getMaster();
+						$('#anlegenTextSpan')
+								.html(
+										"Einloggen oder registrieren, um eigene Version anzulegen ");
+						$('#loginButton').removeClass('hidden');
+					}
 
-});
+					// Anlegen-Button => weitere Version anlegen
+					$("#anlegenButton").button({}).click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						versionAnlegen();
+
+					});
+
+					// Login-Button
+					$("#loginButton").button({}).click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+
+						window.location = "../medienverwaltung/login";
+
+					});
+
+					// Master über dessen id holen + Informationen in die Seite
+					// schreiben
+					getMaster();
+
+				});
 
 function versionAnlegen() {
 	var masterId = urlParam("masterId");
@@ -38,7 +65,7 @@ function getMaster() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
-							+ jqxhr.responseText;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -158,6 +185,9 @@ function addRow(release, master) {
 }
 
 function check(value) {
+	if (value == "") {
+		return false;
+	}
 	if (value == null) {
 		return false;
 	}

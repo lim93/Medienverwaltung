@@ -59,14 +59,6 @@
 				<span style="float: left; display: inline">Suchergebnisse
 					f&uuml;r "${suche}"</span>
 			</h2>
-			<h4>
-				<span style="float: right; display: inline">Gesuchte
-					Ver&ouml;ffentlichung nicht dabei?
-					<button id="anlegenButton" class="btn btn-success">
-						<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
-					</button>
-				</span>
-			</h4>
 
 
 			<span style="float: right"></span>
@@ -89,7 +81,20 @@
 		</div>
 
 
+		<h5>
+			<span id="anlegenSpan"
+				style="float: right; display: inline; margin-top: 15px; margin-bottom: 20px;">
 
+				<span id="anlegenTextSpan"></span>
+				<button id="anlegenButton" class="btn btn-success hidden">
+					<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
+				</button>
+
+				<button id="loginButton" class="btn btn-success hidden">
+					<span class="glyphicon glyphicon-log-in"></span> <b>Anmelden</b>
+				</button>
+			</span>
+		</h5>
 
 
 	</div>

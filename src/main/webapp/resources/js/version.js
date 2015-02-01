@@ -3,6 +3,13 @@
  */
 $(document).ready(function() {
 
+	var userId = $('#userId').val();
+
+	if (check(userId)) {
+
+		$('#addToCollectionDiv').removeClass('hidden');
+	}
+
 	getMaster();
 	getVersion();
 
@@ -32,7 +39,7 @@ function getMaster() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
-							+ jqxhr.responseText;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -83,7 +90,7 @@ function getVersion() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Version ist ein Fehler aufgetreten: "
-							+ jqxhr.responseText;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -179,6 +186,9 @@ function addRow(track) {
 }
 
 function check(value) {
+	if (value == "") {
+		return false;
+	}
 	if (value == null) {
 		return false;
 	}

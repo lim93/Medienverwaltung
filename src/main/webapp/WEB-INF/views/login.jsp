@@ -75,7 +75,7 @@ h4 {
 					<input style="width: 250px" name="pw" id="pw" type="password"
 						class="form-control" placeholder="Passwort" /> <br>
 					<button id="loginButton" class="btn btn-success">
-						<span class="glyphicon glyphicon-log-in"></span> <b>Anmelden</b>
+						<span class="glyphicon glyphicon-log-in"></span> <b>Einloggen</b>
 					</button>
 
 

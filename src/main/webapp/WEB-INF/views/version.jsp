@@ -75,11 +75,13 @@ a { /
 			Subgenres: <span id="subgenreSpan"></span>
 			<hr>
 
-			<button id="addButton" class="btn btn-success">
-				<span class="glyphicon glyphicon-headphones"></span> <b>Zur
-					Sammlung hinzuf&uuml;gen</b>
-			</button>
-			<hr>
+			<div id="addToCollectionDiv" class="hidden">
+				<button id="addButton" class="btn btn-success">
+					<span class="glyphicon glyphicon-headphones"></span> <b>Zur
+						Sammlung hinzuf&uuml;gen</b>
+				</button>
+				<hr>
+			</div>
 
 			<button id="allButton" class="btn btn-primary">
 				<span class="glyphicon glyphicon-list"></span> <b>Andere
@@ -142,7 +144,9 @@ a { /
 						</div>
 						<div class="panel-body">
 
-							<p><span id="noteSpan"></span></p>
+							<p>
+								<span id="noteSpan"></span>
+							</p>
 						</div>
 					</div>
 
