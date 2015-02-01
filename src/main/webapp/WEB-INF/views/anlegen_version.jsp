@@ -117,6 +117,24 @@ tr {
 						<input style="width: 250px" name="label" id="label" type="text"
 							class="form-control" placeholder="Label" />
 
+						<div id="messageDiv" style="margin-top: 15px;"></div>
+						<div id="labelAnlegenDiv" class="hidden">
+							<hr>
+
+							<h5>Name des Labels:</h5>
+							<input style="width: 250px" name="labelName" id="labelName"
+								type="text" class="form-control" placeholder="Name" />
+
+							<h5>Webseite:</h5>
+							<input style="width: 250px" name="labelWebsite"
+								id="labelWebsite" type="text" class="form-control"
+								placeholder="www.example.com" />
+
+							<hr>
+
+
+						</div>
+
 						<h5>Labelcode (LC)</h5>
 						<input style="width: 250px" name="lc" id="lc" type="text"
 							class="form-control" placeholder="LC-12345" />

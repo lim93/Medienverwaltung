@@ -34,6 +34,14 @@ $(document).ready(function() {
 
 	});
 
+	$('#label').blur(function() {
+
+		var label = this.value;
+
+		checkLabel(label);
+
+	});
+
 	// Master über dessen id holen und damit Meta-Informationen setzen
 	getMaster();
 
@@ -92,7 +100,7 @@ function getMaster() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
-							+ jqxhr.responseText;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -120,7 +128,7 @@ function getFormats() {
 			.fail(
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Formate ist ein Fehler aufgetreten: "
-							+ jqxhr.responseText;
+								+ jqxhr.responseText;
 						showErrorMsg(errorMessage, "Fehler");
 					});
 
@@ -147,6 +155,16 @@ function initFormats(formats) {
 }
 
 function validateAndSubmit() {
+
+	var labelAnlegenHidden = $('#labelAnlegenDiv').hasClass("hidden");
+
+	if (!labelAnlegenHidden) {
+
+		if (validateAndSubmitLabel() == false) {
+			return false;
+		}
+		$("#label").val($("#labelName").val());
+	}
 
 	var masterId = urlParam("masterId");
 	var formatId = 0;
@@ -204,8 +222,6 @@ function validateAndSubmit() {
 		showErrorMsg("Geben Sie mindestens einen Titel in der Tracklist an");
 		return false;
 	}
-
-	// TODO: LC validieren
 
 	isvalid = true;
 	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
@@ -274,7 +290,7 @@ function validateAndSubmit() {
 			}).fail(
 			function(jqxhr, textStatus, error) {
 				var errorMessage = "Beim Anlegen ist ein Fehler aufgetreten: "
-					+ jqxhr.responseText;
+						+ jqxhr.responseText;
 				showErrorMsg(errorMessage);
 				return false;
 			});
@@ -298,6 +314,65 @@ function saveVersion(masterId, formatId, label, labelcode, catalogNo, barcode,
 			"releaseMonth" : releaseMonth,
 			"releaseYear" : releaseYear,
 			"tracklist" : tracklist
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	});
+}
+
+function validateAndSubmitLabel() {
+
+	var labelName = $("#labelName").val();
+	var labelWebsite = $("#labelWebsite").val();
+
+	isvalid = true;
+	var errorMessage = "Es wurden nicht alle Pflichtfelder bef&uuml;llt. Bitte bef&uuml;llen Sie:<br><ul>";
+	if (labelName == "") {
+		// Name muss gesetzt sein
+		errorMessage = errorMessage + "<li>Labelname</li>";
+		isvalid = false;
+	}
+
+	if (labelWebsite == "") {
+		// Webseite muss gesetzt sein
+		errorMessage = errorMessage + "<li>Webseite</li>";
+		isvalid = false;
+	}
+
+	if (!isvalid) {
+		// Falls eine Information nicht gesetzt ist:
+		errorMessage = errorMessage + "</ul>";
+		showErrorMsg(unescape(errorMessage));
+		errorMessage = undefined;
+		return false;
+	}
+
+	// Wenn bis hierhin alles ok: POST an den Rest-Service
+	saveLabel(labelName, labelWebsite)
+			.done(function(result) {
+
+				return true;
+
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim Anlegen des Labels ist ein Fehler aufgetreten: "
+								+ jqxhr.responseText;
+						showErrorMsg(errorMessage);
+						return false;
+					});
+
+}
+
+function saveLabel(labelName, labelWebsite) {
+	return $.ajax({
+		url : 'api/labels/',
+		type : 'POST',
+		data : JSON.stringify({
+			"name" : labelName,
+			"website" : labelWebsite,
 
 		}),
 		contentType : "application/json; charset=utf-8",
@@ -353,6 +428,41 @@ function validateReleaseDate(date) {
 		}
 
 		return true;
+	}
+
+}
+
+function checkLabel(label) {
+
+	if (label !== "") {
+
+		$
+				.getJSON(
+						"api/labels/search/?name=" + label,
+						function(label) {
+
+							if (label.name !== "") {
+
+								$("#messageDiv").html(
+										'<div class="alert alert-success" role="alert">'
+												+ 'Label bekannt.</div>');
+
+								$('#lebelAnlegenDiv').addClass("hidden");
+							}
+
+						})
+				.fail(
+						function(jqxhr, textStatus, error) {
+							$("#messageDiv")
+									.html(
+											'<div class="alert alert-danger" role="alert">'
+													+ 'Dieses Label ist uns nicht bekannt. '
+													+ 'Pr&uuml;fen Sie die Schreibweise oder legen '
+													+ 'Sie ein neues Label an.</div>');
+
+							$('#labelAnlegenDiv').removeClass("hidden");
+						});
+
 	}
 
 }
