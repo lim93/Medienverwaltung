@@ -43,7 +43,6 @@ public class MasterController extends AbstractController {
         long masterId = service.insertMaster(master);
 
         return new ResponseEntity<Long>(masterId, HttpStatus.OK);
-
     }
 
 }

@@ -2,6 +2,7 @@ package de.yellow.medienverwaltung.business;
 
 import java.util.List;
 
+import de.yellow.medienverwaltung.api.UserDto;
 import de.yellow.medienverwaltung.database.dao.UserDao;
 import de.yellow.medienverwaltung.database.entity.User;
 
@@ -42,4 +43,14 @@ public class UserService {
 		
 		return user;
 	}
+	
+	public long insert(UserDto user) {
+		
+		dao = new UserDao();
+		
+		long userId = dao.insert(user);
+		
+		return userId;
+	}
+	
 }

@@ -51,19 +51,22 @@ public class UserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "api/users/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Integer> postNewUser(@RequestBody User user) {
+	public ResponseEntity<Long> postNewUser(@RequestBody UserDto user) {
 
-		Integer userId = 0;
-		// DEBUG
 		LOG.debug(user.toString());
-		if (!user.getUserName().equals("limbach")) {
-			userId = 42;
-		} else {
-			throw new IllegalArgumentException(
-					"Der gew&uuml;nschte Benutzername ist leider bereits vergeben.");
-		}
+//		Integer userId = 0;
+//		// DEBUG
+//		if (!user.getUserName().equals("limbach")) {
+//			userId = 42;
+//		} else {
+//			throw new IllegalArgumentException(
+//					"Der gew&uuml;nschte Benutzername ist leider bereits vergeben.");
+//		}
 
-		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
+		UserService service = new UserService();
+		long userId = service.insert(user);
+		
+		return new ResponseEntity<Long>(userId, HttpStatus.OK);
 
 	}
 
