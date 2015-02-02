@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,6 +20,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import de.yellow.medienverwaltung.api.Login;
 import de.yellow.medienverwaltung.api.UserDto;
 import de.yellow.medienverwaltung.database.entity.User;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
@@ -153,6 +156,32 @@ public class UserDao {
 		long userId = keyHolder.getKey().longValue();
 		
 		LOG.debug("User wurde eingefügt mit der id: " + userId);
+		
+		return userId;
+	}
+	
+	public long validateLogin(Login login) {
+		
+		DataSource dataSource = getDataSource();
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		Long userId = new Long(0);
+		
+		final String userName = login.getUsername();
+		final String password = login.getPassword();
+		
+		final String sql = "SELECT user_id FROM user WHERE user_name = ? AND password = ?";
+		
+		try {
+			userId = jdbcTemplate.queryForObject(sql, new Object[] { userName, password }, Long.class);
+		} catch (IncorrectResultSizeDataAccessException e) {
+			userId = 0L;
+		} catch (DataAccessException e) {
+			
+		}
+		
+		LOG.debug("Nach Login-Versuch: UserID: " + userId);
 		
 		return userId;
 	}

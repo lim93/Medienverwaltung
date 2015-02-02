@@ -16,19 +16,22 @@ import de.yellow.medienverwaltung.database.entity.User;
 public class UserController extends AbstractController {
 
 	@RequestMapping(value = "api/users/login/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Integer> validateLogin(@RequestBody Login login) {
+	public ResponseEntity<Long> validateLogin(@RequestBody Login login) {
 
-		Integer userId = 0;
+//		Long userId = new Long(0);
+		
 		// DEBUG
-		LOG.debug(login.getUsername() + login.getPassword());
-		if (login.getUsername().equals("limbach")
-				&& login.getPassword()
-						.equals("e397e35f226abb2f146aeb89bcfd81107cf4f1d11c37b13ea476a711")) {
-			userId = 42;
-		}
+		LOG.debug("Login-UserName: " + login.getUsername() + ", Login-Password: " + login.getPassword());
+//		if (login.getUsername().equals("limbach")
+//				&& login.getPassword()
+//						.equals("e397e35f226abb2f146aeb89bcfd81107cf4f1d11c37b13ea476a711")) {
+//			userId = 42;
+//		}
+		
+		UserService service = new UserService();
+		Long userId = service.validateLogin(login);
 
-		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
-
+		return new ResponseEntity<Long>(userId, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "api/users/{id}/", method = RequestMethod.GET, produces = "application/json")
