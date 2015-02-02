@@ -28,34 +28,36 @@ public class LabelController extends AbstractController {
 	public ResponseEntity<Label> getLabel(
 			@RequestParam(value = "name") String name) {
 
-		Label label = null;
-
 		// DEBUG
 		// TODO:
-		if (name.equals("Hot Action Records")) {
-			label = new Label();
-			label.setName("Hot Action records");
-			label.setLabelId(2);
-			label.setWebsite("http://www.bademeister.com/v11/kontakt/impressum.php");
-			LOG.debug("Label gefunden: " + label.getName());
-		} else {
-			throw new IllegalArgumentException(
-					"Das Label ist uns nicht bekannt");
-		}
+//		if (name.equals("Hot Action Records")) {
+//			label = new Label();
+//			label.setName("Hot Action records");
+//			label.setLabelId(2);
+//			label.setWebsite("http://www.bademeister.com/v11/kontakt/impressum.php");
+//			LOG.debug("Label gefunden: " + label.getName());
+//		} else {
+//			throw new IllegalArgumentException(
+//					"Das Label ist uns nicht bekannt");
+//		}
 
+		LabelService service = new LabelService();
+		Label label = service.getLabelByName(name);
+		
+		LOG.debug("Label gefunden: " + label.getName());
+		
 		return new ResponseEntity<Label>(label, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "api/labels/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Long> postNewLabel(@RequestBody Label label) {
+	public ResponseEntity<Long> postNewLabel(@RequestBody LabelDto label) {
 
 		LOG.debug(label.toString());
 
 		LabelService service = new LabelService();
-		long labelId = new Long(42);
+		long labelId = service.insert(label);
 
 		return new ResponseEntity<Long>(labelId, HttpStatus.OK);
-
 	}
 
 }

@@ -1,20 +1,31 @@
 package de.yellow.medienverwaltung.database.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import de.yellow.medienverwaltung.api.LabelDto;
 import de.yellow.medienverwaltung.database.entity.Label;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class LabelDao {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(LabelDao.class);
 
 	/**
 	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
@@ -98,5 +109,38 @@ public class LabelDao {
 			throw new IllegalArgumentException(
 					"Dieses Label ist uns nicht bekannt.");
 		}
+		
 	}
+	
+	public long insert(LabelDto label) {
+		
+		DataSource dataSource = getDataSource();
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		final String name = label.getName();
+		final String website = label.getWebsite();
+		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		final String sql = "INSERT INTO label(label_id, name, website) VALUES(NULL, ?, ?)";
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(sql,
+						Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, name);
+				ps.setString(2, website);
+				return ps;
+			}
+		}, keyHolder);
+
+		long labelId = keyHolder.getKey().longValue();
+
+		LOG.debug("Label wurde eingefügt mit der id: " + labelId);
+
+		return labelId;
+	}
+	
 }
