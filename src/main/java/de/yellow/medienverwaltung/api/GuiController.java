@@ -73,6 +73,26 @@ public class GuiController {
 		return mv;
 	}
 
+	// medienverwaltung/artist => artist.jsp
+	@RequestMapping("/artist")
+	public ModelAndView showArtist(
+			@RequestParam(value = "artistId", required = true) int artistId) {
+
+		ModelAndView mv = new ModelAndView("artist");
+		mv.addObject("artistId", artistId);
+		return mv;
+	}
+
+	// medienverwaltung/label => label.jsp
+	@RequestMapping("/label")
+	public ModelAndView showLabel(
+			@RequestParam(value = "labelId", required = true) int labelId) {
+
+		ModelAndView mv = new ModelAndView("label");
+		mv.addObject("labelId", labelId);
+		return mv;
+	}
+
 	// medienverwaltung/suche => suche.jsp
 	@RequestMapping("/suche")
 	public ModelAndView showSuche(

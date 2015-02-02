@@ -104,8 +104,9 @@ function addRow(master) {
 	var title = check(master.title) ? "<a href='/medienverwaltung/master?masterId="
 			+ master.masterId + "'>" + master.title + "</a>"
 			: "";
-	var artist = check(master.artist) ? "<a href='/bla' target='_blank'>"
-			+ master.artist + "</a>" : "";
+	var artist = check(master.artist) ? "<a href='/medienverwaltung/artist?artistId="
+			+ master.artistId + "'>" + master.artist + "</a>"
+			: "";
 	var jahr = check(master.releaseYear) ? master.releaseYear : "";
 	var genre = check(master.genre) ? master.genre : "";
 

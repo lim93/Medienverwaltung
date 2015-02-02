@@ -51,12 +51,21 @@ function initPageMaster(master) {
 
 		$('#titleHeading').html(master.title);
 
-		// TODO: Weiterleitung auf Artist-Seite sobald vorhanden
-		$('#artistHeading').html("<a>" + master.artist.name + "</a>");
+		$('#artistHeading').html(
+				"<a href='/medienverwaltung/artist?artistId="
+						+ master.artist.artistId + "'>" + master.artist.name
+						+ "</a>");
 
-		$('#imageDiv').html(
-				'<img src="' + master.imageURL
-						+ '" width="210px" height="210px">')
+		if (check(master.imageURL)) {
+			$('#imageDiv').html(
+					'<img src="' + master.imageURL
+							+ '" width="210px" height="210px">');
+		} else {
+			$('#imageDiv').html(
+					'<img src="/medienverwaltung/resources/images/record.png"'
+							+ 'width="210px" height="210px">');
+
+		}
 
 		$('#genreSpan').html(
 				'<span class="label label-primary labelMargin">'
@@ -100,7 +109,10 @@ function initPageRelease(release) {
 
 	if (release !== null & release !== undefined) {
 
-		$('#labelSpan').html("<a>" + release.label.name + "</a>");
+		$('#labelSpan').html(
+				"<a href='/medienverwaltung/label?labelId="
+						+ release.label.labelId + "'>" + release.label.name
+						+ "</a>");
 		$('#lcSpan').html(release.labelCode);
 		$('#formatSpan').html(release.format.type);
 
