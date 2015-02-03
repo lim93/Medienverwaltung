@@ -9,8 +9,10 @@
 <body>
 	<%
 		String userId = request.getParameter("userId");
+		String userName = request.getParameter("userName");
 
 		session.setAttribute("userId", userId);
+		session.setAttribute("userName", userName);
 		response.sendRedirect("/medienverwaltung/profil");
 	%>
 

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -22,6 +24,10 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import de.yellow.medienverwaltung.api.Login;
 import de.yellow.medienverwaltung.api.UserDto;
+import de.yellow.medienverwaltung.database.entity.Artist;
+import de.yellow.medienverwaltung.database.entity.Genre;
+import de.yellow.medienverwaltung.database.entity.Release;
+import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.entity.User;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
@@ -55,18 +61,18 @@ public class UserDao {
 
 		List<User> list = jdbcTemplate.query("select * from user",
 				new RowMapper<User>() {
-			public User mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				User user = new User();
+					public User mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						User user = new User();
 
-				user.setUserId(rs.getInt("user_id"));
-				user.setUserName(rs.getString("user_name"));
-				user.setPassword(rs.getString("password"));
-				user.setEmail(rs.getString("email"));
+						user.setUserId(rs.getInt("user_id"));
+						user.setUserName(rs.getString("user_name"));
+						user.setPassword(rs.getString("password"));
+						user.setEmail(rs.getString("email"));
 
-				return user;
-			}
-		});
+						return user;
+					}
+				});
 
 		return list;
 	}
@@ -78,9 +84,51 @@ public class UserDao {
 		String sql = "select user_id, user_name, email from user where user_id = ?";
 
 		User user = new User();
+		UserDto userDto = new UserDto();
 
-		user = jdbcTemplate.queryForObject(sql, new Object[] { id },
-				new BeanPropertyRowMapper<User>(User.class));
+		userDto = jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<UserDto>(UserDto.class));
+
+		user.setUserId(userDto.getUserId());
+		user.setUserName(userDto.getUserName());
+		user.setEmail(userDto.getEmail());
+		// Auch wenn nur der Hash gespeichert ist, wird das Passwort explizit
+		// nicht übrtragen!
+		user.setPassword(null);
+
+		ReleaseDao rDao = new ReleaseDao();
+
+		List<Release> releaseList = rDao.getReleasesByUserId(id);
+		user.setCollection(releaseList);
+
+		Map<Integer, Genre> userGenres = new HashMap<Integer, Genre>();
+		Map<Integer, Subgenre> userSubgenres = new HashMap<Integer, Subgenre>();
+		Map<Integer, Artist> userArtists = new HashMap<Integer, Artist>();
+
+		GenreDao gDao = new GenreDao();
+		SubgenreDao sDao = new SubgenreDao();
+
+		// TODO: Bessere Auswertung: SELECT ... ORDER BY COUNT(X) DESC LIMIT ...
+		for (Release release : releaseList) {
+			int masterId = release.getMasterId();
+
+			Genre g = gDao.getGenreByMasterId(masterId);
+			userGenres.put(g.getGenreId(), g);
+
+			List<Subgenre> sList = sDao.getSubgenresByMasterId(masterId);
+
+			for (Subgenre subgenre : sList) {
+				userSubgenres.put(subgenre.getSubgenreId(), subgenre);
+			}
+
+			userArtists.put(release.getArtist().getArtistId(),
+					release.getArtist());
+
+		}
+
+		user.setUseGenres(userGenres.values());
+		user.setUserSubgenres(userSubgenres.values());
+		user.setUserArtists(userArtists.values());
 
 		return user;
 
@@ -114,12 +162,12 @@ public class UserDao {
 
 		List<Integer> isAvailableList = jdbcTemplate.query(isAvailableSql,
 				new Object[] { userName }, new RowMapper<Integer>() {
-			public Integer mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Integer id = rs.getInt("user_id");
-				return id;
-			}
-		});
+					public Integer mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Integer id = rs.getInt("user_id");
+						return id;
+					}
+				});
 
 		if (isAvailableList.size() != 0) {
 			throw new IllegalArgumentException("Benutzername bereits vergeben.");
@@ -173,6 +221,50 @@ public class UserDao {
 		LOG.debug("Nach Login-Versuch: UserID: " + userId);
 
 		return userId;
+	}
+
+	public Long addToCollection(final int userId, final int releaseId) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+		// Prüfen, ob Kombination aus user und version schon vorhanden
+		String inCollectionSql = "SELECT coll_item_id FROM collection_item WHERE user_id = ? and release_id = ?";
+
+		List<Integer> list = jdbcTemplate.query(inCollectionSql, new Object[] {
+				userId, releaseId }, new RowMapper<Integer>() {
+			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Integer id = rs.getInt("coll_item_id");
+
+				return id;
+			}
+		});
+
+		if (list.size() != 0) {
+			throw new IllegalArgumentException(
+					"Diese Ver&ouml;ffentlichung ist bereits in Ihrer Sammlung.");
+		}
+
+		// speichern & ID merken
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+
+		final String insertSql = "INSERT INTO collection_item(user_id, release_id) VALUES(?, ?)";
+
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(insertSql,
+						Statement.RETURN_GENERATED_KEYS);
+				ps.setInt(1, userId);
+				ps.setInt(2, releaseId);
+				return ps;
+			}
+		}, keyHolder);
+
+		long collItemId = keyHolder.getKey().longValue();
+
+		return collItemId;
+
 	}
 
 }

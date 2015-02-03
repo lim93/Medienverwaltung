@@ -52,7 +52,8 @@ a { /
 
 					<ul id="loginDropdown" class="nav navbar-nav navbar-right hidden">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Krispin Limbach <span class="caret"></span></a>
+							data-toggle="dropdown"><span id=userNameSpan></span><span
+								class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#"><span class="glyphicon glyphicon-cog"></span>
 										Einstellungen</a></li>
@@ -67,8 +68,7 @@ a { /
 					<div id="loginButtonDiv"
 						class="nav navbar-nav navbar-right logo hidden">
 						<button id="goToLoginButton" class="btn btn-success">
-							<span class="glyphicon glyphicon-log-in"></span> <b>
-								Anmelden</b>
+							<span class="glyphicon glyphicon-log-in"></span> <b> Anmelden</b>
 						</button>
 					</div>
 
@@ -80,7 +80,8 @@ a { /
 		<!-- /.navbar-collapse -->
 	</div>
 
-	<input type="hidden" id="userId" value="${sessionScope.userId}" /> </nav>
+	<input type="hidden" id="userId" value="${sessionScope.userId}" /> <input
+		type="hidden" id="userName" value="${sessionScope.userName}" /> </nav>
 
 </body>
 </html>

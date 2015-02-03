@@ -117,12 +117,13 @@ public class ReleaseDto {
 
 	@Override
 	public String toString() {
-		return "ReleaseDto [masterId=" + masterId + ", formatId=" + formatId
-				+ ", label=" + label + ", labelcode=" + labelcode
-				+ ", catalogNo=" + catalogNo + ", barcode=" + barcode
-				+ ", comment=" + comment + ", releaseDay=" + releaseDay
-				+ ", releaseMonth=" + releaseMonth + ", releaseYear="
-				+ releaseYear + ", tracklist=" + tracklist + "]";
+		return "ReleaseDto [releaseId=" + releaseId + ", masterId=" + masterId
+				+ ", formatId=" + formatId + ", label=" + label
+				+ ", labelcode=" + labelcode + ", catalogNo=" + catalogNo
+				+ ", barcode=" + barcode + ", comment=" + comment
+				+ ", releaseDay=" + releaseDay + ", releaseMonth="
+				+ releaseMonth + ", releaseYear=" + releaseYear
+				+ ", tracklist=" + tracklist + "]";
 	}
 
 }

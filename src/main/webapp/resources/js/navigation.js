@@ -22,7 +22,7 @@ $(document).ready(function() {
 		window.location = "../medienverwaltung/login";
 
 	});
-	
+
 	// Collection-Button
 	$("#collectionButton").button({}).click(function(e) {
 		e.preventDefault();
@@ -31,14 +31,15 @@ $(document).ready(function() {
 		window.location = "../medienverwaltung/profil";
 
 	});
-	
 
 	var userId = $('#userId').val();
+	var userName = $('#userName').val();
 
 	if (userId !== "") {
 		$('#loginButtonDiv').addClass("hidden");
 		$('#collectionDiv').removeClass("hidden");
 		$('#loginDropdown').removeClass("hidden");
+		$('#userNameSpan').html(userName);
 
 	} else {
 

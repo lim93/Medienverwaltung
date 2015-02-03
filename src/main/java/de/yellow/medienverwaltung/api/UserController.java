@@ -18,16 +18,6 @@ public class UserController extends AbstractController {
 	@RequestMapping(value = "api/users/login/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Long> validateLogin(@RequestBody Login login) {
 
-//		Long userId = new Long(0);
-		
-		// DEBUG
-		LOG.debug("Login-UserName: " + login.getUsername() + ", Login-Password: " + login.getPassword());
-//		if (login.getUsername().equals("limbach")
-//				&& login.getPassword()
-//						.equals("e397e35f226abb2f146aeb89bcfd81107cf4f1d11c37b13ea476a711")) {
-//			userId = 42;
-//		}
-		
 		UserService service = new UserService();
 		Long userId = service.validateLogin(login);
 
@@ -56,20 +46,24 @@ public class UserController extends AbstractController {
 	@RequestMapping(value = "api/users/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Long> postNewUser(@RequestBody UserDto user) {
 
-		LOG.debug(user.toString());
-//		Integer userId = 0;
-//		// DEBUG
-//		if (!user.getUserName().equals("limbach")) {
-//			userId = 42;
-//		} else {
-//			throw new IllegalArgumentException(
-//					"Der gew&uuml;nschte Benutzername ist leider bereits vergeben.");
-//		}
+		LOG.debug("Neuer User:" + user.toString());
 
 		UserService service = new UserService();
 		long userId = service.insert(user);
-		
+
 		return new ResponseEntity<Long>(userId, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "api/users/collection/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Long> postNewUser(
+			@RequestBody CollectionItemDto collectionItem) {
+
+		UserService service = new UserService();
+		long collItemId = service.addToCollection(collectionItem.getUserId(),
+				collectionItem.getVersionId());
+
+		return new ResponseEntity<Long>(collItemId, HttpStatus.OK);
 
 	}
 

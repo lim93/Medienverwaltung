@@ -43,7 +43,7 @@ function login() {
 						if (result !== 0) {
 
 							window.location = "../medienverwaltung/loginSuccessful?userId="
-									+ result;
+									+ result + "&userName=" + user;
 						} else {
 							showErrorMsg("Falscher Benutzername oder falsches Passwort.");
 						}
@@ -132,7 +132,7 @@ function register() {
 			function(result) {
 
 				window.location = "../medienverwaltung/loginSuccessful?userId="
-						+ result;
+						+ result + "&userName=" + user;
 
 			}).fail(function(jqxhr, textStatus, error) {
 		var errorMessage = "Fehler: " + jqxhr.responseText;

@@ -28,39 +28,47 @@ public class UserService {
 	}
 
 	public User getUserById(int id) {
-		
+
 		dao = new UserDao();
-		
+
 		User user = dao.getUserById(id);
-		
+
 		return user;
 	}
-	
+
 	public User getUserByName(String name) {
-		
+
 		dao = new UserDao();
-		
+
 		User user = dao.getUserByName(name);
-		
+
 		return user;
 	}
-	
+
 	public long insert(UserDto user) {
-		
+
 		dao = new UserDao();
-		
+
 		long userId = dao.insert(user);
-		
+
 		return userId;
 	}
-	
+
 	public long validateLogin(Login login) {
-		
+
 		dao = new UserDao();
-		
+
 		Long userId = dao.validateLogin(login);
-		
+
 		return userId;
 	}
-	
+
+	public long addToCollection(int userId, int versionId) {
+		dao = new UserDao();
+
+		Long collItemId = dao.addToCollection(userId, versionId);
+
+		return collItemId;
+	}
+
 }

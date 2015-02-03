@@ -73,7 +73,7 @@ function getMaster() {
 
 function initPage(master) {
 
-	if (master !== null & master !== undefined) {
+	if (check(master)) {
 
 		$('#titleHeading').html(master.title);
 

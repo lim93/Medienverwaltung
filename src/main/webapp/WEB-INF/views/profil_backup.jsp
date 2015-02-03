@@ -39,7 +39,6 @@ a { /
 
 .medienBereich {
 	width: 1250px;
-	min-height:500px;
 	padding: 0px 5px 5px 235px;
 	float: left;
 }
@@ -79,33 +78,48 @@ a { /
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
 
-	<div id=errorDiv
-		style="max-width: 80%; margin-left: auto; margin-right: auto;"></div>
 
 	<div id=content>
 
+		
+		<div id=userIdDiv></div>
+
 
 		<div class=profil>
-			<span id=imageSpan></span> <span id=nameSpan></span>
+			<img src="/medienverwaltung/resources/profile/profile.jpg">
+			<h3>Krispin Limbach</h3>
 
 			<hr>
-			Genres: <span id=genreSpan></span>
+			Genres:
+			<div class="label label-primary labelMargin">Rock</div>
+			<div class="label label-primary labelMargin">Punk</div>
+			<div class="label label-primary labelMargin">Ska</div>
+			<div class="label label-primary labelMargin">Metal</div>
+			<div class="label label-primary labelMargin">Nu-Metal</div>
+			<div class="label label-primary labelMargin">Ska-Punk</div>
+			<div class="label label-primary labelMargin">Hardrock</div>
 			<hr>
-			Favoriten: <span id=favoritenSpan></span>
+			Favoriten: <span class="label label-success labelMargin">die
+				ärzte</span> <span class="label label-success labelMargin">System Of
+				A Down</span> <span class="label label-success labelMargin">Donots</span> <span
+				class="label label-success labelMargin">Farin Urlaub Racing
+				Team</span> <span class="label label-success labelMargin">Foo
+				Fighters</span> <span class="label label-success labelMargin">Linkin
+				Park</span> <span class="label label-success labelMargin">Metallica</span>
+			<span class="label label-success labelMargin">Nirvana</span> <span
+				class="label label-success labelMargin">Rise Against</span> <span
+				class="label label-success labelMargin">Sondaschule</span>
 
 			<hr>
-			<p>
-				Sammlung: <span id=collectionSize></span>
-			</p>
+			<p>Sammlung: 12</p>
 		</div>
 
 		<div class=medienBereich>
 
 			<div>
 				<div id="controls" style="margin-bottom: 5px; height: 40px">
-					<h2 style="margin-top: 0px; margin-left: 7.5px; float: left">
-						Sammlung von <span id=collectionNameSpan></span>
-					</h2>
+					<h2 style="margin-top: 0px; margin-left: 7.5px; float: left">Krispins
+						Sammlung</h2>
 					<button id="listButton"
 						style="margin-right: 7.5px; float: right; display: inline"
 						type="submit" class="btn btn-default hide"

@@ -8,6 +8,15 @@ $(document).ready(function() {
 	if (check(userId)) {
 
 		$('#addToCollectionDiv').removeClass('hidden');
+
+		// Zur Sammlung hinzufügen
+		$("#addButton").button({}).click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			addToCollection();
+
+		});
 	}
 
 	getMaster();
@@ -194,6 +203,32 @@ function addRow(track) {
 	var duration = check(track.duration) ? track.duration : "";
 
 	table.fnAddData([ number, title, duration ], false);
+
+}
+
+function addToCollection() {
+
+	var userId = $('#userId').val();
+	var versionId = urlParam("versionId");
+
+	$.ajax({
+		url : 'api/users/collection/',
+		type : 'POST',
+		data : JSON.stringify({
+			"userId" : userId,
+			"versionId" : versionId,
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	}).done(function() {
+		$('#addToCollectionDiv').addClass("hidden");
+	}).fail(function(jqxhr, textStatus, error) {
+		var errorMessage = jqxhr.responseText;
+		showErrorMsg(errorMessage);
+		return false;
+	});
 
 }
 

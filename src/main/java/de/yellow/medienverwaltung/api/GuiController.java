@@ -25,7 +25,7 @@ public class GuiController {
 		return mv;
 	}
 
-	// medienverwaltung/loginSuccessful => profil.jsp
+	// medienverwaltung/loginSuccessful => loginSuccessful.jsp
 	@RequestMapping("/loginSuccessful")
 	public ModelAndView loginSuccessful() {
 
