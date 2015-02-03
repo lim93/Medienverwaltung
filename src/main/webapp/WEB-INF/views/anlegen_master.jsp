@@ -59,35 +59,30 @@ p {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">K&uuml;nstler</h4>
+						<h4 class="panel-title">K&uuml;nstler*</h4>
 					</div>
 					<div class="panel-body">
+						<h5>Name des K&uuml;nstlers / der Gruppe:*</h5>
 						<input style="width: 250px" name="artist" id="artist" type="text"
 							class="form-control" placeholder="K&uuml;nstler" />
 
-						<div id="messageDiv" style="margin-top: 15px;"></div>
 						<div id="artistAnlegenDiv" class="hidden">
-							<hr>
 
-							<h5>Name der Gruppe / des K&uuml;nstlers:</h5>
-							<input style="width: 250px" name="artistName" id="artistName"
-								type="text" class="form-control" placeholder="Name" />
-
-							<h5>Gr&uuml;ndungsjahr:</h5>
+							<h5>Gr&uuml;ndungsjahr:*</h5>
 							<input style="width: 250px" name="artistFormed" id="artistFormed"
 								type="text" class="form-control" placeholder="Jahr" />
 
-							<h5>Herkunft:</h5>
+							<h5>Herkunft:*</h5>
 							<input style="width: 250px" name="artistFrom" id="artistFrom"
 								type="text" class="form-control" placeholder="Stadt, Land" />
 
-							<h5>Webseite:</h5>
+							<h5>Webseite:*</h5>
 							<input style="width: 250px" name="artistWebsite"
 								id="artistWebsite" type="text" class="form-control"
 								placeholder="www.example.com" />
 
-
 						</div>
+						<div id="messageDiv" style="margin-top: 15px;"></div>
 
 
 					</div>
@@ -95,7 +90,7 @@ p {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Titel</h4>
+						<h4 class="panel-title">Titel*</h4>
 					</div>
 					<div class="panel-body">
 						<input style="width: 250px" name="title" id="title" type="text"
@@ -106,7 +101,7 @@ p {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Genre</h4>
+						<h4 class="panel-title">Genre*</h4>
 					</div>
 
 					<div id="genrePanel" class="panel-body">
@@ -119,7 +114,7 @@ p {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Coverbild</h4>
+						<h4 class="panel-title">Coverbild*</h4>
 					</div>
 					<div class="panel-body">
 						<!--  <button id="uploadButton" class="btn btn-default">Datei
@@ -132,7 +127,7 @@ p {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Erscheinungsdatum</h4>
+						<h4 class="panel-title">Erscheinungsdatum*</h4>
 					</div>
 					<div class="panel-body">
 						<div>

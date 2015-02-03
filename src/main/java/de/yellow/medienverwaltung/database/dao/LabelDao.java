@@ -108,6 +108,18 @@ public class LabelDao {
 		final String name = label.getName();
 		final String website = label.getWebsite();
 
+		// Prüfen, ob schon existent
+		try {
+			Label controlLabel = getLabelByName(name);
+
+			if (controlLabel != null) {
+				throw new IllegalStateException(
+						"Dieses Label ist bereits bekannt.");
+			}
+		} catch (IllegalArgumentException e) {
+			// alles ok
+		}
+
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		final String sql = "INSERT INTO label(label_id, name, website) VALUES(NULL, ?, ?)";

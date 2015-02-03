@@ -53,8 +53,8 @@ function initPage(user) {
 
 		var genreString = "";
 		$.each(user.userSubgenres, function(pos, subgenre) {
-			genreString += ' <span class="label label-primary labelMargin">'
-					+ subgenre.name + '</span>';
+			genreString += '<span class="label label-primary labelMargin">'
+					+ subgenre.name + '</span> ';
 		})
 
 		$('#genreSpan').html(genreString);
@@ -62,7 +62,7 @@ function initPage(user) {
 		var artistString = "";
 		$.each(user.userArtists, function(pos, artist) {
 			artistString += '<span class="label label-success labelMargin">'
-					+ artist.name + '</span>';
+					+ artist.name + '</span> ';
 		})
 
 		$('#favoritenSpan').html(artistString);

@@ -150,7 +150,7 @@ function validateAndSubmit() {
 
 function validateAndSubmitArtist() {
 
-	var artistName = $("#artistName").val();
+	var artistName = $("#artist").val();
 	var artistFormed = $("#artistFormed").val();
 	var artistFrom = $("#artistFrom").val();
 	var artistWebsite = $("#artistWebsite").val();
@@ -199,7 +199,6 @@ function validateAndSubmitArtist() {
 	saveArtist(artistName, artistFormed, artistFrom, artistWebsite)
 			.done(function(result) {
 
-				$("#artist").val($("#artistName").val());
 				// Erst hier das anlegen des Masters anstoßen. Sonst wird
 				// versucht, den Master anzulegen, bevor der Artist angelegt
 				// wurde

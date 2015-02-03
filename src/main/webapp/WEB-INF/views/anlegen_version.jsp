@@ -100,7 +100,7 @@ tr {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Format</h4>
+						<h4 class="panel-title">Format*</h4>
 					</div>
 					<div class="panel-body">
 
@@ -114,28 +114,22 @@ tr {
 						<h4 class="panel-title">Label</h4>
 					</div>
 					<div class="panel-body">
+						<h5>Name des Labels:*</h5>
 						<input style="width: 250px" name="label" id="label" type="text"
-							class="form-control" placeholder="Label" />
+							class="form-control" placeholder="Name" />
 
-						<div id="messageDiv" style="margin-top: 15px;"></div>
 						<div id="labelAnlegenDiv" class="hidden">
-							<hr>
 
-							<h5>Name des Labels:</h5>
-							<input style="width: 250px" name="labelName" id="labelName"
-								type="text" class="form-control" placeholder="Name" />
-
-							<h5>Webseite:</h5>
-							<input style="width: 250px" name="labelWebsite"
-								id="labelWebsite" type="text" class="form-control"
-								placeholder="www.example.com" />
-
-							<hr>
-
+							<h5>Webseite:*</h5>
+							<input style="width: 250px" name="labelWebsite" id="labelWebsite"
+								type="text" class="form-control" placeholder="www.example.com" />
 
 						</div>
 
-						<h5>Labelcode (LC)</h5>
+						<div id="messageDiv" style="margin-top: 15px;"></div>
+						<hr>
+
+						<h5>Labelcode (LC)*</h5>
 						<input style="width: 250px" name="lc" id="lc" type="text"
 							class="form-control" placeholder="LC-12345" />
 
@@ -161,7 +155,7 @@ tr {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Tracklist</h4>
+						<h4 class="panel-title">Tracklist*</h4>
 					</div>
 					<div class="panel-body">
 						<div id="tracks" name="tracks"></div>
@@ -189,7 +183,7 @@ tr {
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">Erscheinungsdatum</h4>
+						<h4 class="panel-title">Erscheinungsdatum*</h4>
 					</div>
 					<div class="panel-body">
 						<div>

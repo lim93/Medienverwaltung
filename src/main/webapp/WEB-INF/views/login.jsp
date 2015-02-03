@@ -68,16 +68,17 @@ h4 {
 
 					<h4>Einloggen</h4>
 
-					<h5>Benutzername:</h5>
-					<input style="width: 250px" name="name" id="name" type="text"
-						class="form-control" placeholder="Benutzername" />
-					<h5>Passwort:</h5>
-					<input style="width: 250px" name="pw" id="pw" type="password"
-						class="form-control" placeholder="Passwort" /> <br>
-					<button id="loginButton" class="btn btn-success">
-						<span class="glyphicon glyphicon-log-in"></span> <b>Einloggen</b>
-					</button>
-
+					<form id=loginForm action="">
+						<h5>Benutzername:</h5>
+						<input style="width: 250px" name="name" id="name" type="text"
+							class="form-control" placeholder="Benutzername" />
+						<h5>Passwort:</h5>
+						<input style="width: 250px" name="pw" id="pw" type="password"
+							class="form-control" placeholder="Passwort" /> <br>
+						<button id="loginButton" class="btn btn-success" type="submit">
+							<span class="glyphicon glyphicon-log-in"></span> <b>Einloggen</b>
+						</button>
+					</form>
 
 
 				</div>
@@ -90,21 +91,23 @@ h4 {
 
 					<h4>Registrieren</h4>
 
-					<h5>Benutzername:</h5>
-					<input style="width: 250px" name="nameRegister" id="nameRegister"
-						type="text" class="form-control" placeholder="Benutzername" />
-					<h5>Email:</h5>
-					<input style="width: 250px" name="mailRegister" id="mailRegister"
-						type="text" class="form-control" placeholder="Email" />
-					<h5>Passwort:</h5>
-					<input style="width: 250px" name="pwRegister" id="pwRegister"
-						type="password" class="form-control" placeholder="Passwort" />
-					<h5>Passwort wiederholen:</h5>
-					<input style="width: 250px" name="pwControl" id="pwControl"
-						type="password" class="form-control" placeholder="Passwort" /> <br>
-					<button id="registerButton" class="btn btn-primary">
-						<span class="glyphicon glyphicon-user"></span> <b>Registrieren</b>
-					</button>
+					<form id=registerForm action="">
+						<h5>Benutzername*:</h5>
+						<input style="width: 250px" name="nameRegister" id="nameRegister"
+							type="text" class="form-control" placeholder="Benutzername" />
+						<h5>Email*:</h5>
+						<input style="width: 250px" name="mailRegister" id="mailRegister"
+							type="text" class="form-control" placeholder="Email" />
+						<h5>Passwort*:</h5>
+						<input style="width: 250px" name="pwRegister" id="pwRegister"
+							type="password" class="form-control" placeholder="Passwort" />
+						<h5>Passwort wiederholen*:</h5>
+						<input style="width: 250px" name="pwControl" id="pwControl"
+							type="password" class="form-control" placeholder="Passwort" /> <br>
+						<button id="registerButton" class="btn btn-primary" type="submit">
+							<span class="glyphicon glyphicon-user"></span> <b>Registrieren</b>
+						</button>
+					</form>
 
 				</div>
 

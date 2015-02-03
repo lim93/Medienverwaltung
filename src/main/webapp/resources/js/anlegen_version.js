@@ -169,7 +169,7 @@ function validateAndSubmit() {
 
 function validateAndSubmitLabel() {
 
-	var labelName = $("#labelName").val();
+	var labelName = $("#label").val();
 	var labelWebsite = $("#labelWebsite").val();
 
 	isvalid = true;
@@ -198,7 +198,6 @@ function validateAndSubmitLabel() {
 	saveLabel(labelName, labelWebsite)
 			.done(function(result) {
 
-				$("#label").val($("#labelName").val());
 				// Anlegen der Version erst hier anstoßen, damit das Label schon
 				// vorhanden ist
 				validateAndSubmitVersion();
@@ -453,7 +452,7 @@ function checkLabel(label) {
 										'<div class="alert alert-success" role="alert">'
 												+ 'Label bekannt.</div>');
 
-								$('#lebelAnlegenDiv').addClass("hidden");
+								$('#labelAnlegenDiv').addClass("hidden");
 							}
 
 						})
