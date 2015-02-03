@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +21,8 @@ import de.yellow.medienverwaltung.database.entity.Track;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class TrackDao {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(TrackDao.class);
 
 	private DataSource ds;
 
@@ -77,7 +81,7 @@ public class TrackDao {
 				track.setTrackId(rs.getInt("track_id"));
 				track.setNumber(rs.getString("number"));
 				track.setTitle(rs.getString("title"));
-				track.setDuration(rs.getString("duration"));
+				track.setDuration(rs.getString("duration").replaceFirst("00:", ""));
 
 				return track;
 			}
@@ -95,7 +99,9 @@ public class TrackDao {
 
 		final String number = track.getNumber();
 		final String title = track.getTitle();
-		final String duration = track.getDuration();
+		final String duration = "00:" + track.getDuration();
+		
+		LOG.debug("duration vor dem insert: " + duration);
 
 		// Track speichern & ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -116,7 +122,7 @@ public class TrackDao {
 
 		long trackId = keyHolder.getKey().longValue();
 
-		System.out.println("Track wurde eingefügt mit der id: " + trackId);
+		LOG.debug("Track wurde eingefügt mit der id: " + trackId);
 
 		return trackId;
 
