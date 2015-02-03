@@ -15,19 +15,14 @@ import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class FormatDao {
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public FormatDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -42,29 +37,25 @@ public class FormatDao {
 	 */
 	public List<Format> getAllFormats() {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Format> list = jdbcTemplate.query("select * from format",
 				new RowMapper<Format>() {
-					public Format mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Format format = new Format();
+			public Format mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Format format = new Format();
 
-						format.setFormatId(rs.getInt("format_id"));
-						format.setType(rs.getString("type"));
+				format.setFormatId(rs.getInt("format_id"));
+				format.setType(rs.getString("type"));
 
-						return format;
-					}
-				});
+				return format;
+			}
+		});
 
 		return list;
 	}
 
 	public Format getFormatById(int id) {
-
-		DataSource ds = getDataSource();
 
 		JdbcTemplate jt = new JdbcTemplate(ds);
 

@@ -14,19 +14,14 @@ import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class SubgenreDao {
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public SubgenreDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -41,30 +36,26 @@ public class SubgenreDao {
 	 */
 	public List<Subgenre> getAllSubgenres() {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Subgenre> list = jdbcTemplate.query("select * from subgenre",
 				new RowMapper<Subgenre>() {
-					public Subgenre mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Subgenre subgenre = new Subgenre();
+			public Subgenre mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Subgenre subgenre = new Subgenre();
 
-						subgenre.setSubgenreId(rs.getInt("subgenre_id"));
-						subgenre.setGenreId(rs.getInt("genre_id"));
-						subgenre.setName(rs.getString("name"));
+				subgenre.setSubgenreId(rs.getInt("subgenre_id"));
+				subgenre.setGenreId(rs.getInt("genre_id"));
+				subgenre.setName(rs.getString("name"));
 
-						return subgenre;
-					}
-				});
+				return subgenre;
+			}
+		});
 
 		return list;
 	}
 
 	public List<Subgenre> getSubgenresByMasterId(int id) {
-
-		DataSource ds = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
@@ -72,17 +63,17 @@ public class SubgenreDao {
 
 		List<Subgenre> subgenres = jdbcTemplate.query(sql, new Object[] { id },
 				new RowMapper<Subgenre>() {
-					public Subgenre mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Subgenre subgenre = new Subgenre();
+			public Subgenre mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Subgenre subgenre = new Subgenre();
 
-						subgenre.setSubgenreId(rs.getInt("subgenre_id"));
-						subgenre.setGenreId(rs.getInt("genre_id"));
-						subgenre.setName(rs.getString("name"));
+				subgenre.setSubgenreId(rs.getInt("subgenre_id"));
+				subgenre.setGenreId(rs.getInt("genre_id"));
+				subgenre.setName(rs.getString("name"));
 
-						return subgenre;
-					}
-				});
+				return subgenre;
+			}
+		});
 
 		return subgenres;
 

@@ -20,19 +20,14 @@ import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class TrackDao {
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public TrackDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -47,9 +42,7 @@ public class TrackDao {
 	 */
 	public List<Track> getAllTracks() {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Track> list = jdbcTemplate.query("select * from track",
 				new RowMapper<Track>() {
@@ -70,8 +63,6 @@ public class TrackDao {
 	}
 
 	public List<Track> getTracklistByReleaseId(int id) {
-
-		DataSource ds = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
@@ -100,9 +91,7 @@ public class TrackDao {
 
 		// TODO: Prüfen, ob schon existiert!
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		final String number = track.getNumber();
 		final String title = track.getTitle();

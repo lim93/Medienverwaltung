@@ -24,22 +24,17 @@ import de.yellow.medienverwaltung.database.entity.Label;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class LabelDao {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(LabelDao.class);
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public LabelDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -54,30 +49,26 @@ public class LabelDao {
 	 */
 	public List<Label> getAllLabels() {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Label> list = jdbcTemplate.query("select * from label",
 				new RowMapper<Label>() {
-			public Label mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Label label = new Label();
+					public Label mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Label label = new Label();
 
-				label.setLabelId(rs.getInt("label_id"));
-				label.setName(rs.getString("name"));
-				label.setWebsite(rs.getString("website"));
+						label.setLabelId(rs.getInt("label_id"));
+						label.setName(rs.getString("name"));
+						label.setWebsite(rs.getString("website"));
 
-				return label;
-			}
-		});
+						return label;
+					}
+				});
 
 		return list;
 	}
 
 	public Label getLabelById(int id) {
-
-		DataSource ds = getDataSource();
 
 		JdbcTemplate jt = new JdbcTemplate(ds);
 
@@ -93,9 +84,7 @@ public class LabelDao {
 
 	public Label getLabelByName(String name) {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		String sql = "select * from label where name = ?";
 
@@ -109,18 +98,16 @@ public class LabelDao {
 			throw new IllegalArgumentException(
 					"Dieses Label ist uns nicht bekannt.");
 		}
-		
-	}
-	
-	public long insert(LabelDto label) {
-		
-		DataSource dataSource = getDataSource();
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+	}
+
+	public long insert(LabelDto label) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
 		final String name = label.getName();
 		final String website = label.getWebsite();
-		
+
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
 		final String sql = "INSERT INTO label(label_id, name, website) VALUES(NULL, ?, ?)";
@@ -142,5 +129,5 @@ public class LabelDao {
 
 		return labelId;
 	}
-	
+
 }

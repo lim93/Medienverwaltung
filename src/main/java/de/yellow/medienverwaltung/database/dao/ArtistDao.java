@@ -25,22 +25,17 @@ import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class ArtistDao {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(ArtistDao.class);
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public ArtistDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -55,34 +50,30 @@ public class ArtistDao {
 	 */
 	public List<Artist> getAllArtists() {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Artist> list = jdbcTemplate.query("select * from artist",
 				new RowMapper<Artist>() {
-					public Artist mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Artist artist = new Artist();
+			public Artist mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Artist artist = new Artist();
 
-						artist.setArtistId(rs.getInt("artist_id"));
-						artist.setName(rs.getString("name"));
-						artist.setFormed(rs.getInt("formed"));
-						artist.setFrom(rs.getString("from"));
-						artist.setWebsite(rs.getString("website"));
+				artist.setArtistId(rs.getInt("artist_id"));
+				artist.setName(rs.getString("name"));
+				artist.setFormed(rs.getInt("formed"));
+				artist.setFrom(rs.getString("from"));
+				artist.setWebsite(rs.getString("website"));
 
-						return artist;
-					}
-				});
+				return artist;
+			}
+		});
 
 		return list;
 	}
 
 	public Artist getArtistByName(String name) {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		String sql = "select * from artist where name = ?";
 
@@ -102,51 +93,49 @@ public class ArtistDao {
 
 		// Diese Methode zum Suchen.
 
-		DataSource dataSource = getDataSource();
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
 		List<Artist> artists = new ArrayList<Artist>();
 
 		// Eingabe des Benutzers in Search-String umwandeln, z.B.
 		// "   die ärzte   " -> "%die%ärzte%"
 		String searchString = '%' + name.trim().replace(' ', '%') + '%';
-		
+
 		String sql = "select * from artist where name LIKE ?";
-		
-		artists = jdbcTemplate.query(sql, new Object[] { searchString }, new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		artists = jdbcTemplate.query(sql, new Object[] { searchString },
+				new RowMapper<Artist>() {
+			public Artist mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
 				Artist artist = new Artist();
-				
+
 				artist.setArtistId(rs.getInt("artist_id"));
 				artist.setName(rs.getString("name"));
 				artist.setFormed(rs.getInt("formed"));
 				artist.setFrom(rs.getString("from"));
 				artist.setWebsite(rs.getString("website"));
-				
+
 				return artist;
 			}
-		
+
 		});
-		
+
 		return artists;
-		
-//		try {
-//			Artist artist = jdbcTemplate.queryForObject(sql,
-//					new Object[] { searchString }, new BeanPropertyRowMapper<Artist>(
-//							Artist.class));
-//
-//			return artist;
-//		} catch (EmptyResultDataAccessException e) {
-//			return null;
-//		}
+
+		// try {
+		// Artist artist = jdbcTemplate.queryForObject(sql,
+		// new Object[] { searchString }, new BeanPropertyRowMapper<Artist>(
+		// Artist.class));
+		//
+		// return artist;
+		// } catch (EmptyResultDataAccessException e) {
+		// return null;
+		// }
 	}
 
 	public Artist getArtistById(int id) {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		String sql = "select * from artist where artist_id = ?";
 
@@ -157,12 +146,10 @@ public class ArtistDao {
 
 		return artist;
 	}
-	
-	public long insert(ArtistDto artist) {
-		
-		DataSource dataSource = getDataSource();
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+	public long insert(ArtistDto artist) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		final String name = artist.getName();
 		final int formed = artist.getFormed();
@@ -170,22 +157,24 @@ public class ArtistDao {
 		final String website = artist.getWebsite();
 
 		// Prüfen, ob Artist schon vorhanden <- notwendig?
-//		String artistSql = "SELECT artist_id FROM artist WHERE name = ? and formed = ?";
-//
-//		List<Integer> list = jdbcTemplate.query(artistSql, new Object[] { name,
-//				formed }, new RowMapper<Integer>() {
-//			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-//
-//				Integer id = rs.getInt("artist_id");
-//
-//				return id;
-//			}
-//		});
+		// String artistSql =
+		// "SELECT artist_id FROM artist WHERE name = ? and formed = ?";
+		//
+		// List<Integer> list = jdbcTemplate.query(artistSql, new Object[] {
+		// name,
+		// formed }, new RowMapper<Integer>() {
+		// public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		//
+		// Integer id = rs.getInt("artist_id");
+		//
+		// return id;
+		// }
+		// });
 
-//		if (list.size() != 0) {
-//			throw new IllegalArgumentException(
-//					"Artist ist bereits vorhanden.");
-//		}
+		// if (list.size() != 0) {
+		// throw new IllegalArgumentException(
+		// "Artist ist bereits vorhanden.");
+		// }
 
 		// Artist speichern & ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -212,5 +201,5 @@ public class ArtistDao {
 		return artistId;
 
 	}
-	
+
 }

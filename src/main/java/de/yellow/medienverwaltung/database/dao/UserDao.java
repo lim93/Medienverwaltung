@@ -26,22 +26,17 @@ import de.yellow.medienverwaltung.database.entity.User;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class UserDao {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(UserDao.class);
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public UserDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -56,9 +51,7 @@ public class UserDao {
 	 */
 	public List<User> getAllUsers() {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<User> list = jdbcTemplate.query("select * from user",
 				new RowMapper<User>() {
@@ -77,113 +70,109 @@ public class UserDao {
 
 		return list;
 	}
-	
-	public User getUserById(int id) {
-		
-		DataSource dataSource = getDataSource();
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+	public User getUserById(int id) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		String sql = "select user_id, user_name, email from user where user_id = ?";
 
 		User user = new User();
 
-		user = (User) jdbcTemplate.queryForObject(sql, new Object[] { id },
+		user = jdbcTemplate.queryForObject(sql, new Object[] { id },
 				new BeanPropertyRowMapper<User>(User.class));
 
 		return user;
 
 	}
-	
-	public User getUserByName(String name) {
-		
-		DataSource dataSource = getDataSource();
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+	public User getUserByName(String name) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		String sql = "select user_id, user_name, email from user where user_name = ?";
 
 		User user = new User();
 
-		user = (User) jdbcTemplate.queryForObject(sql, new Object[] { name },
+		user = jdbcTemplate.queryForObject(sql, new Object[] { name },
 				new BeanPropertyRowMapper<User>(User.class));
 
 		return user;
-	
+
 	}
-	
+
 	public long insert(UserDto user) {
-		
-		DataSource dataSource = getDataSource();
-		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
 		final String userName = user.getUserName();
 		final String password = user.getPassword();
 		final String email = user.getEmail();
-		
+
 		// Prüfen, ob Benutzername noch verfügbar ist
 		String isAvailableSql = "SELECT user_id FROM user WHERE user_name = ?";
-		
-		List<Integer> isAvailableList = jdbcTemplate.query(isAvailableSql, new Object[] { userName }, new RowMapper<Integer>() {
-			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		List<Integer> isAvailableList = jdbcTemplate.query(isAvailableSql,
+				new Object[] { userName }, new RowMapper<Integer>() {
+			public Integer mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
 				Integer id = rs.getInt("user_id");
 				return id;
 			}
 		});
-		
+
 		if (isAvailableList.size() != 0) {
 			throw new IllegalArgumentException("Benutzername bereits vergeben.");
 		}
-		
+
 		// User einfügen und ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		
-		final String insertSql = "INSERT INTO user(user_id, user_name, password, email) VALUES(NULL, ?, ?, ?)"; 
-		
+
+		final String insertSql = "INSERT INTO user(user_id, user_name, password, email) VALUES(NULL, ?, ?, ?)";
+
 		jdbcTemplate.update(new PreparedStatementCreator() {
-			
+
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = conn.prepareStatement(insertSql,
+						Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, userName);
 				ps.setString(2, password);
-				ps.setString(3, email);				
+				ps.setString(3, email);
 				return ps;
 			}
 		}, keyHolder);
-		
+
 		long userId = keyHolder.getKey().longValue();
-		
+
 		LOG.debug("User wurde eingefügt mit der id: " + userId);
-		
+
 		return userId;
 	}
-	
+
 	public long validateLogin(Login login) {
-		
-		DataSource dataSource = getDataSource();
-		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
 		Long userId = new Long(0);
-		
+
 		final String userName = login.getUsername();
 		final String password = login.getPassword();
-		
+
 		final String sql = "SELECT user_id FROM user WHERE user_name = ? AND password = ?";
-		
+
 		try {
-			userId = jdbcTemplate.queryForObject(sql, new Object[] { userName, password }, Long.class);
+			userId = jdbcTemplate.queryForObject(sql, new Object[] { userName,
+					password }, Long.class);
 		} catch (IncorrectResultSizeDataAccessException e) {
 			userId = 0L;
 		} catch (DataAccessException e) {
-			
+
 		}
-		
+
 		LOG.debug("Nach Login-Versuch: UserID: " + userId);
-		
+
 		return userId;
 	}
-	
+
 }

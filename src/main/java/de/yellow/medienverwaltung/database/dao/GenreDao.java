@@ -21,19 +21,14 @@ public class GenreDao {
 
 	private ConnectionFactory factory;
 
-	/**
-	 * Holt eine {@link DataSource} aus der {@link ConnectionFactory}
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
+	private DataSource ds;
+
+	public GenreDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		DataSource ds = factory.getDataSource();
+		ds = factory.getDataSource();
 
-		if (ds != null) {
-			return ds;
-		} else {
+		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
@@ -48,8 +43,6 @@ public class GenreDao {
 	 * @return
 	 */
 	public Map<Integer, Genre> getAllGenres() {
-
-		DataSource ds = getDataSource();
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
@@ -99,9 +92,7 @@ public class GenreDao {
 
 	public Genre getGenreById(int id) {
 
-		DataSource dataSource = getDataSource();
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		String sql = "select * from genre where genre_id = ?";
 
