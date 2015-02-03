@@ -1,5 +1,8 @@
 package de.yellow.medienverwaltung.api;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.yellow.medienverwaltung.business.MasterService;
 import de.yellow.medienverwaltung.database.entity.Master;
@@ -43,6 +47,16 @@ public class MasterController extends AbstractController {
         long masterId = service.insertMaster(master);
 
         return new ResponseEntity<Long>(masterId, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "api/master/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<MasterDto>> getMastersByArtistId(@RequestParam(value = "artistId") long artistId) {
+    	
+    	MasterService service = new MasterService();
+    	
+    	List<MasterDto> masters = service.getMastersByArtistId(artistId);
+    	
+    	return new ResponseEntity<List<MasterDto>>(masters, HttpStatus.OK);
     }
 
 }

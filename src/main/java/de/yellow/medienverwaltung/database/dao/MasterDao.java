@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -280,6 +281,57 @@ public class MasterDao {
 		return masterList;
 	}
 
+	public List<MasterDto> getMastersByArtistId(long artistId) {
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+		
+		List<MasterDto> masters = new ArrayList<MasterDto>();
+		
+		String sql = "SELECT * FROM master WHERE artist_id = ?";
+		
+		masters = jdbcTemplate.query(sql, new Object[] { artistId },
+				new RowMapper<MasterDto>() {
+					public MasterDto mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						MasterDto master = new MasterDto();
+						Artist artist = new Artist();
+						Genre genre = new Genre();
+						List<Subgenre> subgenres = new ArrayList<Subgenre>();
+						List<Integer> subgenreIds = new ArrayList<Integer>();
+
+						master.setMasterId(rs.getInt("master_id"));
+						master.setArtistId(rs.getInt("artist_id"));
+						master.setTitle(rs.getString("title"));
+						master.setGenreId(rs.getInt("genre_id"));
+						master.setReleaseDay(rs.getInt("release_day"));
+						master.setReleaseMonth(rs.getInt("release_month"));
+						master.setReleaseYear(rs.getInt("release_year"));
+						master.setUrl(rs.getString("image_url"));
+						
+						ArtistDao aDao = new ArtistDao();
+						artist = aDao.getArtistById(master.getArtistId()); 
+						master.setArtist(artist.getName()); 
+						
+						GenreDao gDao = new GenreDao();
+						genre = gDao.getGenreById(master.getGenreId());
+						master.setGenre(genre.getName());
+
+						SubgenreDao sDao = new SubgenreDao();
+						subgenres = sDao.getSubgenresByMasterId(master.getMasterId());
+						for (Subgenre subgenre : subgenres) {
+							subgenreIds.add(subgenre.getSubgenreId());
+						}
+						master.setSubgenreIds(subgenreIds);
+						
+						return master;
+					}
+				});
+		
+		
+		return masters;
+		
+	}
+	
 	public List<Master> getMastersByTitle(String title) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
@@ -316,8 +368,7 @@ public class MasterDao {
 						master.setGenre(genre);
 
 						SubgenreDao sDao = new SubgenreDao();
-						subgenres = sDao.getSubgenresByMasterId(master
-								.getMasterId());
+						subgenres = sDao.getSubgenresByMasterId(master.getMasterId());
 						master.setSubgenres(subgenres);
 
 						ReleaseDao rDao = new ReleaseDao();

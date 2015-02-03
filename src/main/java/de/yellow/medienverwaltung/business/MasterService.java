@@ -1,5 +1,6 @@
 package de.yellow.medienverwaltung.business;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,14 @@ public class MasterService {
 		Master master = dao.getMasterById(id);
 
 		return master;
+	}
+	
+	public List<MasterDto> getMastersByArtistId(long artistId){
+		dao = new MasterDao();
+		
+		List<MasterDto> masters = dao.getMastersByArtistId(artistId);
+		
+		return masters;
 	}
 
 }
