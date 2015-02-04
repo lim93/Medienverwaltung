@@ -12,20 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.yellow.medienverwaltung.business.ArtistService;
-import de.yellow.medienverwaltung.business.ReleaseService;
 import de.yellow.medienverwaltung.database.entity.Artist;
-import de.yellow.medienverwaltung.database.entity.Release;
 
 @Controller
 public class ArtistController extends AbstractController {
 
 	@RequestMapping(value = "api/artists/{id}/", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Artist> getArtist(@PathVariable("id") int id) {
+	public ResponseEntity<ArtistDto> getArtist(@PathVariable("id") int id) {
 
 		ArtistService service = new ArtistService();
-		Artist artist = service.getArtistById(id);
+		ArtistDto artist = service.getArtistDtoById(id);
 
-		return new ResponseEntity<Artist>(artist, HttpStatus.OK);
+		return new ResponseEntity<ArtistDto>(artist, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "api/artists/search/", method = RequestMethod.GET, produces = "application/json")
@@ -46,20 +44,21 @@ public class ArtistController extends AbstractController {
 		LOG.debug(artist.toString());
 
 		ArtistService service = new ArtistService();
-		
+
 		long artistId = service.insertArtist(artist);
 
 		return new ResponseEntity<Long>(artistId, HttpStatus.OK);
 	}
-	
-    @RequestMapping(value = "api/artists/", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<Artist>> getArtistsByLabelId(@RequestParam(value = "labelId") long labelId) {
-    	
-    	ArtistService service = new ArtistService();
-    	
-    	List<Artist> artists = service.getArtistsByLabelId(labelId);
-    	
-    	return new ResponseEntity<List<Artist>>(artists, HttpStatus.OK);
-    }
+
+	@RequestMapping(value = "api/artists/", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<List<Artist>> getArtistsByLabelId(
+			@RequestParam(value = "labelId") long labelId) {
+
+		ArtistService service = new ArtistService();
+
+		List<Artist> artists = service.getArtistsByLabelId(labelId);
+
+		return new ResponseEntity<List<Artist>>(artists, HttpStatus.OK);
+	}
 
 }

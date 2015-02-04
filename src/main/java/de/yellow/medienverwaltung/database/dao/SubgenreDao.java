@@ -78,4 +78,31 @@ public class SubgenreDao {
 		return subgenres;
 
 	}
+
+	public List<Subgenre> getSubgenresByArtistId(int id) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+		String sql = "SELECT ms.subgenre_id, s.genre_id, s.name FROM master_subgenre ms "
+				+ "JOIN subgenre s on ms.subgenre_id = s.subgenre_id "
+				+ "JOIN master m on ms.master_id = m.master_id "
+				+ "WHERE m.artist_id = ?";
+
+		List<Subgenre> subgenres = jdbcTemplate.query(sql, new Object[] { id },
+				new RowMapper<Subgenre>() {
+			public Subgenre mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Subgenre subgenre = new Subgenre();
+
+				subgenre.setSubgenreId(rs.getInt("subgenre_id"));
+				subgenre.setGenreId(rs.getInt("genre_id"));
+				subgenre.setName(rs.getString("name"));
+
+				return subgenre;
+			}
+		});
+
+		return subgenres;
+
+	}
 }

@@ -57,6 +57,10 @@ a { /
 
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
+	
+		<!-- Artist JS -->
+	<script type="text/javascript"
+		src="/medienverwaltung/resources/js/artist.js"></script>
 
 
 	<div id=content>
@@ -64,16 +68,13 @@ a { /
 
 		<div class=coverPane>
 			<div id="imageDiv">
-				<img src="/medienverwaltung/resources/images/artist.png"
-					width="210px" height="210px">
+				
 			</div>
 
 			<hr>
-			Genre: <span id="genreSpan"><div
-					class="label label-primary labelMargin">Rock</div></span>
+			Genre: <span id="genreSpan"></span>
 			<hr>
-			Subgenres: <span id="subgenreSpan"><div
-					class="label label-success labelMargin">Punk</div></span>
+			Subgenres: <span id="subgenreSpan"></span>
 			<hr>
 
 
@@ -84,7 +85,7 @@ a { /
 			<div>
 				<div id="controls" style="margin-bottom: 5px;">
 					<div id="errorDiv"></div>
-					<h2 id="artistHeading" style="margin-top: 0px;">donots</h2>
+					<h2 id="artistHeading" style="margin-top: 0px;"></h2>
 					<hr>
 
 				</div>
@@ -98,15 +99,13 @@ a { /
 						<div class="panel-body">
 
 							<p>
-								<b>Herkunft:</b> <span id="fromSpan">Ibbenbüren,
-									Deutschland</span>
+								<b>Herkunft:</b> <span id="fromSpan"></span>
 							</p>
 							<p>
-								<b>Gr&uuml;ndung:</b> <span id="formedSpan">1994</span>
+								<b>Gr&uuml;ndung:</b> <span id="formedSpan"></span>
 							</p>
 							<p>
-								<b>Webseite:</b> <span id="websiteSpan"><a
-									href="http://www.donots.de/" target="_blank">www.donots.de</a></span>
+								<b>Webseite:</b> <span id="websiteSpan"></span>
 							</p>
 
 
@@ -119,8 +118,6 @@ a { /
 							<h4 class="panel-title">Ver&ouml;ffentlichungen:</h4>
 						</div>
 						<div class="panel-body">
-
-							<p>To be done...</p>
 
 							<div id="tableDiv" class="dataTable"></div>
 						</div>

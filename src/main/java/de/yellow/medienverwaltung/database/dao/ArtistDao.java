@@ -22,6 +22,8 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import de.yellow.medienverwaltung.api.ArtistDto;
 import de.yellow.medienverwaltung.database.entity.Artist;
+import de.yellow.medienverwaltung.database.entity.Genre;
+import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
 public class ArtistDao {
@@ -147,35 +149,67 @@ public class ArtistDao {
 		return artist;
 	}
 
+	public ArtistDto getArtistDtoById(int id) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+		String sql = "select * from artist where artist_id = ?";
+
+		ArtistDto artistDto = new ArtistDto();
+
+		Artist artist = jdbcTemplate.queryForObject(sql, new Object[] { id },
+				new BeanPropertyRowMapper<Artist>(Artist.class));
+
+		artistDto.setArtistId(artist.getArtistId());
+		artistDto.setName(artist.getName());
+		artistDto.setFormed(artist.getFormed());
+		artistDto.setFrom(artist.getFrom());
+		artistDto.setWebsite(artist.getWebsite());
+
+		GenreDao gDao = new GenreDao();
+		List<Genre> genres = gDao.getGenresByArtistId(artist.getArtistId());
+
+		SubgenreDao sgDao = new SubgenreDao();
+		List<Subgenre> subgenres = sgDao.getSubgenresByArtistId(artist
+				.getArtistId());
+
+		artistDto.setGenres(genres);
+		artistDto.setSubgenres(subgenres);
+
+		return artistDto;
+	}
+
 	public List<Artist> getArtistsByLabelId(long labelId) {
-		
+
 		JdbcTemplate jt = new JdbcTemplate(ds);
-		
+
 		List<Artist> artists = new ArrayList<Artist>();
-		
+
 		String sql = "SELECT DISTINCT a.artist_id, a.name, a.formed, a.from, a.website "
-				   + "FROM artist AS a "
-				   + "JOIN master AS m ON a.artist_id = m.artist_id "
-				   + "JOIN media.release AS r ON m.master_id = r.master_id "
-				   + "WHERE r.label_id = ?";
-		
-		artists = jt.query(sql, new Object[] { labelId }, new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum) throws SQLException{
+				+ "FROM artist AS a "
+				+ "JOIN master AS m ON a.artist_id = m.artist_id "
+				+ "JOIN media.release AS r ON m.master_id = r.master_id "
+				+ "WHERE r.label_id = ?";
+
+		artists = jt.query(sql, new Object[] { labelId },
+				new RowMapper<Artist>() {
+			public Artist mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
 				Artist artist = new Artist();
-				
+
 				artist.setArtistId(rs.getInt("artist_id"));
 				artist.setName(rs.getString("name"));
 				artist.setFormed(rs.getInt("formed"));
 				artist.setFrom(rs.getString("from"));
 				artist.setWebsite(rs.getString("website"));
-				
+
 				return artist;
 			}
 		});
-		
+
 		return artists;
 	}
-	
+
 	public long insert(ArtistDto artist) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);

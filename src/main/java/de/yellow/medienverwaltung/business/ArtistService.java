@@ -27,41 +27,41 @@ public class ArtistService {
 		// TODO: Do something useful with data
 		return artists;
 	}
-	
+
 	public Artist getArtistByName(String name) {
-		
+
 		dao = new ArtistDao();
-		
+
 		Artist artist = dao.getArtistByName(name);
-		
+
 		return artist;
 	}
-	
-	public Artist getArtistById(int id) {
-		
+
+	public ArtistDto getArtistDtoById(int id) {
+
 		dao = new ArtistDao();
-		
-		Artist artist = dao.getArtistById(id);
-		
+
+		ArtistDto artist = dao.getArtistDtoById(id);
+
 		return artist;
 	}
-	
+
 	@Transactional
 	public long insertArtist(ArtistDto artist) {
-		
+
 		dao = new ArtistDao();
-		
+
 		long artistId = dao.insert(artist);
-		
+
 		return artistId;
 	}
 
 	public List<Artist> getArtistsByLabelId(long labelId) {
-		
+
 		dao = new ArtistDao();
-		
+
 		List<Artist> artists = dao.getArtistsByLabelId(labelId);
-		
+
 		return artists;
 	}
 }
