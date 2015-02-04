@@ -147,6 +147,35 @@ public class ArtistDao {
 		return artist;
 	}
 
+	public List<Artist> getArtistsByLabelId(long labelId) {
+		
+		JdbcTemplate jt = new JdbcTemplate(ds);
+		
+		List<Artist> artists = new ArrayList<Artist>();
+		
+		String sql = "SELECT DISTINCT a.artist_id, a.name, a.formed, a.from, a.website "
+				   + "FROM artist AS a "
+				   + "JOIN master AS m ON a.artist_id = m.artist_id "
+				   + "JOIN media.release AS r ON m.master_id = r.master_id "
+				   + "WHERE r.label_id = ?";
+		
+		artists = jt.query(sql, new Object[] { labelId }, new RowMapper<Artist>() {
+			public Artist mapRow(ResultSet rs, int rowNum) throws SQLException{
+				Artist artist = new Artist();
+				
+				artist.setArtistId(rs.getInt("artist_id"));
+				artist.setName(rs.getString("name"));
+				artist.setFormed(rs.getInt("formed"));
+				artist.setFrom(rs.getString("from"));
+				artist.setWebsite(rs.getString("website"));
+				
+				return artist;
+			}
+		});
+		
+		return artists;
+	}
+	
 	public long insert(ArtistDto artist) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);

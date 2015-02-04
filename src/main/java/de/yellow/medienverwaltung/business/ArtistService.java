@@ -56,4 +56,12 @@ public class ArtistService {
 		return artistId;
 	}
 
+	public List<Artist> getArtistsByLabelId(long labelId) {
+		
+		dao = new ArtistDao();
+		
+		List<Artist> artists = dao.getArtistsByLabelId(labelId);
+		
+		return artists;
+	}
 }
