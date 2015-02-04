@@ -143,8 +143,29 @@ function validateAndSubmit() {
 		validateAndSubmitArtist();
 
 	} else {
-		validateAndSubmitMaster();
+	
 	}
+
+}
+
+function validateAndSubmit() {
+
+	var artist = $('#artist').val();
+
+	$.getJSON("api/artists/search/?name=" + artist, function(artist) {
+		
+		// Artist bekannt, also nur Master submitten
+		validateAndSubmitMaster();
+
+	}).fail(function(jqxhr, textStatus, error) {
+
+		if (jqxhr.responseText === "Dieses Label ist uns nicht bekannt.") {
+			// Label unbekannt, also Label und Version submitten
+			validateAndSubmitLabel();
+		} else {
+			showErrorMsg(jqxhr.responseText);
+		}
+	});
 
 }
 

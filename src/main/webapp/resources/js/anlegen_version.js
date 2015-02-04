@@ -156,14 +156,22 @@ function initFormats(formats) {
 
 function validateAndSubmit() {
 
-	var labelAnlegenHidden = $('#labelAnlegenDiv').hasClass("hidden");
+	var label = $('#label').val();
 
-	if (!labelAnlegenHidden) {
-		validateAndSubmitLabel();
-
-	} else {
+	$.getJSON("api/labels/search/?name=" + label, function(label) {
+		
+		// Label bekannt, also nur Version submitten
 		validateAndSubmitVersion();
-	}
+
+	}).fail(function(jqxhr, textStatus, error) {
+
+		if (jqxhr.responseText === "Dieses Label ist uns nicht bekannt.") {
+			// Label unbekannt, also Label und Version submitten
+			validateAndSubmitLabel();
+		} else {
+			showErrorMsg(jqxhr.responseText);
+		}
+	});
 
 }
 
@@ -453,6 +461,7 @@ function checkLabel(label) {
 												+ 'Label bekannt.</div>');
 
 								$('#labelAnlegenDiv').addClass("hidden");
+								return true;
 							}
 
 						})
@@ -466,6 +475,7 @@ function checkLabel(label) {
 													+ 'Sie ein neues Label an.</div>');
 
 							$('#labelAnlegenDiv').removeClass("hidden");
+							return false;
 						});
 
 	}

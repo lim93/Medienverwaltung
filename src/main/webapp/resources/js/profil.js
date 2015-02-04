@@ -134,8 +134,6 @@ function createCollectionTable(releases) {
 function addRow(release) {
 	var table = $('#table').dataTable();
 
-	var cover = check(release.imageURL) ? "<img src='" + release.imageURL
-			+ "' width=85px height=85px>" : "";
 	var title = check(release.title) ? "<a href='/medienverwaltung/version?versionId="
 			+ release.releaseId
 			+ "&masterId="
@@ -143,6 +141,16 @@ function addRow(release) {
 			+ "'>"
 			+ release.title + "</a>"
 			: "";
+
+	var cover = check(release.imageURL) ? "<a href='/medienverwaltung/version?versionId="
+			+ release.releaseId
+			+ "&masterId="
+			+ release.masterId
+			+ "'><img src='"
+			+ release.imageURL
+			+ "' width=85px height=85px></a>"
+			: "";
+
 	var artist = check(release.artist) ? "<a href='/medienverwaltung/artist?artistId="
 			+ release.artist.artistId + "'>" + release.artist.name + "</a>"
 			: "";
@@ -190,10 +198,22 @@ function fillContent() {
 
 function addRelease(contentString, release) {
 
-	var cover = check(release.imageURL) ? "<img src='" + release.imageURL
-			+ "' width=210px height=210px>" : "";
-	var title = check(release.title) ? "<a href='/bla' target='_blank'>"
-			+ release.title + "</a>" : "";
+	var title = check(release.title) ? "<a href='/medienverwaltung/version?versionId="
+			+ release.releaseId
+			+ "&masterId="
+			+ release.masterId
+			+ "'>"
+			+ release.title + "</a>"
+			: "";
+
+	var cover = check(release.imageURL) ? "<a href='/medienverwaltung/version?versionId="
+			+ release.releaseId
+			+ "&masterId="
+			+ release.masterId
+			+ "'><img src='"
+			+ release.imageURL
+			+ "' width=210px height=210px></a>"
+			: "";
 	var artist = check(release.artist) ? "<a href='/medienverwaltung/artist?artistId="
 			+ release.artist.artistId + "'>" + release.artist.name + "</a>"
 			: "";
