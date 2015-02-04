@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -21,6 +22,7 @@ import de.yellow.medienverwaltung.api.ReleaseDto;
 import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Format;
 import de.yellow.medienverwaltung.database.entity.Label;
+import de.yellow.medienverwaltung.database.entity.Master;
 import de.yellow.medienverwaltung.database.entity.Release;
 import de.yellow.medienverwaltung.database.entity.Track;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
@@ -293,4 +295,51 @@ public class ReleaseDao {
 
 	}
 
+	public List<Release> getReleasesByLabelId(long labelId) {
+		
+		JdbcTemplate jt = new JdbcTemplate(ds);
+		
+		List<Release> releases = new ArrayList<Release>();
+		
+		String sql = "SELECT * FROM media.release WHERE label_id = ?";
+		
+		releases = jt.query(sql, new Object[] { labelId }, new RowMapper<Release>() {
+			public Release mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Release release = new Release();
+				Format format = new Format();
+				Master master = new Master();
+				Artist artist = new Artist();
+				
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				release.setReleaseDay(rs.getInt("release_day"));
+				release.setReleaseMonth(rs.getInt("release_month"));
+				release.setReleaseYear(rs.getInt("release_year"));
+				release.setCatalogNo(rs.getString("catalog_no"));
+				release.setLabelCode(rs.getString("label_code"));
+				release.setBarcode(rs.getString("barcode"));
+				release.setComment(rs.getString("comment"));
+				
+				MasterDao mDao = new MasterDao();
+				master = mDao.getMasterById(rs.getInt("master_id"));
+				release.setTitle(master.getTitle());
+				release.setImageURL(master.getImageURL());
+				
+				FormatDao fDao = new FormatDao();
+				format = fDao.getFormatById(rs.getInt("format_id"));
+				release.setFormat(format);
+				
+				ArtistDao aDao = new ArtistDao();
+				artist = aDao.getArtistById(master.getArtist().getArtistId());
+				release.setArtist(artist);
+				
+				return release;
+			}
+			
+		});
+		
+		return releases;
+		
+	}
+	
 }

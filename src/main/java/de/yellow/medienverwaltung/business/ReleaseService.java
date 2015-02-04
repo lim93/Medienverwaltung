@@ -42,5 +42,14 @@ public class ReleaseService {
 
 		return release;
 	}
+	
+	public List<Release> getReleasesByLabelId(long labelId) {
+		
+		dao = new ReleaseDao();
+		
+		List<Release> releases = dao.getReleasesByLabelId(labelId);
+		
+		return releases;
+	}
 
 }
