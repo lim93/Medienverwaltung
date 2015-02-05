@@ -158,7 +158,7 @@ function validateAndSubmit() {
 
 	var label = $('#label').val();
 
-	$.getJSON("api/labels/search/?name=" + label, function(label) {
+	$.getJSON("api/labels/search/?name=" + label).done(function() {
 		
 		// Label bekannt, also nur Version submitten
 		validateAndSubmitVersion();
