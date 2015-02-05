@@ -66,5 +66,14 @@ public class UserController extends AbstractController {
 		return new ResponseEntity<Long>(collItemId, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping(value = "api/users/collection/", method = RequestMethod.DELETE, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Integer> deleteCollectionItem(@RequestBody CollectionItemDto collectionItem) {
+		
+		UserService service = new UserService();
+		int rowsAffected = service.deleteFromCollection(collectionItem.getUserId(), collectionItem.getVersionId());
+		
+		return new ResponseEntity<Integer>(rowsAffected, HttpStatus.OK);
+	}
 
 }

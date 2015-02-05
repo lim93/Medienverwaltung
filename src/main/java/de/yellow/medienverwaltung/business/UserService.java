@@ -70,5 +70,13 @@ public class UserService {
 
 		return collItemId;
 	}
+	
+	public int deleteFromCollection(int userId, int releaseId) {
+		dao = new UserDao();
+		
+		int rowsAffected = dao.deleteFromCollection(userId, releaseId);
+		
+		return rowsAffected;
+	}
 
 }

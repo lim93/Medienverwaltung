@@ -266,5 +266,25 @@ public class UserDao {
 		return collItemId;
 
 	}
+	
+	public int deleteFromCollection(final int userId, final int releaseId) {
+		
+		JdbcTemplate jt = new JdbcTemplate(ds);
+		
+		int rowsAffected = 0;
+		
+		String sql = "DELETE FROM collection_item WHERE user_id = ? AND release_id = ?";
+		
+		Object[] params = new Object[] { userId, releaseId };
+		
+		try {
+			rowsAffected = jt.update(sql, params);
+			return rowsAffected;
+		} catch (DataAccessException e) {
+			LOG.debug("Problem beim Löschen aus der Sammlung: " + e.getStackTrace());
+			return -1;
+		}
+		
+	}
 
 }
