@@ -50,42 +50,42 @@ public class GenreDao {
 		Map<Integer, Genre> map = jdbcTemplate
 				.query("SELECT g.genre_id, g.name as genre, s.subgenre_id, s.name as subgenre FROM genre g LEFT JOIN subgenre s on g.genre_id = s.genre_id;",
 						new ResultSetExtractor<Map<Integer, Genre>>() {
-					public Map<Integer, Genre> extractData(ResultSet rs)
-							throws SQLException {
-						Map<Integer, Genre> map = new HashMap<Integer, Genre>();
+							public Map<Integer, Genre> extractData(ResultSet rs)
+									throws SQLException {
+								Map<Integer, Genre> map = new HashMap<Integer, Genre>();
 
-						while (rs.next()) {
-							int id = rs.getInt("genre_id");
+								while (rs.next()) {
+									int id = rs.getInt("genre_id");
 
-							if (!map.containsKey(id)) {
-								Genre genre = new Genre();
+									if (!map.containsKey(id)) {
+										Genre genre = new Genre();
 
-								genre.setGenreId(id);
-								genre.setName(rs.getString("genre"));
+										genre.setGenreId(id);
+										genre.setName(rs.getString("genre"));
 
-								List<Subgenre> subgenres = new ArrayList<Subgenre>();
-								genre.setSubgenres(subgenres);
+										List<Subgenre> subgenres = new ArrayList<Subgenre>();
+										genre.setSubgenres(subgenres);
 
-								map.put(id, genre);
+										map.put(id, genre);
+									}
+
+									if (rs.getInt("subgenre_id") != 0) {
+										Subgenre subgenre = new Subgenre();
+
+										subgenre.setSubgenreId(rs
+												.getInt("subgenre_id"));
+										subgenre.setGenreId(id);
+										subgenre.setName(rs
+												.getString("subgenre"));
+
+										map.get(id).getSubgenres()
+												.add(subgenre);
+									}
+								}
+
+								return map;
 							}
-
-							if (rs.getInt("subgenre_id") != 0) {
-								Subgenre subgenre = new Subgenre();
-
-								subgenre.setSubgenreId(rs
-										.getInt("subgenre_id"));
-								subgenre.setGenreId(id);
-								subgenre.setName(rs
-										.getString("subgenre"));
-
-								map.get(id).getSubgenres()
-								.add(subgenre);
-							}
-						}
-
-						return map;
-					}
-				});
+						});
 
 		return map;
 
@@ -124,21 +124,21 @@ public class GenreDao {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
-		String sql = "select g.genre_id, g.name from genre g "
+		String sql = "select distinct g.genre_id, g.name from genre g "
 				+ "join master m on m.genre_id = g.genre_id where m.artist_id = ?";
 
 		List<Genre> list = jdbcTemplate.query(sql, new Object[] { artistId },
 				new RowMapper<Genre>() {
-			public Genre mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Genre genre = new Genre();
+					public Genre mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Genre genre = new Genre();
 
-				genre.setGenreId(rs.getInt("genre_id"));
-				genre.setName(rs.getString("name"));
+						genre.setGenreId(rs.getInt("genre_id"));
+						genre.setName(rs.getString("name"));
 
-				return genre;
-			}
-		});
+						return genre;
+					}
+				});
 
 		return list;
 	}

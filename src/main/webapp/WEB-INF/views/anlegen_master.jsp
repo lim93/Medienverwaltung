@@ -53,7 +53,7 @@ p {
 		<h2>Veröffentlichung anlegen</h2>
 
 		<div id="editDiv" class="panel panel-default"
-			style="float: left; display: inline; width: 70%; padding: 20px 20px 20px 20px">
+			style="float: left; display: inline; width: 70%; padding: 20px 20px 20px 20px; margin-bottom: 50px;">
 
 			<form action="" id="inputForm">
 
@@ -119,7 +119,7 @@ p {
 					<div class="panel-body">
 						<!--  <button id="uploadButton" class="btn btn-default">Datei
 							ausw&auml;hlen</button>-->
-						<input style="width: 450px; display: inline; float: left"
+						<input style="width: 100%; display: inline; float: left"
 							name="coverURL" id="coverURL" type="text" class="form-control"
 							placeholder="www.example.com/images/1234" />
 					</div>
@@ -155,7 +155,7 @@ p {
 		</div>
 
 		<div id="guideDiv"
-			style="float: right; display: inline; max-width: 25%">
+			style="float: right; display: inline; max-width: 25%; margin-bottom: 50px;">
 			<p style="font-size: 16px;">Auf dieser Seite k&ouml;nnen Sie die
 				Basis-Informationen zu einer Ver&ouml;ffentlichung eintragen. Dazu
 				z&auml;hlen K&uuml;nstler, Titel, Genre und das Erscheinungsjahr.</p>

@@ -83,7 +83,7 @@
 
 		<h5>
 			<span id="anlegenSpan"
-				style="float: right; display: inline; margin-top: 15px; margin-bottom: 20px;">
+				style="float: right; display: inline; margin-top: 15px; margin-bottom: 50px;">
 
 				<span id="anlegenTextSpan"></span>
 				<button id="anlegenButton" class="btn btn-success hidden">

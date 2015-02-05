@@ -113,7 +113,7 @@ a { /
 					</div>
 
 
-					<div class="panel panel-default">
+					<div class="panel panel-default" style="margin-bottom: 50px;">
 						<div class="panel-heading">
 							<h4 class="panel-title">Ver&ouml;ffentlichungen:</h4>
 						</div>

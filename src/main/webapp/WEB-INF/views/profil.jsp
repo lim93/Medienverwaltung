@@ -39,7 +39,7 @@ a { /
 
 .medienBereich {
 	width: 1250px;
-	min-height:500px;
+	min-height: 500px;
 	padding: 0px 5px 5px 235px;
 	float: left;
 }
@@ -99,7 +99,7 @@ a { /
 			</p>
 		</div>
 
-		<div class=medienBereich>
+		<div class=medienBereich style="margin-bottom: 50px;">
 
 			<div>
 				<div id="controls" style="margin-bottom: 5px; height: 40px">

@@ -13,23 +13,109 @@
 
 <!-- Bootstrap CSS-->
 <link rel="stylesheet" media="screen"
-	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+	href="/medienverwaltung/resources/bootstrap/css/bootstrap.css"
+	rel="stylesheet">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables.css">
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
+
+<!-- Styles ---------------------->
+<style type="text/css">
+a { /
+	word-wrap: break-word;
+}
+
+.centered {
+	width: 481px;
+	height: 280px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+html {
+	background: url(/medienverwaltung/resources/images/back.jpg) no-repeat
+		center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+}
+
+h1 {
+	text-align: center;
+	font-weight: bolder;
+}
+</style>
+
+
 </head>
-<body style="margin-top: 72px">
+<body>
 	<jsp:include page="includes/includeScriptImports.jsp" />
 
+
+	<!-- Index JS -->
+	<script type="text/javascript"
+		src="/medienverwaltung/resources/js/index.js"></script>
 
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
 
 
-	<div id=content></div>
+	<div id=content>
+
+
+
+		<div class="centered">
+
+
+
+			<form id=searchForm action="">
+
+				<div style="margin-left: 16px; margin-right: auto;">
+					<input id="indexSuchInput" type="text"
+						style="width: 350px; float: left; margin-right: 5px; margin-top: 10px;"
+						class="form-control" placeholder="Katalog durchsuchen">
+
+					<button id="indexSuchButton" type="submit" class="btn btn-info"
+						style="display: inline; margin-top: 10px;">
+						<span class="glyphicon glyphicon-search"></span> <b>Suchen</b>
+					</button>
+				</div>
+
+			</form>
+
+			<h1>
+				<span style="color: white">Nach K&uuml;nstlern und
+					Ver&ouml;ffentlichungen</span><span style="color: #5cb85c;">
+					suchen.</span>
+			</h1>
+			<h1>
+				<span style="color: white">Die eigene Musiksammlung</span><span
+					style="color: #5cb85c;"> verwalten.</span>
+			</h1>
+			<h1>
+				<span style="color: white">Neue Musik</span><span
+					style="color: #5cb85c;"> entdecken.</span>
+			</h1>
+
+		</div>
+
+
+	</div>
+
 	<jsp:include page="footer.jsp" />
+
 </body>
 </html>

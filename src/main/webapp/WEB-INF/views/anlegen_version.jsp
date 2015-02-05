@@ -88,7 +88,7 @@ tr {
 		<h2>Version anlegen</h2>
 
 		<div id="editDiv" class="panel panel-default"
-			style="float: left; display: inline; width: 70%; padding: 0px 20px 20px 20px">
+			style="float: left; display: inline; width: 70%; padding: 0px 20px 20px 20px; margin-bottom: 50px;">
 
 			<h4>
 				Version anlegen für "<span id="titelSpan"></span>" von "<span
@@ -215,7 +215,7 @@ tr {
 		</div>
 
 		<div id="guideDiv"
-			style="float: right; display: inline; max-width: 25%">
+			style="float: right; display: inline; max-width: 25%; margin-bottom: 50px;">
 			<p style="font-size: 16px; word-wrap: break-word;">Auf dieser
 				Seite k&ouml;nnen Sie eine konkrete Version einer
 				Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen Format, Label, die
