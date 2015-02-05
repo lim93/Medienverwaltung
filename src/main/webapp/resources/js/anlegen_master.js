@@ -137,19 +137,6 @@ function hideSelects() {
 
 function validateAndSubmit() {
 
-	var artistAnlegenHidden = $('#artistAnlegenDiv').hasClass("hidden");
-
-	if (!artistAnlegenHidden) {
-		validateAndSubmitArtist();
-
-	} else {
-
-	}
-
-}
-
-function validateAndSubmit() {
-
 	var artist = $('#artist').val();
 
 	$.getJSON("api/artists/search/?name=" + artist).done(function() {

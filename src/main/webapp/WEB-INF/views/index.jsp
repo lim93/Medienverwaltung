@@ -98,16 +98,16 @@ h1 {
 
 			<h1>
 				<span style="color: white">Nach K&uuml;nstlern und
-					Ver&ouml;ffentlichungen</span><span style="color: #5cb85c;">
+					Ver&ouml;ffentlichungen</span><span style="color: #449d44;">
 					suchen.</span>
 			</h1>
 			<h1>
 				<span style="color: white">Die eigene Musiksammlung</span><span
-					style="color: #5cb85c;"> verwalten.</span>
+					style="color: #449d44;"> verwalten.</span>
 			</h1>
 			<h1>
 				<span style="color: white">Neue Musik</span><span
-					style="color: #5cb85c;"> entdecken.</span>
+					style="color: #449d44;"> entdecken.</span>
 			</h1>
 
 		</div>
