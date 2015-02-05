@@ -78,8 +78,12 @@ a { /
 
 			<div id="addToCollectionDiv" class="hidden">
 				<button id="addButton" class="btn btn-success">
-					<span class="glyphicon glyphicon-headphones"></span> <b>Zur
-						Sammlung hinzuf&uuml;gen</b>
+					<b>Zur Sammlung hinzuf&uuml;gen</b>
+				</button>
+
+				<button id="removeButton" class="btn btn-danger">
+					<span class="glyphicon glyphicon-trash"></span> <b>Aus Sammlung
+						entfernen</b>
 				</button>
 				<hr>
 			</div>

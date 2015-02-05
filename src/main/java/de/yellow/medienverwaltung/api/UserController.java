@@ -55,8 +55,20 @@ public class UserController extends AbstractController {
 
 	}
 
+	@RequestMapping(value = "api/users/collection/", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<Boolean> getCollectionItemId(
+			@RequestParam(value = "userId") int userId,
+			@RequestParam(value = "versionId") int versionId) {
+
+		UserService service = new UserService();
+		boolean inCollection = service.hasInCollection(userId, versionId);
+
+		return new ResponseEntity<Boolean>(inCollection, HttpStatus.OK);
+
+	}
+
 	@RequestMapping(value = "api/users/collection/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Long> postNewUser(
+	public ResponseEntity<Long> postNewCollectionItem(
 			@RequestBody CollectionItemDto collectionItem) {
 
 		UserService service = new UserService();
@@ -66,13 +78,15 @@ public class UserController extends AbstractController {
 		return new ResponseEntity<Long>(collItemId, HttpStatus.OK);
 
 	}
-	
+
 	@RequestMapping(value = "api/users/collection/", method = RequestMethod.DELETE, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Integer> deleteCollectionItem(@RequestBody CollectionItemDto collectionItem) {
-		
+	public ResponseEntity<Integer> deleteCollectionItem(
+			@RequestBody CollectionItemDto collectionItem) {
+
 		UserService service = new UserService();
-		int rowsAffected = service.deleteFromCollection(collectionItem.getUserId(), collectionItem.getVersionId());
-		
+		int rowsAffected = service.deleteFromCollection(
+				collectionItem.getUserId(), collectionItem.getVersionId());
+
 		return new ResponseEntity<Integer>(rowsAffected, HttpStatus.OK);
 	}
 

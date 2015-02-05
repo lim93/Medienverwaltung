@@ -4,20 +4,31 @@
 $(document).ready(function() {
 
 	var userId = $('#userId').val();
+	var versionId = urlParam("versionId");
 
 	if (check(userId)) {
 
 		$('#addToCollectionDiv').removeClass('hidden');
 
-		// Zur Sammlung hinzufügen
-		$("#addButton").button({}).click(function(e) {
-			e.preventDefault();
-			e.stopPropagation();
+		checkInCollection(userId, versionId);
 
-			addToCollection();
-
-		});
 	}
+
+	// Zur Sammlung hinzufügen
+	$("#addButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		addToCollection();
+	});
+
+	// Aus Sammlung entfernen
+	$("#removeButton").button({}).click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		removeFromCollection();
+	});
 
 	getMaster();
 	getVersion();
@@ -35,6 +46,28 @@ $(document).ready(function() {
 
 });
 
+function checkInCollection(userId, versionId) {
+
+	$.getJSON(
+			"api/users/collection/?userId=" + userId + "&versionId="
+					+ versionId, function(result) {
+
+				if (result == true) {
+					$('#addButton').addClass("hidden");
+					$('#removeButton').removeClass("hidden");
+				} else {
+					$('#addButton').removeClass("hidden");
+					$('#removeButton').addClass("hidden");
+
+				}
+
+			}).fail(function(jqxhr, textStatus, error) {
+		var errorMessage = "Fehler: " + jqxhr.responseText;
+		showErrorMsg(errorMessage);
+	});
+
+}
+
 function getMaster() {
 
 	var masterId = urlParam("masterId");
@@ -49,7 +82,7 @@ function getMaster() {
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden des Masters ist ein Fehler aufgetreten: "
 								+ jqxhr.responseText;
-						showErrorMsg(errorMessage, "Fehler");
+						showErrorMsg(errorMessage);
 					});
 
 }
@@ -109,14 +142,14 @@ function getVersion() {
 					function(jqxhr, textStatus, error) {
 						var errorMessage = "Beim laden der Version ist ein Fehler aufgetreten: "
 								+ jqxhr.responseText;
-						showErrorMsg(errorMessage, "Fehler");
+						showErrorMsg(errorMessage);
 					});
 
 }
 
 function initPageRelease(release) {
 
-	if (release !== null & release !== undefined) {
+	if (check(release)) {
 
 		$('#labelSpan').html(
 				"<a href='/medienverwaltung/label?labelId="
@@ -211,9 +244,41 @@ function addToCollection() {
 	var userId = $('#userId').val();
 	var versionId = urlParam("versionId");
 
+	$
+			.ajax({
+				url : 'api/users/collection/',
+				type : 'POST',
+				data : JSON.stringify({
+					"userId" : userId,
+					"versionId" : versionId,
+
+				}),
+				contentType : "application/json; charset=utf-8",
+				dataType : 'json'
+
+			})
+			.done(function() {
+				$('#addButton').addClass("hidden");
+				$('#removeButton').removeClass("hidden");
+			})
+			.fail(
+					function(jqxhr, textStatus, error) {
+						var errorMessage = "Beim hinzuf&uuml;gen ist ein Fehler aufgetreten: "
+								+ jqxhr.responseText;
+						showErrorMsg(errorMessage);
+						return false;
+					});
+
+}
+
+function removeFromCollection() {
+
+	var userId = $('#userId').val();
+	var versionId = urlParam("versionId");
+
 	$.ajax({
 		url : 'api/users/collection/',
-		type : 'POST',
+		type : 'DELETE',
 		data : JSON.stringify({
 			"userId" : userId,
 			"versionId" : versionId,
@@ -223,12 +288,15 @@ function addToCollection() {
 		dataType : 'json'
 
 	}).done(function() {
-		$('#addToCollectionDiv').addClass("hidden");
-	}).fail(function(jqxhr, textStatus, error) {
-		var errorMessage = jqxhr.responseText;
-		showErrorMsg(errorMessage);
-		return false;
-	});
+		$('#addButton').removeClass("hidden");
+		$('#removeButton').addClass("hidden");
+	}).fail(
+			function(jqxhr, textStatus, error) {
+				var errorMessage = "Beim entfernen ist ein Fehler aufgetreten"
+						+ jqxhr.responseText;
+				showErrorMsg(errorMessage);
+				return false;
+			});
 
 }
 

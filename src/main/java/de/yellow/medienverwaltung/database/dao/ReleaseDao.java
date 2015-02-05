@@ -57,25 +57,25 @@ public class ReleaseDao {
 
 		List<Release> list = jdbcTemplate.query("select * from release",
 				new RowMapper<Release>() {
-					public Release mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Release release = new Release();
+			public Release mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Release release = new Release();
 
-						release.setReleaseId(rs.getInt("release_id"));
-						release.setMasterId(rs.getInt("master_id"));
-						// release.setLabelId(rs.getInt("label_id"));
-						// release.setFormatId(rs.getInt("format_id"));
-						release.setReleaseDay(rs.getInt("release_day"));
-						release.setReleaseMonth(rs.getInt("release_month"));
-						release.setReleaseYear(rs.getInt("release_year"));
-						release.setCatalogNo(rs.getString("catalog_no"));
-						release.setLabelCode(rs.getString("label_code"));
-						release.setBarcode(rs.getString("barcode"));
-						release.setComment(rs.getString("comment"));
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				// release.setLabelId(rs.getInt("label_id"));
+				// release.setFormatId(rs.getInt("format_id"));
+				release.setReleaseDay(rs.getInt("release_day"));
+				release.setReleaseMonth(rs.getInt("release_month"));
+				release.setReleaseYear(rs.getInt("release_year"));
+				release.setCatalogNo(rs.getString("catalog_no"));
+				release.setLabelCode(rs.getString("label_code"));
+				release.setBarcode(rs.getString("barcode"));
+				release.setComment(rs.getString("comment"));
 
-						return release;
-					}
-				});
+				return release;
+			}
+		});
 
 		return list;
 	}
@@ -88,37 +88,37 @@ public class ReleaseDao {
 
 		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
 				new RowMapper<Release>() {
-					public Release mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Release release = new Release();
+			public Release mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Release release = new Release();
 
-						release.setReleaseId(rs.getInt("release_id"));
-						release.setMasterId(rs.getInt("master_id"));
-						release.setReleaseDay(rs.getInt("release_day"));
-						release.setReleaseMonth(rs.getInt("release_month"));
-						release.setReleaseYear(rs.getInt("release_year"));
-						release.setCatalogNo(rs.getString("catalog_no"));
-						release.setLabelCode(rs.getString("label_code"));
-						release.setBarcode(rs.getString("barcode"));
-						release.setComment(rs.getString("comment"));
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				release.setReleaseDay(rs.getInt("release_day"));
+				release.setReleaseMonth(rs.getInt("release_month"));
+				release.setReleaseYear(rs.getInt("release_year"));
+				release.setCatalogNo(rs.getString("catalog_no"));
+				release.setLabelCode(rs.getString("label_code"));
+				release.setBarcode(rs.getString("barcode"));
+				release.setComment(rs.getString("comment"));
 
-						LabelDao lDao = new LabelDao();
-						Label label = lDao.getLabelById(rs.getInt("label_id"));
-						release.setLabel(label);
+				LabelDao lDao = new LabelDao();
+				Label label = lDao.getLabelById(rs.getInt("label_id"));
+				release.setLabel(label);
 
-						FormatDao fDao = new FormatDao();
-						Format format = fDao.getFormatById(rs
-								.getInt("format_id"));
-						release.setFormat(format);
+				FormatDao fDao = new FormatDao();
+				Format format = fDao.getFormatById(rs
+						.getInt("format_id"));
+				release.setFormat(format);
 
-						TrackDao tDao = new TrackDao();
-						List<Track> tracklist = tDao
-								.getTracklistByReleaseId(release.getReleaseId());
-						release.setTracklist(tracklist);
+				TrackDao tDao = new TrackDao();
+				List<Track> tracklist = tDao
+						.getTracklistByReleaseId(release.getReleaseId());
+				release.setTracklist(tracklist);
 
-						return release;
-					}
-				});
+				return release;
+			}
+		});
 
 		return list.get(0);
 
@@ -132,37 +132,37 @@ public class ReleaseDao {
 
 		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
 				new RowMapper<Release>() {
-					public Release mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Release release = new Release();
+			public Release mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Release release = new Release();
 
-						release.setReleaseId(rs.getInt("release_id"));
-						release.setMasterId(rs.getInt("master_id"));
-						release.setReleaseDay(rs.getInt("release_day"));
-						release.setReleaseMonth(rs.getInt("release_month"));
-						release.setReleaseYear(rs.getInt("release_year"));
-						release.setCatalogNo(rs.getString("catalog_no"));
-						release.setLabelCode(rs.getString("label_code"));
-						release.setBarcode(rs.getString("barcode"));
-						release.setComment(rs.getString("comment"));
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				release.setReleaseDay(rs.getInt("release_day"));
+				release.setReleaseMonth(rs.getInt("release_month"));
+				release.setReleaseYear(rs.getInt("release_year"));
+				release.setCatalogNo(rs.getString("catalog_no"));
+				release.setLabelCode(rs.getString("label_code"));
+				release.setBarcode(rs.getString("barcode"));
+				release.setComment(rs.getString("comment"));
 
-						LabelDao lDao = new LabelDao();
-						Label label = lDao.getLabelById(rs.getInt("label_id"));
-						release.setLabel(label);
+				LabelDao lDao = new LabelDao();
+				Label label = lDao.getLabelById(rs.getInt("label_id"));
+				release.setLabel(label);
 
-						FormatDao fDao = new FormatDao();
-						Format format = fDao.getFormatById(rs
-								.getInt("format_id"));
-						release.setFormat(format);
+				FormatDao fDao = new FormatDao();
+				Format format = fDao.getFormatById(rs
+						.getInt("format_id"));
+				release.setFormat(format);
 
-						TrackDao tDao = new TrackDao();
-						List<Track> tracklist = tDao
-								.getTracklistByReleaseId(release.getReleaseId());
-						release.setTracklist(tracklist);
+				TrackDao tDao = new TrackDao();
+				List<Track> tracklist = tDao
+						.getTracklistByReleaseId(release.getReleaseId());
+				release.setTracklist(tracklist);
 
-						return release;
-					}
-				});
+				return release;
+			}
+		});
 
 		return list;
 
@@ -179,44 +179,44 @@ public class ReleaseDao {
 
 		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
 				new RowMapper<Release>() {
-					public Release mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Release release = new Release();
+			public Release mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Release release = new Release();
 
-						release.setReleaseId(rs.getInt("release_id"));
-						release.setMasterId(rs.getInt("master_id"));
-						release.setTitle(rs.getString("title"));
-						release.setReleaseDay(rs.getInt("release_day"));
-						release.setReleaseMonth(rs.getInt("release_month"));
-						release.setReleaseYear(rs.getInt("release_year"));
-						release.setCatalogNo(rs.getString("catalog_no"));
-						release.setLabelCode(rs.getString("label_code"));
-						release.setBarcode(rs.getString("barcode"));
-						release.setComment(rs.getString("comment"));
-						release.setImageURL(rs.getString("image_url"));
+				release.setReleaseId(rs.getInt("release_id"));
+				release.setMasterId(rs.getInt("master_id"));
+				release.setTitle(rs.getString("title"));
+				release.setReleaseDay(rs.getInt("release_day"));
+				release.setReleaseMonth(rs.getInt("release_month"));
+				release.setReleaseYear(rs.getInt("release_year"));
+				release.setCatalogNo(rs.getString("catalog_no"));
+				release.setLabelCode(rs.getString("label_code"));
+				release.setBarcode(rs.getString("barcode"));
+				release.setComment(rs.getString("comment"));
+				release.setImageURL(rs.getString("image_url"));
 
-						LabelDao lDao = new LabelDao();
-						Label label = lDao.getLabelById(rs.getInt("label_id"));
-						release.setLabel(label);
+				LabelDao lDao = new LabelDao();
+				Label label = lDao.getLabelById(rs.getInt("label_id"));
+				release.setLabel(label);
 
-						FormatDao fDao = new FormatDao();
-						Format format = fDao.getFormatById(rs
-								.getInt("format_id"));
-						release.setFormat(format);
+				FormatDao fDao = new FormatDao();
+				Format format = fDao.getFormatById(rs
+						.getInt("format_id"));
+				release.setFormat(format);
 
-						TrackDao tDao = new TrackDao();
-						List<Track> tracklist = tDao
-								.getTracklistByReleaseId(release.getReleaseId());
-						release.setTracklist(tracklist);
+				TrackDao tDao = new TrackDao();
+				List<Track> tracklist = tDao
+						.getTracklistByReleaseId(release.getReleaseId());
+				release.setTracklist(tracklist);
 
-						ArtistDao aDao = new ArtistDao();
-						Artist artist = aDao.getArtistById(rs
-								.getInt("artist_id"));
-						release.setArtist(artist);
+				ArtistDao aDao = new ArtistDao();
+				Artist artist = aDao.getArtistById(rs
+						.getInt("artist_id"));
+				release.setArtist(artist);
 
-						return release;
-					}
-				});
+				return release;
+			}
+		});
 
 		return list;
 
@@ -296,50 +296,58 @@ public class ReleaseDao {
 	}
 
 	public List<Release> getReleasesByLabelId(long labelId) {
-		
+
 		JdbcTemplate jt = new JdbcTemplate(ds);
-		
+
 		List<Release> releases = new ArrayList<Release>();
-		
+
 		String sql = "SELECT * FROM media.release WHERE label_id = ?";
-		
-		releases = jt.query(sql, new Object[] { labelId }, new RowMapper<Release>() {
-			public Release mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Release release = new Release();
-				Format format = new Format();
-				Master master = new Master();
-				Artist artist = new Artist();
-				
-				release.setReleaseId(rs.getInt("release_id"));
-				release.setMasterId(rs.getInt("master_id"));
-				release.setReleaseDay(rs.getInt("release_day"));
-				release.setReleaseMonth(rs.getInt("release_month"));
-				release.setReleaseYear(rs.getInt("release_year"));
-				release.setCatalogNo(rs.getString("catalog_no"));
-				release.setLabelCode(rs.getString("label_code"));
-				release.setBarcode(rs.getString("barcode"));
-				release.setComment(rs.getString("comment"));
-				
-				MasterDao mDao = new MasterDao();
-				master = mDao.getMasterById(rs.getInt("master_id"));
-				release.setTitle(master.getTitle());
-				release.setImageURL(master.getImageURL());
-				
-				FormatDao fDao = new FormatDao();
-				format = fDao.getFormatById(rs.getInt("format_id"));
-				release.setFormat(format);
-				
-				ArtistDao aDao = new ArtistDao();
-				artist = aDao.getArtistById(master.getArtist().getArtistId());
-				release.setArtist(artist);
-				
-				return release;
-			}
-			
-		});
-		
+
+		releases = jt.query(sql, new Object[] { labelId },
+				new RowMapper<Release>() {
+					public Release mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Release release = new Release();
+						Format format = new Format();
+						Master master = new Master();
+						Artist artist = new Artist();
+						Label label = new Label();
+
+						release.setReleaseId(rs.getInt("release_id"));
+						release.setMasterId(rs.getInt("master_id"));
+						release.setReleaseDay(rs.getInt("release_day"));
+						release.setReleaseMonth(rs.getInt("release_month"));
+						release.setReleaseYear(rs.getInt("release_year"));
+						release.setCatalogNo(rs.getString("catalog_no"));
+						release.setLabelCode(rs.getString("label_code"));
+						release.setBarcode(rs.getString("barcode"));
+						release.setComment(rs.getString("comment"));
+
+						MasterDao mDao = new MasterDao();
+						master = mDao.getMasterById(rs.getInt("master_id"));
+						release.setTitle(master.getTitle());
+						release.setImageURL(master.getImageURL());
+
+						FormatDao fDao = new FormatDao();
+						format = fDao.getFormatById(rs.getInt("format_id"));
+						release.setFormat(format);
+
+						ArtistDao aDao = new ArtistDao();
+						artist = aDao.getArtistById(master.getArtist()
+								.getArtistId());
+						release.setArtist(artist);
+
+						LabelDao lDao = new LabelDao();
+						label = lDao.getLabelById(rs.getInt("label_id"));
+						release.setLabel(label);
+
+						return release;
+					}
+
+				});
+
 		return releases;
-		
+
 	}
-	
+
 }

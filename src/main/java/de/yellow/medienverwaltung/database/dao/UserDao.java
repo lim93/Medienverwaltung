@@ -61,18 +61,18 @@ public class UserDao {
 
 		List<User> list = jdbcTemplate.query("select * from user",
 				new RowMapper<User>() {
-					public User mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						User user = new User();
+			public User mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				User user = new User();
 
-						user.setUserId(rs.getInt("user_id"));
-						user.setUserName(rs.getString("user_name"));
-						user.setPassword(rs.getString("password"));
-						user.setEmail(rs.getString("email"));
+				user.setUserId(rs.getInt("user_id"));
+				user.setUserName(rs.getString("user_name"));
+				user.setPassword(rs.getString("password"));
+				user.setEmail(rs.getString("email"));
 
-						return user;
-					}
-				});
+				return user;
+			}
+		});
 
 		return list;
 	}
@@ -162,12 +162,12 @@ public class UserDao {
 
 		List<Integer> isAvailableList = jdbcTemplate.query(isAvailableSql,
 				new Object[] { userName }, new RowMapper<Integer>() {
-					public Integer mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Integer id = rs.getInt("user_id");
-						return id;
-					}
-				});
+			public Integer mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				Integer id = rs.getInt("user_id");
+				return id;
+			}
+		});
 
 		if (isAvailableList.size() != 0) {
 			throw new IllegalArgumentException("Benutzername bereits vergeben.");
@@ -223,6 +223,30 @@ public class UserDao {
 		return userId;
 	}
 
+	public boolean hasInCollection(final int userId, final int releaseId) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+
+		// Prüfen, ob Kombination aus user und version vorhanden
+		String inCollectionSql = "SELECT coll_item_id FROM collection_item WHERE user_id = ? and release_id = ?";
+
+		List<Integer> list = jdbcTemplate.query(inCollectionSql, new Object[] {
+				userId, releaseId }, new RowMapper<Integer>() {
+			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Integer id = rs.getInt("coll_item_id");
+
+				return id;
+			}
+		});
+
+		if (list.size() != 0) {
+			return true;
+		}
+		return false;
+
+	}
+
 	public Long addToCollection(final int userId, final int releaseId) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
@@ -266,25 +290,26 @@ public class UserDao {
 		return collItemId;
 
 	}
-	
+
 	public int deleteFromCollection(final int userId, final int releaseId) {
-		
+
 		JdbcTemplate jt = new JdbcTemplate(ds);
-		
+
 		int rowsAffected = 0;
-		
+
 		String sql = "DELETE FROM collection_item WHERE user_id = ? AND release_id = ?";
-		
+
 		Object[] params = new Object[] { userId, releaseId };
-		
+
 		try {
 			rowsAffected = jt.update(sql, params);
 			return rowsAffected;
 		} catch (DataAccessException e) {
-			LOG.debug("Problem beim Löschen aus der Sammlung: " + e.getStackTrace());
+			LOG.debug("Problem beim Löschen aus der Sammlung: "
+					+ e.getStackTrace());
 			return -1;
 		}
-		
+
 	}
 
 }

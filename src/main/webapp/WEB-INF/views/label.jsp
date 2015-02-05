@@ -29,6 +29,10 @@ a { /
 	word-wrap: break-word;
 }
 
+.artistButton {
+	
+}
+
 .coverPane {
 	width: 210px;
 	height: auto;
@@ -55,6 +59,10 @@ a { /
 	<jsp:include page="includes/includeScriptImports.jsp" />
 
 
+	<!-- Label JS -->
+	<script type="text/javascript"
+		src="/medienverwaltung/resources/js/label.js"></script>
+
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
 
@@ -63,10 +71,7 @@ a { /
 
 
 		<div class=coverPane>
-			<div id="imageDiv">
-				<img src="/medienverwaltung/resources/images/record.png"
-					width="210px" height="210px">
-			</div>
+			<div id="imageDiv"></div>
 
 
 		</div>
@@ -76,8 +81,7 @@ a { /
 			<div>
 				<div id="controls" style="margin-bottom: 5px;">
 					<div id="errorDiv"></div>
-					<h2 id="labelHeading" style="margin-top: 0px;">Solitary Man
-						Records</h2>
+					<h2 id="labelHeading" style="margin-top: 0px;"></h2>
 					<hr>
 
 				</div>
@@ -90,8 +94,7 @@ a { /
 						</div>
 						<div class="panel-body">
 							<p>
-								<b>Webseite:</b> <span id="websiteSpan"><a
-									href="http://www.ntvm.co.jp/solitary/" target="_blank">www.ntvm.co.jp/solitary/</a></span>
+								<b>Webseite:</b> <span id="websiteSpan"></span>
 							</p>
 
 
@@ -105,8 +108,8 @@ a { /
 						</div>
 						<div class="panel-body">
 
-							<p>To be done...</p>
-							<div id="artistTableDiv" class="dataTable"></div>
+
+							<div id="artistDiv"></div>
 						</div>
 					</div>
 
@@ -117,7 +120,6 @@ a { /
 						</div>
 						<div class="panel-body">
 
-							<p>To be done...</p>
 							<div id="releaseTableDiv" class="dataTable"></div>
 						</div>
 					</div>

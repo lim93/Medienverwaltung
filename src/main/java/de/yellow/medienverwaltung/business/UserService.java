@@ -63,6 +63,14 @@ public class UserService {
 		return userId;
 	}
 
+	public boolean hasInCollection(int userId, int versionId) {
+		dao = new UserDao();
+
+		boolean inCollection = dao.hasInCollection(userId, versionId);
+
+		return inCollection;
+	}
+
 	public long addToCollection(int userId, int versionId) {
 		dao = new UserDao();
 
@@ -70,12 +78,12 @@ public class UserService {
 
 		return collItemId;
 	}
-	
+
 	public int deleteFromCollection(int userId, int releaseId) {
 		dao = new UserDao();
-		
+
 		int rowsAffected = dao.deleteFromCollection(userId, releaseId);
-		
+
 		return rowsAffected;
 	}
 
