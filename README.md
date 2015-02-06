@@ -10,7 +10,7 @@ Webanwendung mit globalem Katalog zur Verwaltung der privaten Mediensammlung.
 5. Gegebenenfalls in src/main/resources/ die logback.xml anpassen.
 6. Maven Projekt in Eclipse importieren und dort auf lokalem Tomcat installieren.
 7. Tomcat starten.
-8. Aufrufen: "Pfad_zu_tomcat"/medienverwaltung/profil
+8. Aufrufen: "Pfad_zu_tomcat"/medienverwaltung/
 
 
 **Alternativ:**
