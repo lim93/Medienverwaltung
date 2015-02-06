@@ -1,25 +1,19 @@
 /**
  * Initialisierungen nach Laden der Seite
  */
-$(document)
-		.ready(
-				function() {
+$(document).ready(function() {
 
-					var userId = $('#userId').val();
+	var userId = $('#userId').val();
 
-					if (check(userId)) {
+	if (!check(userId)) {
 
-						getUser(userId);
-					} else {
+		window.location = "../medienverwaltung/login?error=1";
 
-						$('#content').addClass("hide");
+	} else {
+		$('#content').removeClass("hidden");
+	}
 
-						showErrorMsg("Bitte melden Sie sich an oder registrieren Sie sich, '"
-								+ "um diese Funktion zu nutzen");
-
-					}
-
-				});
+});
 
 var releases;
 

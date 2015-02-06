@@ -82,7 +82,7 @@ a { /
 	<div id=errorDiv
 		style="max-width: 80%; margin-left: auto; margin-right: auto;"></div>
 
-	<div id=content>
+	<div id=content class="hidden">
 
 
 		<div class=profil>

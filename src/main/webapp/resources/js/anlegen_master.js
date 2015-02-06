@@ -1,6 +1,17 @@
 $(document).ready(function() {
 
-	// Weiter-Button => Master anlegen (submit) + weiter zu Version anlegen
+	var userId = $('#userId').val();
+
+	if (!check(userId)) {
+
+		window.location = "../medienverwaltung/login?error=1";
+
+	} else {
+		$('#content').removeClass("hidden");
+	}
+
+	// Weiter-Button => Master anlegen (submit) + weiter zu
+	// Version anlegen
 	$("#weiterButton").button({}).click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -449,6 +460,21 @@ function checkArtist(artist) {
 
 	}
 
+}
+
+function check(value) {
+	if (value == "") {
+		return false;
+	}
+	if (value == null) {
+		return false;
+	}
+
+	if (value == undefined) {
+		return false;
+	}
+
+	return true;
 }
 
 function showErrorMsg(message) {

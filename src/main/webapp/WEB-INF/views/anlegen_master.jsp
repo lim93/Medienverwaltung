@@ -47,7 +47,7 @@ p {
 	<jsp:include page="navigation.jsp" />
 
 
-	<div id=content
+	<div id=content class="hidden"
 		style="max-width: 80%; margin-left: auto; margin-right: auto">
 
 		<h2>Veröffentlichung anlegen</h2>

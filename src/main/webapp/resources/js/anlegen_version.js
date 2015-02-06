@@ -1,6 +1,17 @@
 $(document).ready(function() {
 
-	// Speichern-Button => Version anlegen und weiter zur angelegten Version
+	var userId = $('#userId').val();
+
+	if (!check(userId)) {
+
+		window.location = "../medienverwaltung/login?error=1";
+
+	} else {
+		$('#content').removeClass("hidden");
+	}
+
+	// Speichern-Button => Version anlegen und weiter zur
+	// angelegten Version
 	$("#speichernButton").button({}).click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -42,7 +53,8 @@ $(document).ready(function() {
 
 	});
 
-	// Master über dessen id holen und damit Meta-Informationen setzen
+	// Master über dessen id holen und damit
+	// Meta-Informationen setzen
 	getMaster();
 
 	// Welche Formate können gewählt werden?
@@ -159,7 +171,7 @@ function validateAndSubmit() {
 	var label = $('#label').val();
 
 	$.getJSON("api/labels/search/?name=" + label).done(function() {
-		
+
 		// Label bekannt, also nur Version submitten
 		validateAndSubmitVersion();
 
@@ -480,6 +492,21 @@ function checkLabel(label) {
 
 	}
 
+}
+
+function check(value) {
+	if (value == "") {
+		return false;
+	}
+	if (value == null) {
+		return false;
+	}
+
+	if (value == undefined) {
+		return false;
+	}
+
+	return true;
 }
 
 function showErrorMsg(message) {

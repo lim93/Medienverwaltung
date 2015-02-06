@@ -18,9 +18,11 @@ public class GuiController {
 
 	// medienverwaltung/login => login.jsp
 	@RequestMapping("/login")
-	public ModelAndView showLogin() {
+	public ModelAndView showLogin(
+			@RequestParam(value = "error", required = false) Integer error) {
 
 		ModelAndView mv = new ModelAndView("login");
+		mv.addObject("error", error);
 
 		return mv;
 	}

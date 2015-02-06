@@ -1,24 +1,34 @@
-$(document).ready(function() {
+$(document)
+		.ready(
+				function() {
 
-	// Login-Button
-	$("#loginButton").button({}).click(function(e) {
-		e.preventDefault();
-		e.stopPropagation();
+					// Login-Button
+					$("#loginButton").button({}).click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
 
-		login();
+						login();
 
-	});
+					});
 
-	// Registrieren-Button
-	$("#registerButton").button({}).click(function(e) {
-		e.preventDefault();
-		e.stopPropagation();
+					// Registrieren-Button
+					$("#registerButton").button({}).click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
 
-		register();
+						register();
 
-	});
+					});
 
-});
+					var error = urlParam("error");
+
+					if (error == 1) {
+
+						showErrorMsg("Bitte melden Sie sich an oder registrieren Sie sich, "
+								+ "um diese Funktion nutzen zu k&ouml;nnen.");
+					}
+
+				});
 
 function login() {
 	var user = $('#name').val();
@@ -42,7 +52,7 @@ function login() {
 
 						if (result !== 0) {
 
-							window.location = "../medienverwaltung/loginSuccessful?userId="
+							window.location = "loginSuccessful?userId="
 									+ result + "&userName=" + user;
 						} else {
 							showErrorMsg("Falscher Benutzername oder falsches Passwort.");
@@ -61,7 +71,7 @@ function login() {
 
 function checkLogin(user, pwHash) {
 	return $.ajax({
-		url : 'api/users/login/',
+		url : '/medienverwaltung/api/users/login/',
 		type : 'POST',
 		data : JSON.stringify({
 			"username" : user,
@@ -131,7 +141,7 @@ function register() {
 	postUser(user, email, pwHash.toString(CryptoJS.enc.Base64)).done(
 			function(result) {
 
-				window.location = "../medienverwaltung/loginSuccessful?userId="
+				window.location = "loginSuccessful?userId="
 						+ result + "&userName=" + user;
 
 			}).fail(function(jqxhr, textStatus, error) {
@@ -144,7 +154,7 @@ function register() {
 
 function postUser(user, email, pw) {
 	return $.ajax({
-		url : 'api/users/',
+		url : '/medienverwaltung/api/users/',
 		type : 'POST',
 		data : JSON.stringify({
 			"userName" : user,
@@ -156,6 +166,16 @@ function postUser(user, email, pw) {
 		dataType : 'json'
 
 	});
+}
+
+function urlParam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+			.exec(window.location.href);
+	if (results == null) {
+		return null;
+	} else {
+		return results[1] || 0;
+	}
 }
 
 function showErrorMsg(message) {
