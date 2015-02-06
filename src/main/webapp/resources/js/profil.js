@@ -11,6 +11,7 @@ $(document).ready(function() {
 
 	} else {
 		$('#content').removeClass("hidden");
+		getUser(userId);
 	}
 
 });
