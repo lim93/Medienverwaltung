@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+	$('.logo').css('cursor', 'pointer');
+	$(".logo").click(function() {
+		window.location = "../medienverwaltung/";
+	});
+
 	// Suchen-Button
 	$("#suchButton").button({}).click(function(e) {
 		var input = $("#suchInput").val();

@@ -25,7 +25,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import de.yellow.medienverwaltung.api.Login;
 import de.yellow.medienverwaltung.api.UserDto;
 import de.yellow.medienverwaltung.database.entity.Artist;
-import de.yellow.medienverwaltung.database.entity.Genre;
 import de.yellow.medienverwaltung.database.entity.Release;
 import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.entity.User;
@@ -101,32 +100,14 @@ public class UserDao {
 		List<Release> releaseList = rDao.getReleasesByUserId(id);
 		user.setCollection(releaseList);
 
-		Map<Integer, Genre> userGenres = new HashMap<Integer, Genre>();
-		Map<Integer, Subgenre> userSubgenres = new HashMap<Integer, Subgenre>();
-		Map<Integer, Artist> userArtists = new HashMap<Integer, Artist>();
-
-		GenreDao gDao = new GenreDao();
 		SubgenreDao sDao = new SubgenreDao();
+		Map<Integer, Subgenre> userSubgenres = new HashMap<Integer, Subgenre>();
+		userSubgenres = sDao.getTopSubgenresByUserId(user.getUserId(), 10);
 
-		// TODO: Bessere Auswertung: SELECT ... ORDER BY COUNT(X) DESC LIMIT ...
-		for (Release release : releaseList) {
-			int masterId = release.getMasterId();
+		Map<Integer, Artist> userArtists = new HashMap<Integer, Artist>();
+		ArtistDao aDao = new ArtistDao();
+		userArtists = aDao.getTopArtistsByUserId(user.getUserId(), 10);
 
-			Genre g = gDao.getGenreByMasterId(masterId);
-			userGenres.put(g.getGenreId(), g);
-
-			List<Subgenre> sList = sDao.getSubgenresByMasterId(masterId);
-
-			for (Subgenre subgenre : sList) {
-				userSubgenres.put(subgenre.getSubgenreId(), subgenre);
-			}
-
-			userArtists.put(release.getArtist().getArtistId(),
-					release.getArtist());
-
-		}
-
-		user.setUseGenres(userGenres.values());
 		user.setUserSubgenres(userSubgenres.values());
 		user.setUserArtists(userArtists.values());
 

@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -56,19 +58,19 @@ public class ArtistDao {
 
 		List<Artist> list = jdbcTemplate.query("select * from artist",
 				new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Artist artist = new Artist();
+					public Artist mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Artist artist = new Artist();
 
-				artist.setArtistId(rs.getInt("artist_id"));
-				artist.setName(rs.getString("name"));
-				artist.setFormed(rs.getInt("formed"));
-				artist.setFrom(rs.getString("from"));
-				artist.setWebsite(rs.getString("website"));
+						artist.setArtistId(rs.getInt("artist_id"));
+						artist.setName(rs.getString("name"));
+						artist.setFormed(rs.getInt("formed"));
+						artist.setFrom(rs.getString("from"));
+						artist.setWebsite(rs.getString("website"));
 
-				return artist;
-			}
-		});
+						return artist;
+					}
+				});
 
 		return list;
 	}
@@ -107,20 +109,20 @@ public class ArtistDao {
 
 		artists = jdbcTemplate.query(sql, new Object[] { searchString },
 				new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Artist artist = new Artist();
+					public Artist mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Artist artist = new Artist();
 
-				artist.setArtistId(rs.getInt("artist_id"));
-				artist.setName(rs.getString("name"));
-				artist.setFormed(rs.getInt("formed"));
-				artist.setFrom(rs.getString("from"));
-				artist.setWebsite(rs.getString("website"));
+						artist.setArtistId(rs.getInt("artist_id"));
+						artist.setName(rs.getString("name"));
+						artist.setFormed(rs.getInt("formed"));
+						artist.setFrom(rs.getString("from"));
+						artist.setWebsite(rs.getString("website"));
 
-				return artist;
-			}
+						return artist;
+					}
 
-		});
+				});
 
 		return artists;
 
@@ -193,21 +195,63 @@ public class ArtistDao {
 
 		artists = jt.query(sql, new Object[] { labelId },
 				new RowMapper<Artist>() {
-			public Artist mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Artist artist = new Artist();
+					public Artist mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Artist artist = new Artist();
 
-				artist.setArtistId(rs.getInt("artist_id"));
-				artist.setName(rs.getString("name"));
-				artist.setFormed(rs.getInt("formed"));
-				artist.setFrom(rs.getString("from"));
-				artist.setWebsite(rs.getString("website"));
+						artist.setArtistId(rs.getInt("artist_id"));
+						artist.setName(rs.getString("name"));
+						artist.setFormed(rs.getInt("formed"));
+						artist.setFrom(rs.getString("from"));
+						artist.setWebsite(rs.getString("website"));
 
-				return artist;
-			}
-		});
+						return artist;
+					}
+				});
 
 		return artists;
+	}
+
+	public Map<Integer, Artist> getTopArtistsByUserId(int userId, int limit) {
+
+		JdbcTemplate jt = new JdbcTemplate(ds);
+
+		Map<Integer, Artist> artists = new HashMap<Integer, Artist>();
+
+		List<Artist> artistList = new ArrayList<Artist>();
+
+		String sql = "SELECT a.artist_id, a.name, a.formed, a.from, a.website "
+				+ "FROM artist AS a "
+				+ "JOIN master AS m ON a.artist_id = m.artist_id "
+				+ "JOIN media.release AS r ON m.master_id = r.master_id "
+				+ "JOIN collection_item AS c on r.release_id = c.release_id "
+				+ "WHERE c.user_id = ? " + "GROUP by a.artist_id "
+				+ "ORDER by COUNT(a.artist_id) desc " + "LIMIT ?;";
+
+		artistList = jt.query(sql, new Object[] { userId, limit },
+				new RowMapper<Artist>() {
+					public Artist mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Artist artist = new Artist();
+
+						artist.setArtistId(rs.getInt("artist_id"));
+						artist.setName(rs.getString("name"));
+						artist.setFormed(rs.getInt("formed"));
+						artist.setFrom(rs.getString("from"));
+						artist.setWebsite(rs.getString("website"));
+
+						return artist;
+					}
+				});
+
+		int counter = 0;
+		for (Artist artist : artistList) {
+			counter++;
+			artists.put(counter, artist);
+		}
+
+		return artists;
+
 	}
 
 	public long insert(ArtistDto artist) {
