@@ -19,15 +19,6 @@ public class ArtistService {
 
 	private ArtistDao dao;
 
-	public List<Artist> getAllArtists() {
-
-		dao = new ArtistDao();
-
-		List<Artist> artists = dao.getAllArtists();
-		// TODO: Do something useful with data
-		return artists;
-	}
-
 	public Artist getArtistByName(String name) {
 
 		dao = new ArtistDao();
@@ -64,4 +55,5 @@ public class ArtistService {
 
 		return artists;
 	}
+	
 }
