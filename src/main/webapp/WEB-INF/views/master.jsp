@@ -38,7 +38,7 @@ a { /
 }
 
 .infoPane {
-	width: 1250px;
+	width: 98%;
 	min-height: 450px;
 	margin-left: 7.5px;
 	padding: 0px 5px 5px 235px;

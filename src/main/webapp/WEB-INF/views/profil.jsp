@@ -30,13 +30,11 @@ a { /
 }
 
 .profil {
-	width: 15%;
-	min-width: 210px;
+	width: 210px;
 	height: auto;
 	float: left;
 	margin-left: 15px;
 	position: absolute;
-	display: inline-block;
 }
 
 .medienBereich {
@@ -44,7 +42,6 @@ a { /
 	min-height: 500px;
 	padding: 0px 5px 5px 235px;
 	float: right;
-	display: inline-block;
 }
 
 .medienObjekt {

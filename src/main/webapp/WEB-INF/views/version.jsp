@@ -34,8 +34,7 @@ table {
 }
 
 .coverPane {
-	width: 15%;
-	min-width: 210px;
+	width: 210px;
 	height: auto;
 	float: left;
 	margin-left: 15px;
