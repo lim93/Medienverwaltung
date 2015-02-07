@@ -25,6 +25,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import de.yellow.medienverwaltung.api.ArtistDto;
 import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Genre;
+import de.yellow.medienverwaltung.database.entity.Label;
 import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
@@ -45,8 +46,10 @@ public class ArtistDao extends JdbcTemplate {
 		}
 	}
 
+	/* Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(ArtistDao.class);
 	
+	/* Konstruktor */
 	public ArtistDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
@@ -60,6 +63,8 @@ public class ArtistDao extends JdbcTemplate {
 		this.setDataSource(ds);
 	}
 
+	/* Liefert ein Artist-Objekt anhand des Namens.
+	 * Wirft eine Exception, falls der Artist noch nicht vorhanden ist. */
 	public Artist getArtistByName(String name) {
 
 		String sql = "SELECT * FROM artist WHERE name = ?";
@@ -75,9 +80,8 @@ public class ArtistDao extends JdbcTemplate {
 		}
 	}
 
+	/* Methode für die Suche: Liefert eine Liste von Artists, die zum Suchstring passen. */
 	public List<Artist> searchArtistByName(String name) {
-
-		// Diese Methode zum Suchen.
 
 		List<Artist> artists = new ArrayList<Artist>();
 
@@ -93,6 +97,7 @@ public class ArtistDao extends JdbcTemplate {
 		return artists;
 	}
 
+	/* Liefert ein Artist-Objekt anhand der Artist-ID */
 	public Artist getArtistById(int id) {
 
 		Artist artist = new Artist();
@@ -105,6 +110,7 @@ public class ArtistDao extends JdbcTemplate {
 		return artist;
 	}
 
+	/* Liefert ein Artist-DTO anhand der Artist-ID */
 	public ArtistDto getArtistDtoById(int id) {
 
 		ArtistDto artistDto = new ArtistDto();
@@ -133,6 +139,8 @@ public class ArtistDao extends JdbcTemplate {
 		return artistDto;
 	}
 
+	/* Liefert eine Liste aller Artists, die bei einem bestimmten Label 
+	 * veröffentlicht haben */
 	public List<Artist> getArtistsByLabelId(long labelId) {
 
 		List<Artist> artists = new ArrayList<Artist>();
@@ -150,6 +158,7 @@ public class ArtistDao extends JdbcTemplate {
 		return artists;
 	}
 
+	/* Liefert die am häufigsten auftretenden Artists in der Sammlung eines Users */
 	public Map<Integer, Artist> getTopArtistsByUserId(int userId, int limit) {
 
 		Map<Integer, Artist> artists = new HashMap<Integer, Artist>();
@@ -177,6 +186,7 @@ public class ArtistDao extends JdbcTemplate {
 		return artists;
 	}
 
+	/* Fügt einen neuen Artist in die Datenbank ein */
 	public long insert(ArtistDto artist) {
 
 		final String name = artist.getName();
@@ -184,25 +194,17 @@ public class ArtistDao extends JdbcTemplate {
 		final String from = artist.getFrom();
 		final String website = artist.getWebsite();
 
-		// Prüfen, ob Artist schon vorhanden <- notwendig?
-		// String artistSql =
-		// "SELECT artist_id FROM artist WHERE name = ? and formed = ?";
-		//
-		// List<Integer> list = jdbcTemplate.query(artistSql, new Object[] {
-		// name,
-		// formed }, new RowMapper<Integer>() {
-		// public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-		//
-		// Integer id = rs.getInt("artist_id");
-		//
-		// return id;
-		// }
-		// });
+		// Prüfen, ob schon existent
+		try {
+			Artist controlArtist = getArtistByName(name);
 
-		// if (list.size() != 0) {
-		// throw new IllegalArgumentException(
-		// "Artist ist bereits vorhanden.");
-		// }
+			if (controlArtist != null) {
+				throw new IllegalStateException(
+						"Dieser Künstler ist bereits bekannt.");
+			}
+		} catch (IllegalArgumentException e) {
+			// alles ok
+		}
 
 		// Artist speichern & ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();

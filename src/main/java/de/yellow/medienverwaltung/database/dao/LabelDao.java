@@ -20,90 +20,73 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import de.yellow.medienverwaltung.api.LabelDto;
+import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Label;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
-public class LabelDao {
-
+public class LabelDao extends JdbcTemplate {
+	
+	/* Definition der Mapper-Klasse für Label-Objekte */
+	private class LabelRowMapper implements RowMapper<Label> {
+		public Label mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Label label = new Label();
+			
+			label.setLabelId(rs.getInt("label_id"));
+			label.setName(rs.getString("name"));
+			label.setWebsite(rs.getString("website"));
+			
+			return label;
+		}
+	}
+	
+	/* Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(LabelDao.class);
 
-	private DataSource ds;
-
+	/* Konstruktor */
 	public LabelDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		ds = factory.getDataSource();
+		DataSource ds = factory.getDataSource();
 
 		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
+		
+		this.setDataSource(ds);
 	}
 
-	/**
-	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
-	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Label} gemappt.
-	 * 
-	 * @return
-	 */
-	public List<Label> getAllLabels() {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		List<Label> list = jdbcTemplate.query("select * from label",
-				new RowMapper<Label>() {
-					public Label mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Label label = new Label();
-
-						label.setLabelId(rs.getInt("label_id"));
-						label.setName(rs.getString("name"));
-						label.setWebsite(rs.getString("website"));
-
-						return label;
-					}
-				});
-
-		return list;
-	}
-
-	public Label getLabelById(int id) {
-
-		JdbcTemplate jt = new JdbcTemplate(ds);
-
-		String sql = "select * from label where label_id = ?";
+	/* Liefert ein Label-Objekt anhand der Label-ID */
+	public Label getLabelById(int labelId) {
 
 		Label label = new Label();
-
-		label = jt.queryForObject(sql, new Object[] { id },
-				new BeanPropertyRowMapper<Label>(Label.class));
+		
+		String sql = "SELECT * FROM label WHERE label_id = ?";
+		Object[] params = new Object[] { labelId };
+		
+		label = queryForObject(sql, params, new LabelRowMapper());
 
 		return label;
 	}
 
+	/* Liefert ein Label-Objekt anhand des Namens.
+	 * Wirft eine Exception, falls das Label noch nicht vorhanden ist. */
 	public Label getLabelByName(String name) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		String sql = "select * from label where name = ?";
+		String sql = "SELECT * FROM label WHERE name = ?";
+		Object[] params = new Object[] { name };
 
 		try {
-			Label label = jdbcTemplate.queryForObject(sql,
-					new Object[] { name }, new BeanPropertyRowMapper<Label>(
-							Label.class));
-
+			Label label = queryForObject(sql, params, new LabelRowMapper());
 			return label;
 		} catch (EmptyResultDataAccessException e) {
 			throw new IllegalArgumentException(
 					"Dieses Label ist uns nicht bekannt.");
 		}
-
 	}
 
+	/* Fügt ein Label der Datenbank hinzu. */
 	public long insert(LabelDto label) {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		final String name = label.getName();
 		final String website = label.getWebsite();
@@ -124,7 +107,7 @@ public class LabelDao {
 
 		final String sql = "INSERT INTO label(label_id, name, website) VALUES(NULL, ?, ?)";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
+		update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(sql,

@@ -18,15 +18,6 @@ public class UserService {
 
 	private UserDao dao;
 
-	public List<User> getAllUsers() {
-
-		dao = new UserDao();
-
-		List<User> users = dao.getAllUsers();
-		// TODO: Do something useful with data
-		return users;
-	}
-
 	public User getUserById(int id) {
 
 		dao = new UserDao();

@@ -17,15 +17,6 @@ public class ReleaseService {
 
 	private ReleaseDao dao;
 
-	public List<Release> getAllReleases() {
-
-		dao = new ReleaseDao();
-
-		List<Release> releases = dao.getAllReleases();
-		// TODO: Do something useful with data
-		return releases;
-	}
-
 	public long insertRelease(ReleaseDto release) {
 		dao = new ReleaseDao();
 

@@ -27,63 +27,65 @@ import de.yellow.medienverwaltung.database.entity.Release;
 import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
-public class MasterDao {
+public class MasterDao extends JdbcTemplate {
+	
+	/* Definition der Mapper-Klasse für Master-Objekte */
+	private class MasterRowMapper implements RowMapper<Master> {
+		public Master mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Master master = new Master();
+			Artist artist = new Artist();
+			Genre genre = new Genre();
+			List<Subgenre> subgenres = new ArrayList<Subgenre>();
+			List<Release> releases = new ArrayList<Release>();
 
+			master.setMasterId(rs.getInt("master_id"));
+			master.setTitle(rs.getString("title"));
+			master.setReleaseDay(rs.getInt("release_day"));
+			master.setReleaseMonth(rs.getInt("release_month"));
+			master.setReleaseYear(rs.getInt("release_year"));
+			master.setImageURL(rs.getString("image_url"));
+
+			ArtistDao aDao = new ArtistDao();
+			artist = aDao.getArtistById(rs.getInt("artist_id"));
+			master.setArtist(artist);
+
+			GenreDao gDao = new GenreDao();
+			genre = gDao.getGenreById(rs.getInt("genre_id"));
+			master.setGenre(genre);
+
+			SubgenreDao sDao = new SubgenreDao();
+			subgenres = sDao.getSubgenresByMasterId(master
+					.getMasterId());
+			master.setSubgenres(subgenres);
+
+			ReleaseDao rDao = new ReleaseDao();
+			releases = rDao.getReleasesByMasterId(master
+					.getMasterId());
+			master.setReleases(releases);
+
+			return master;
+		}
+	}
+
+	/* Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(MasterDao.class);
 
-	private DataSource ds;
-
+	/* Konstruktor */
 	public MasterDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		ds = factory.getDataSource();
+		DataSource ds = factory.getDataSource();
 
 		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
+		
+		this.setDataSource(ds);
 	}
 
-	/**
-	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
-	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Master} gemappt.
-	 * 
-	 * @return
-	 */
-	public List<Master> getAllMasters() {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		List<Master> list = jdbcTemplate.query("select * from master",
-				new RowMapper<Master>() {
-					public Master mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Master master = new Master();
-
-						master.setMasterId(rs.getInt("master_id"));
-						// master.setArtistId(rs.getInt("artist_id"));
-						master.setTitle(rs.getString("title"));
-						master.setReleaseDay(rs.getInt("release_day"));
-						master.setReleaseMonth(rs.getInt("release_month"));
-						master.setReleaseYear(rs.getInt("release_year"));
-						master.setImageURL(rs.getString("image_url"));
-						master.setImage(rs.getBlob("image_data"));
-						// master.setGenreId(rs.getInt("genre_id"));
-
-						return master;
-					}
-				});
-
-		return list;
-	}
-
+	/* Fügt einen Master in die Datenbank ein und gibt die ID des neuen Master zurück. */
 	public long insertMaster(MasterDto master) {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		LOG.debug("insertMaster aufgerufen mit Artist Name: "
-				+ master.getArtist());
 
 		// Artist prüfen: Ist der angegebene Name bekannt?
 		ArtistDao aDao = new ArtistDao();
@@ -99,19 +101,19 @@ public class MasterDao {
 		final int genreId = master.getGenreId();
 
 		// Prüfen, ob Master schon vorhanden (Titel und Artist)
-		String titleSql = "SELECT master_id FROM master WHERE title = ? and artist_id = ?";
+		String checkSql = "SELECT master_id FROM master WHERE title = ? and artist_id = ?";
+		Object[] checkParams = new Object[] { title, artist };
 
-		List<Integer> list = jdbcTemplate.query(titleSql, new Object[] { title,
-				artist.getArtistId() }, new RowMapper<Integer>() {
-			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		List<Integer> list = query(checkSql, checkParams, 
+				new RowMapper<Integer>() {
+					public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+	
+						Integer id = rs.getInt("master_id");
+						return id;
+					}
+				});
 
-				Integer id = rs.getInt("master_id");
-
-				return id;
-			}
-		});
-
-		if (list.size() != 0) {
+		if (list.size() > 0) {
 			throw new IllegalArgumentException(
 					"Master zu dieser Ver&ouml;ffentlichung ist bereits vorhanden.");
 		}
@@ -124,9 +126,11 @@ public class MasterDao {
 		// Master speichern & ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		final String masterSql = "INSERT INTO master(master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)";
+		final String masterSql = "INSERT INTO master(master_id, artist_id, title, release_day, release_month, "
+				+ "release_year, image_url, genre_id) "
+				+ "VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
+		update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(masterSql,
@@ -147,13 +151,13 @@ public class MasterDao {
 		// Subgenres speichern
 		if (master.getSubgenreIds() != null
 				&& master.getSubgenreIds().size() != 0) {
+			
 			final String subgenreSql = "INSERT INTO master_subgenre(master_id, subgenre_id) VALUES(?, ?)";
 
 			for (int subgenreId : master.getSubgenreIds()) {
 
-				Object[] params = new Object[] { masterId, subgenreId };
-
-				jdbcTemplate.update(subgenreSql, params);
+				Object[] subgenreParams = new Object[] { masterId, subgenreId };
+				update(subgenreSql, subgenreParams);
 
 			}
 		}
@@ -164,57 +168,21 @@ public class MasterDao {
 
 	}
 
-	public Master getMasterById(long id) {
+	/* Liefert ein Master-Objekt anhand der Master-ID */
+	public Master getMasterById(long masterId) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, "
+				+ "image_url, genre_id "
+				+ "FROM master WHERE master_id = ?";
+		Object[] params = new Object[] { masterId };
 
-		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE master_id = ?";
-
-		List<Master> masterList = jdbcTemplate.query(sql, new Object[] { id },
-				new RowMapper<Master>() {
-					public Master mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Master master = new Master();
-						Artist artist = new Artist();
-						Genre genre = new Genre();
-						List<Subgenre> subgenres = new ArrayList<Subgenre>();
-						List<Release> releases = new ArrayList<Release>();
-
-						master.setMasterId(rs.getInt("master_id"));
-						master.setTitle(rs.getString("title"));
-						master.setReleaseDay(rs.getInt("release_day"));
-						master.setReleaseMonth(rs.getInt("release_month"));
-						master.setReleaseYear(rs.getInt("release_year"));
-						master.setImageURL(rs.getString("image_url"));
-
-						ArtistDao aDao = new ArtistDao();
-						artist = aDao.getArtistById(rs.getInt("artist_id"));
-						master.setArtist(artist);
-
-						GenreDao gDao = new GenreDao();
-						genre = gDao.getGenreById(rs.getInt("genre_id"));
-						master.setGenre(genre);
-
-						SubgenreDao sDao = new SubgenreDao();
-						subgenres = sDao.getSubgenresByMasterId(master
-								.getMasterId());
-						master.setSubgenres(subgenres);
-
-						ReleaseDao rDao = new ReleaseDao();
-						releases = rDao.getReleasesByMasterId(master
-								.getMasterId());
-						master.setReleases(releases);
-
-						return master;
-					}
-				});
-
+		List<Master> masterList = query(sql, params, new MasterRowMapper());
+		
 		return masterList.get(0);
 	}
 
+	/* Liefert eine Liste von Master-Objekten anhand des Künstlernamens */ 
 	public List<Master> getMastersByArtistName(String name) {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Master> masterList = new ArrayList<Master>();
 
@@ -228,68 +196,32 @@ public class MasterDao {
 			return masterList;
 		}
 
-		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE artist_id = ?";
+		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, "
+				+ "image_url, genre_id "
+				+ "FROM master WHERE artist_id = ?";
 
 		for (Artist artist : artists) {
 
 			List<Master> mastersForArtist = new ArrayList<Master>();
+			Object[] params = new Object[] { artist.getArtistId() };
 
-			mastersForArtist = jdbcTemplate.query(sql,
-					new Object[] { artist.getArtistId() },
-					new RowMapper<Master>() {
-						public Master mapRow(ResultSet rs, int rowNum)
-								throws SQLException {
-							Master master = new Master();
-							Artist artist = new Artist();
-							Genre genre = new Genre();
-							List<Subgenre> subgenres = new ArrayList<Subgenre>();
-							List<Release> releases = new ArrayList<Release>();
-
-							master.setMasterId(rs.getInt("master_id"));
-							master.setTitle(rs.getString("title"));
-							master.setReleaseDay(rs.getInt("release_day"));
-							master.setReleaseMonth(rs.getInt("release_month"));
-							master.setReleaseYear(rs.getInt("release_year"));
-							master.setImageURL(rs.getString("image_url"));
-
-							ArtistDao aDao = new ArtistDao();
-							artist = aDao.getArtistById(rs.getInt("artist_id"));
-							master.setArtist(artist);
-
-							GenreDao gDao = new GenreDao();
-							genre = gDao.getGenreById(rs.getInt("genre_id"));
-							master.setGenre(genre);
-
-							SubgenreDao sDao = new SubgenreDao();
-							subgenres = sDao.getSubgenresByMasterId(master
-									.getMasterId());
-							master.setSubgenres(subgenres);
-
-							ReleaseDao rDao = new ReleaseDao();
-							releases = rDao.getReleasesByMasterId(master
-									.getMasterId());
-							master.setReleases(releases);
-
-							return master;
-						}
-					});
-
+			mastersForArtist = query(sql, params, new MasterRowMapper());
+			
 			masterList.addAll(mastersForArtist);
-
 		}
 
 		return masterList;
 	}
 
+	/* Liefert eine Liste von MasterDtos, die zu einer bestimmten Artist-ID passen */
 	public List<MasterDto> getMastersByArtistId(long artistId) {
-		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 		
 		List<MasterDto> masters = new ArrayList<MasterDto>();
 		
 		String sql = "SELECT * FROM master WHERE artist_id = ?";
+		Object[] params = new Object[] { artistId };
 		
-		masters = jdbcTemplate.query(sql, new Object[] { artistId },
+		masters = query(sql, params,
 				new RowMapper<MasterDto>() {
 					public MasterDto mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
@@ -332,56 +264,21 @@ public class MasterDao {
 		
 	}
 	
+	/* Methode für die Suche: Liefert alle Master, deren Titel zum Suchstring passen.  */
 	public List<Master> getMastersByTitle(String title) {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		List<Master> masters = new ArrayList<Master>();
 
 		String searchString = '%' + title.trim().replace(' ', '%') + '%';
 
-		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, image_url, genre_id FROM master WHERE title LIKE ?";
-
-		masters = jdbcTemplate.query(sql, new Object[] { searchString },
-				new RowMapper<Master>() {
-					public Master mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						Master master = new Master();
-						Artist artist = new Artist();
-						Genre genre = new Genre();
-						List<Subgenre> subgenres = new ArrayList<Subgenre>();
-						List<Release> releases = new ArrayList<Release>();
-
-						master.setMasterId(rs.getInt("master_id"));
-						master.setTitle(rs.getString("title"));
-						master.setReleaseDay(rs.getInt("release_day"));
-						master.setReleaseMonth(rs.getInt("release_month"));
-						master.setReleaseYear(rs.getInt("release_year"));
-						master.setImageURL(rs.getString("image_url"));
-
-						ArtistDao aDao = new ArtistDao();
-						artist = aDao.getArtistById(rs.getInt("artist_id"));
-						master.setArtist(artist);
-
-						GenreDao gDao = new GenreDao();
-						genre = gDao.getGenreById(rs.getInt("genre_id"));
-						master.setGenre(genre);
-
-						SubgenreDao sDao = new SubgenreDao();
-						subgenres = sDao.getSubgenresByMasterId(master.getMasterId());
-						master.setSubgenres(subgenres);
-
-						ReleaseDao rDao = new ReleaseDao();
-						releases = rDao.getReleasesByMasterId(master
-								.getMasterId());
-						master.setReleases(releases);
-
-						return master;
-					}
-				});
-
+		String sql = "SELECT master_id, artist_id, title, release_day, release_month, release_year, "
+				+ "image_url, genre_id "
+				+ "FROM master WHERE title LIKE ?";
+		Object[] params = new Object[] { searchString };
+		
+		masters = query(sql, params, new MasterRowMapper());
+		
 		return masters;
-
 	}
 
 }

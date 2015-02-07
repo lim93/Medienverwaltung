@@ -10,62 +10,59 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Format;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
-public class FormatDao {
+public class FormatDao extends JdbcTemplate {
 
-	private DataSource ds;
+	/* Definition der Mapper-Klasse für Format-Objekte */
+	private class FormatRowMapper implements RowMapper<Format> {
+		public Format mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Format format = new Format();
 
+			format.setFormatId(rs.getInt("format_id"));
+			format.setType(rs.getString("type"));
+
+			return format;
+		}
+	}
+	
+	/* Konstruktor */
 	public FormatDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		ds = factory.getDataSource();
+		DataSource ds = factory.getDataSource();
 
 		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
+		
+		this.setDataSource(ds);
 	}
 
-	/**
-	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
-	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Format} gemappt.
-	 * 
-	 * @return
-	 */
+	/* Liefert Liste aller Formate */
 	public List<Format> getAllFormats() {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		List<Format> list = jdbcTemplate.query("select * from format",
-				new RowMapper<Format>() {
-			public Format mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Format format = new Format();
-
-				format.setFormatId(rs.getInt("format_id"));
-				format.setType(rs.getString("type"));
-
-				return format;
-			}
-		});
-
-		return list;
+		String sql = "SELECT * FROM format";
+		
+		List<Format> formats = query(sql, new FormatRowMapper());
+		
+		return formats;
 	}
 
+	/* Liefert ein Format anhand der Format-ID */
 	public Format getFormatById(int id) {
 
-		JdbcTemplate jt = new JdbcTemplate(ds);
-
-		String sql = "select * from format where format_id = ?";
-
 		Format format = new Format();
+		
+		String sql = "SELECT * FROM format WHERE format_id = ?";
+		Object[] params = new Object[] { id };
 
-		format = jt.queryForObject(sql, new Object[] { id },
-				new BeanPropertyRowMapper<Format>(Format.class));
+		format = queryForObject(sql, params, new FormatRowMapper());
 
 		return format;
 	}
+	
 }

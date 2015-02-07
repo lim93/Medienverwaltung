@@ -1,6 +1,5 @@
 package de.yellow.medienverwaltung.business;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +19,6 @@ import de.yellow.medienverwaltung.database.util.MasterDtoConverter;
 public class MasterService {
 
 	private MasterDao dao;
-
-	public List<Master> getAllMasters() {
-
-		dao = new MasterDao();
-
-		List<Master> masters = dao.getAllMasters();
-		// TODO: Do something useful with data
-		return masters;
-	}
 
 	@Transactional
 	public long insertMaster(MasterDto master) {

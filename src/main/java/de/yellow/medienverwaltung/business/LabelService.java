@@ -16,15 +16,6 @@ import de.yellow.medienverwaltung.database.entity.Label;
 public class LabelService {
 
 	private LabelDao dao;
-
-	public List<Label> getAllLabels() {
-
-		dao = new LabelDao();
-
-		List<Label> labels = dao.getAllLabels();
-		// TODO: Do something useful with data
-		return labels;
-	}
 	
 	public Label getLabelById(int id) {
 		

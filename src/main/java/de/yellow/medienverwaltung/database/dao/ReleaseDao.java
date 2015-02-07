@@ -27,66 +27,32 @@ import de.yellow.medienverwaltung.database.entity.Release;
 import de.yellow.medienverwaltung.database.entity.Track;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
-public class ReleaseDao {
+public class ReleaseDao extends JdbcTemplate {
 
+	/* Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(ReleaseDao.class);
 
-	private DataSource ds;
-
+	/* Konstruktor */
 	public ReleaseDao() {
 		ConnectionFactory factory = new ConnectionFactory();
 
-		ds = factory.getDataSource();
+		DataSource ds = factory.getDataSource();
 
 		if (ds == null) {
 			throw new IllegalStateException(
 					"Es konnte keine DataSource erstellt werden");
 		}
+		
+		this.setDataSource(ds);
 	}
 
-	/**
-	 * Holt eine DataSource und erstellt daraus ein {@link JdbcTemplate}. Damit
-	 * wird eine Abfrage gegen die Datenbank gestartet. Das Ergebnis wird mit
-	 * einem {@link RowMapper} auf die Klasse {@link Release} gemappt.
-	 * 
-	 * @return
-	 */
-	public List<Release> getAllReleases() {
+	/* Liefert ein Release-Objekt anhand der Release-ID */
+	public Release getReleaseById(int releaseId) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+		String sql = "SELECT * FROM media.release WHERE release_id = ?";
+		Object[] params = new Object[] { releaseId };
 
-		List<Release> list = jdbcTemplate.query("select * from release",
-				new RowMapper<Release>() {
-			public Release mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				Release release = new Release();
-
-				release.setReleaseId(rs.getInt("release_id"));
-				release.setMasterId(rs.getInt("master_id"));
-				// release.setLabelId(rs.getInt("label_id"));
-				// release.setFormatId(rs.getInt("format_id"));
-				release.setReleaseDay(rs.getInt("release_day"));
-				release.setReleaseMonth(rs.getInt("release_month"));
-				release.setReleaseYear(rs.getInt("release_year"));
-				release.setCatalogNo(rs.getString("catalog_no"));
-				release.setLabelCode(rs.getString("label_code"));
-				release.setBarcode(rs.getString("barcode"));
-				release.setComment(rs.getString("comment"));
-
-				return release;
-			}
-		});
-
-		return list;
-	}
-
-	public Release getReleaseById(int id) {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		String sql = "select * from media.release where release_id = ?";
-
-		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
+		List<Release> list = query(sql, params,
 				new RowMapper<Release>() {
 			public Release mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
@@ -124,13 +90,13 @@ public class ReleaseDao {
 
 	}
 
-	public List<Release> getReleasesByMasterId(int id) {
+	/* Liefert die Liste der Releases zu einer Master-ID */
+	public List<Release> getReleasesByMasterId(int masterId) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
-
-		String sql = "select * from media.release where master_id = ?";
-
-		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
+		String sql = "SELECT * FROM media.release WHERE master_id = ?";
+		Object[] params = new Object[] { masterId };
+		
+		List<Release> list = query(sql, params,
 				new RowMapper<Release>() {
 			public Release mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
@@ -168,16 +134,16 @@ public class ReleaseDao {
 
 	}
 
-	public List<Release> getReleasesByUserId(int id) {
+	/* Liefert alle Releases, die sich in der Sammlung des Users mit der übergebenen ID befinden. */ 
+	public List<Release> getReleasesByUserId(int userId) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+		String sql = "SELECT * FROM media.release r "
+				+ "JOIN collection_item c ON r.release_id = c.release_id "
+				+ "JOIN master m ON r.master_id = m.master_id "
+				+ "WHERE c.user_id = ?";
+		Object[] params = new Object[] { userId };
 
-		String sql = "select * from media.release r "
-				+ "join collection_item c on r.release_id = c.release_id "
-				+ "join master m on r.master_id = m.master_id "
-				+ "where c.user_id = ?";
-
-		List<Release> list = jdbcTemplate.query(sql, new Object[] { id },
+		List<Release> releases = query(sql, params,
 				new RowMapper<Release>() {
 			public Release mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
@@ -218,13 +184,12 @@ public class ReleaseDao {
 			}
 		});
 
-		return list;
+		return releases;
 
 	}
 
+	/* Fügt ein ReleaseDto in die Datenbank ein */
 	public long insertRelease(ReleaseDto release) {
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
 
 		final int masterId = release.getMasterId();
 		final int formatId = release.getFormatId();
@@ -253,9 +218,11 @@ public class ReleaseDao {
 		// Release speichern & ID merken
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		final String releaseSql = "INSERT INTO `media`.`release` (`release_id`, `master_id`, `label_id`, `format_id`, `release_day`, `release_month`, `release_year`, `catalog_no`, `label_code`, `barcode`, `comment`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		final String releaseSql = "INSERT INTO media.release (release_id, master_id, label_id, format_id, "
+				+ "release_day, release_month, release_year, catalog_no, label_code, barcode, comment) "
+				+ "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		jdbcTemplate.update(new PreparedStatementCreator() {
+		update(new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(releaseSql,
@@ -286,7 +253,7 @@ public class ReleaseDao {
 
 			Object[] params = new Object[] { releaseId, trackId };
 
-			jdbcTemplate.update(tracklistSql, params);
+			update(tracklistSql, params);
 		}
 
 		LOG.debug("Release wurde eingefügt mit der id: " + releaseId);
@@ -295,15 +262,14 @@ public class ReleaseDao {
 
 	}
 
+	/* Liefert eine Liste von Releases, die bei dem Label mit der übergebenen ID erschienen sind. */
 	public List<Release> getReleasesByLabelId(long labelId) {
-
-		JdbcTemplate jt = new JdbcTemplate(ds);
 
 		List<Release> releases = new ArrayList<Release>();
 
 		String sql = "SELECT * FROM media.release WHERE label_id = ?";
 
-		releases = jt.query(sql, new Object[] { labelId },
+		releases = query(sql, new Object[] { labelId },
 				new RowMapper<Release>() {
 					public Release mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
