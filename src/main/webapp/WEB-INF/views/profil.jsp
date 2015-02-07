@@ -30,18 +30,21 @@ a { /
 }
 
 .profil {
-	width: 210px;
+	width: 15%;
+	min-width: 210px;
 	height: auto;
 	float: left;
 	margin-left: 15px;
 	position: absolute;
+	display: inline-block;
 }
 
 .medienBereich {
-	width: 1250px;
+	width: 100%;
 	min-height: 500px;
 	padding: 0px 5px 5px 235px;
-	float: left;
+	float: right;
+	display: inline-block;
 }
 
 .medienObjekt {
@@ -82,7 +85,7 @@ a { /
 	<div id=errorDiv
 		style="max-width: 80%; margin-left: auto; margin-right: auto;"></div>
 
-	<div id=content class="hidden">
+	<div id=content style="width: 100%;" class="hidden">
 
 
 		<div class=profil>
@@ -126,6 +129,46 @@ a { /
 
 		</div>
 	</div>
+
+
+
+	<div id="removeModal" class="modal fade">
+
+		<div class="modal-dialog">
+
+			<div class="modal-content">
+
+				<div class="modal-header">
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+
+					<h4 class="modal-title">Best&auml;tigung</h4>
+
+				</div>
+
+				<div class="modal-body">
+
+					<p>Wollen Sie diese Ver&ouml;ffentlichung aus Ihrer Sammlung
+						entfernen?</p>
+
+				</div>
+
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+
+					<span id="removeButtonSpan"></span>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
 
 	<jsp:include page="footer.jsp" />
 

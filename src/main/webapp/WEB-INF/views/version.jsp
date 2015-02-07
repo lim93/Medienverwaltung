@@ -29,8 +29,13 @@ a { /
 	word-wrap: break-word;
 }
 
+table {
+	width: 100%;
+}
+
 .coverPane {
-	width: 210px;
+	width: 15%;
+	min-width: 210px;
 	height: auto;
 	float: left;
 	margin-left: 15px;
@@ -38,7 +43,8 @@ a { /
 }
 
 .infoPane {
-	width: 1250px;
+	width: 98%;
+	min-width: 300px;
 	margin-left: 7.5px;
 	margin-bottom: 50px;
 	padding: 0px 5px 5px 235px;

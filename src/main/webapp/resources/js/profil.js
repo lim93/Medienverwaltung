@@ -1,20 +1,58 @@
 /**
  * Initialisierungen nach Laden der Seite
  */
-$(document).ready(function() {
+$(document)
+		.ready(
+				function() {
 
-	var userId = $('#userId').val();
+					var userId = $('#userId').val();
 
-	if (!check(userId)) {
+					if (!check(userId)) {
 
-		window.location = "../medienverwaltung/login?error=1";
+						window.location = "../medienverwaltung/login?error=1";
 
-	} else {
-		$('#content').removeClass("hidden");
-		getUser(userId);
-	}
+					} else {
+						$('#content').removeClass("hidden");
+						getUser(userId);
+					}
 
-});
+					$("#removeModal")
+							.on(
+									'show.bs.modal',
+									function(event) {
+
+										var userId = $('#userId').val();
+
+										// Get button that triggered the modal
+										var button = $(event.relatedTarget)
+										var versionId = button
+												.data('versionid');
+
+										var removeButton = '<button id="removeButton" data-versionId='
+												+ versionId
+												+ ' class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>'
+												+ ' <b>Aus Sammlung entfernen</b></button>';
+
+										$('#removeButtonSpan').html(
+												removeButton);
+
+										// Aus der Sammlung entfernen
+										$("#removeButton").button({}).click(
+												function(e) {
+													e.preventDefault();
+													e.stopPropagation();
+
+													var $this = $(this);
+													versionId = $this
+															.data('versionid');
+
+													removeFromCollection(
+															userId, versionId);
+												});
+
+									});
+
+				});
 
 var releases;
 
@@ -76,7 +114,7 @@ function createCollectionTable(releases) {
 
 	$('#tableDiv')
 			.html(
-					'<table id="table" class="display"><thead><tr><th></th><th>Titel</th><th>Artist</th><th>Format</th><th>Jahr</th></tr></thead><tbody></tbody></table>');
+					'<table id="table" class="display"><thead><tr><th></th><th>Titel</th><th>Artist</th><th>Format</th><th>Jahr</th><th></th></tr></thead><tbody></tbody></table>');
 
 	$('#table')
 			.DataTable(
@@ -152,7 +190,14 @@ function addRow(release) {
 	var format = check(release.format.type) ? release.format.type : "";
 	var jahr = check(release.releaseYear) ? release.releaseYear : "";
 
-	table.fnAddData([ cover, title, artist, format, jahr ], false);
+	var removeButton = '<button class="btn btn-danger removeButton" data-versionId='
+			+ release.releaseId
+			+ ' data-toggle="modal" data-target="#removeModal">'
+			+ '<span class="glyphicon glyphicon-trash">' + '</span></button>';
+
+	table
+			.fnAddData([ cover, title, artist, format, jahr, removeButton ],
+					false);
 
 }
 
@@ -219,6 +264,32 @@ function addRelease(contentString, release) {
 			+ "<p>Format: " + format + "</p></div></div>";
 
 	return releaseString;
+
+}
+
+function removeFromCollection(userId, versionId) {
+
+	$.ajax({
+		url : 'api/users/collection/',
+		type : 'DELETE',
+		data : JSON.stringify({
+			"userId" : userId,
+			"versionId" : versionId,
+
+		}),
+		contentType : "application/json; charset=utf-8",
+		dataType : 'json'
+
+	}).done(function() {
+		$("#removeModal").modal('hide');
+		location.reload();
+	}).fail(
+			function(jqxhr, textStatus, error) {
+				var errorMessage = "Beim entfernen ist ein Fehler aufgetreten"
+						+ jqxhr.responseText;
+				showErrorMsg(errorMessage);
+				return false;
+			});
 
 }
 

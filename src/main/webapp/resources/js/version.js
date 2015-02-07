@@ -187,7 +187,7 @@ function createTracklistTable(release) {
 
 	$('#tableDiv')
 			.html(
-					'<table id="table" class="display"><thead><tr><th>Nummer</th><th>Titel</th><th>Länge</th></tr></thead><tbody></tbody></table>');
+					'<table id="table" class="display" style="width: 100%"><thead><tr><th>Nummer</th><th>Titel</th><th>Länge</th></tr></thead><tbody></tbody></table>');
 
 	$('#table').DataTable({
 		"bPaginate" : false,

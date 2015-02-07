@@ -38,7 +38,7 @@ public class Suchservice {
 			returnMap.put(master.getMasterId(),
 					MasterDtoConverter.convertMaster(master));
 		}
-		
+
 		// Suche über Label
 		// optional
 

@@ -1,6 +1,7 @@
 $(document)
 		.ready(
 				function() {
+					
 
 					var userId = $('#userId').val();
 
@@ -48,7 +49,7 @@ function doSearch() {
 		"aaSorting" : [ [ 1, "asc" ] ],
 		"oLanguage" : {
 
-			"sEmptyTable" : "Keine Veröffentlichungen gefunden.",
+			"sEmptyTable" : "Laden...",
 			"sInfo" : "_START_ bis _END_ von _TOTAL_",
 			"sInfoEmpty" : "0 bis 0 von 0",
 			"sInfoFiltered" : "(gefiltert von _MAX_ Einträgen)",
@@ -149,3 +150,15 @@ function showErrorMsg(message) {
 					+ '</div>');
 
 }
+
+/**
+ * Ladezustandsanzeige
+ * 
+ */
+$(document).ajaxStart(function() {
+    $("#divLoading").addClass("loading");
+});
+
+$(document).ajaxComplete(function(event, request, settings) {
+    $("#divLoading").removeClass("loading");
+});

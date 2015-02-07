@@ -31,6 +31,22 @@
 .searchFilterPadding {
 	padding-right: 7px;
 }
+
+.loading {
+	color: #777;
+	font-size: 1.5em;
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	background: rgba(255, 255, 255, .8)
+		url('/medienverwaltung/resources/images/loading.gif') 50% 50%
+		no-repeat;
+}
 </style>
 
 </head>
@@ -48,11 +64,11 @@
 
 
 
-
 	<div id=content
 		style="max-width: 80%; margin-left: auto; margin-right: auto">
 
 		<div id=errorDiv></div>
+
 
 		<div style="height: 20px; margin-bottom: 30px;">
 			<h2>
@@ -63,6 +79,9 @@
 
 			<span style="float: right"></span>
 		</div>
+		<div id="divLoading" style="display: inline; float: left;">&nbsp;</div>
+
+
 		<!-- ========================== Suchergebnisse ============================ -->
 		<div id="tableDiv">
 			<table id="releaseTable" class="display">
