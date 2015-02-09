@@ -64,56 +64,87 @@
 
 
 
-	<div id=content
-		style="max-width: 80%; margin-left: auto; margin-right: auto">
+	<div id=content class="container">
+		<!--  style="max-width: 80%; margin-left: auto; margin-right: auto">-->
 
 		<div id=errorDiv></div>
 
 
-		<div style="height: 20px; margin-bottom: 30px;">
-			<h2>
-				<span style="float: left; display: inline">Suchergebnisse
-					f&uuml;r "${suche}"</span>
-			</h2>
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-10">
+				<div style="height: 20px; margin-bottom: 30px;">
+					<h2>
+						<span style="float: left; display: inline">Suchergebnisse
+							f&uuml;r "${suche}"</span>
+					</h2>
 
 
-			<span style="float: right"></span>
-		</div>
-		<div id="divLoading" style="display: inline; float: left;">&nbsp;</div>
+					<span style="float: right"></span>
+				</div>
+				<div id="divLoading" style="display: inline; float: left;">&nbsp;</div>
+			</div>
 
+			<div class="col-sm-1"></div>
 
-		<!-- ========================== Suchergebnisse ============================ -->
-		<div id="tableDiv">
-			<table id="releaseTable" class="display">
-				<thead>
-					<tr>
-						<th></th>
-						<th>Titel</th>
-						<th>K&uuml;nstler</th>
-						<th>Jahr</th>
-						<th>Genre</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
 		</div>
 
 
-		<h5>
-			<span id="anlegenSpan"
-				style="float: right; display: inline; margin-top: 15px; margin-bottom: 50px;">
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-10">
+				<!-- ========================== Suchergebnisse ============================ -->
+				<div id="tableDiv">
+					<table id="releaseTable" class="display">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Titel</th>
+								<th>K&uuml;nstler</th>
+								<th>Jahr</th>
+								<th>Genre</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-				<span id="anlegenTextSpan"></span>
-				<button id="anlegenButton" class="btn btn-success hidden">
-					<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
-				</button>
+			<div class="col-sm-1"></div>
 
-				<button id="loginButton" class="btn btn-success hidden">
-					<span class="glyphicon glyphicon-log-in"></span> <b>Anmelden</b>
-				</button>
-			</span>
-		</h5>
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-10">
+				<h5>
+					<span id="anlegenSpan"
+						style="float: right; display: inline; margin-top: 15px; margin-bottom: 50px;">
+
+						<span id="anlegenTextSpan"></span>
+						<button id="anlegenButton" class="btn btn-success hidden">
+							<span class="glyphicon glyphicon-plus"></span> <b>Anlegen</b>
+						</button>
+
+						<button id="loginButton" class="btn btn-success hidden">
+							<span class="glyphicon glyphicon-log-in"></span> <b>Anmelden</b>
+						</button>
+					</span>
+				</h5>
+			</div>
+
+			<div class="col-sm-1"></div>
+
+		</div>
+
+
+
+
+
+
+
 
 
 	</div>
