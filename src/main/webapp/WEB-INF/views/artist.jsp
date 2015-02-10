@@ -21,7 +21,9 @@
 	href="/medienverwaltung/resources/css/jquery.dataTables.css">
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
-
+<!-- responsive -->
+<link rel="stylesheet"
+	href="/medienverwaltung/resources/css/dataTables.responsive.css">
 
 <!-- Styles ---------------------->
 <style type="text/css">
@@ -30,18 +32,21 @@ a { /
 }
 
 .coverPane {
+	clear: both;
 	width: 210px;
 	height: auto;
-	float: left;
 	margin-left: 15px;
-	position: absolute;
+	margin-right: 15px;
+	float: left;
+	width: 210px;
 }
 
 .infoPane {
-	width: 100%;
-	margin-left: 7.5px;
-	padding: 0px 5px 5px 235px;
-	float: left;
+	overflow: hidden;
+	min-width: 300px;
+	margin-left: 15px;
+	margin-right: 7.5px;
+	padding: 0px 5px 5px 0px;
 }
 
 .labelMargin {
@@ -57,19 +62,19 @@ a { /
 
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
-	
-		<!-- Artist JS -->
+
+	<!-- Artist JS -->
 	<script type="text/javascript"
 		src="/medienverwaltung/resources/js/artist.js"></script>
 
 
-	<div id=content>
+	<div id=content style="width: 100%;">
 
 
-		<div class=coverPane>
-			<div id="imageDiv">
-				
-			</div>
+
+
+		<div class="coverPane">
+			<div id="imageDiv"></div>
 
 			<hr>
 			Genre: <span id="genreSpan"></span>
@@ -119,15 +124,30 @@ a { /
 						</div>
 						<div class="panel-body">
 
-							<div id="tableDiv" class="dataTable"></div>
+							<div id="tableDiv" class="dataTable">
+								<table id="releaseTable" class="display dt-responsive"
+									width="100%">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Titel</th>
+											<th class="min-tablet-l">K&uuml;nstler</th>
+											<th>Jahr</th>
+											<th class="not-mobile">Genre</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
-
 				</div>
 
 			</div>
 
 		</div>
+
 	</div>
 	<jsp:include page="footer.jsp" />
 </body>

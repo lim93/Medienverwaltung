@@ -127,10 +127,6 @@ function getReleases() {
 
 function createLabelReleaseTable(releases) {
 
-	$('#releaseTableDiv')
-			.html(
-					'<table id="releaseTable" class="display"><thead><tr><th></th><th>Titel</th><th>K&uuml;nstler</th><th>CAT #</th><th>Format</th><th>Jahr</th></tr></thead><tbody></tbody></table>');
-
 	$('#releaseTable')
 			.DataTable(
 					{
@@ -163,7 +159,12 @@ function createLabelReleaseTable(releases) {
 
 		});
 
-		$('#releaseTable').dataTable().fnDraw();
+		var table = $('#releaseTable').dataTable();
+
+		table.fnDraw();
+		new $.fn.dataTable.Responsive(table, {
+			details : false
+		});
 
 	}
 

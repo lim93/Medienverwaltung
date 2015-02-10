@@ -21,6 +21,9 @@
 	href="/medienverwaltung/resources/css/jquery.dataTables.css">
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
+<!-- responsive -->
+<link rel="stylesheet"
+	href="/medienverwaltung/resources/css/dataTables.responsive.css">
 
 
 <script type="text/javascript">
@@ -58,6 +61,7 @@
 		src="/medienverwaltung/resources/js/suche.js"></script>
 
 
+
 	<!-- Navbar importieren -->
 	<jsp:include page="navigation.jsp" />
 
@@ -93,22 +97,22 @@
 		<div class="row">
 			<div class="col-sm-1"></div>
 			<div class="col-sm-10">
-				<!-- ========================== Suchergebnisse ============================ -->
-				<div id="tableDiv">
-					<table id="releaseTable" class="display">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Titel</th>
-								<th>K&uuml;nstler</th>
-								<th>Jahr</th>
-								<th>Genre</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
+			<!-- ========================== Suchergebnisse ============================ -->
+			<div id="tableDiv">
+				<table id="releaseTable" class="display dt-responsive" width="100%">
+					<thead>
+						<tr>
+							<th></th>
+							<th>Titel</th>
+							<th>K&uuml;nstler</th>
+							<th class="not-mobile">Jahr</th>
+							<th class="not-mobile">Genre</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				</div>  
 			</div>
 
 			<div class="col-sm-1"></div>

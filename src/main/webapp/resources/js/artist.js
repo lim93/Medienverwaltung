@@ -94,10 +94,6 @@ function getReleases() {
 
 function createMasterTable(masters) {
 
-	$('#tableDiv')
-			.html(
-					'<table id="releaseTable" class="display"><thead><tr><th></th><th>Titel</th><th>K&uuml;nstler</th><th>Jahr</th><th>Genre</th></tr></thead><tbody></tbody></table>');
-
 	$('#releaseTable')
 			.DataTable(
 					{
@@ -130,6 +126,10 @@ function createMasterTable(masters) {
 
 	var table = $('#releaseTable').dataTable();
 	table.fnDraw();
+	
+	new $.fn.dataTable.Responsive(table, {
+		details : false
+	});
 
 }
 

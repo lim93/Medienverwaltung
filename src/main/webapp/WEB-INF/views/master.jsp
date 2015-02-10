@@ -21,7 +21,9 @@
 	href="/medienverwaltung/resources/css/jquery.dataTables.css">
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
-
+<!-- responsive -->
+<link rel="stylesheet"
+	href="/medienverwaltung/resources/css/dataTables.responsive.css">
 
 <!-- Styles ---------------------->
 <style type="text/css">
@@ -30,19 +32,21 @@ a { /
 }
 
 .coverPane {
+	clear: both;
 	width: 210px;
 	height: auto;
-	float: left;
 	margin-left: 15px;
-	position: absolute;
+	margin-right: 15px;
+	float: left;
+	margin-bottom: 30px;
 }
 
 .infoPane {
-	width: 98%;
-	min-height: 450px;
-	margin-left: 7.5px;
-	padding: 0px 5px 5px 235px;
-	float: left;
+	overflow: hidden;
+	min-width: 300px;
+	margin-left: 15px;
+	margin-right: 7.5px;
+	padding: 0px 5px 5px 0px;
 }
 
 .labelMargin {
@@ -64,7 +68,7 @@ a { /
 	<jsp:include page="navigation.jsp" />
 
 
-	<div id=content>
+	<div id=content style="width: 100%;">
 
 
 		<div class=coverPane>
@@ -95,7 +99,23 @@ a { /
 
 
 
-					<div id="tableDiv" class="dataTable"></div>
+					<div id="tableDiv" class="dataTable">
+						<table id="table" class="display dt-responsive"
+							style="margin-top: 30px;" width="100%">
+
+							<thead>
+								<tr>
+									<th></th>
+									<th>Titel</th>
+									<th class=min-tablet-l>CAT#</th>
+									<th class=not-mobile>Label</th>
+									<th>Format</th>
+									<th class=min-tablet-l>Jahr</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
 
 					<h5>
 						<span id="anlegenSpan"

@@ -185,10 +185,6 @@ function initPageRelease(release) {
 
 function createTracklistTable(release) {
 
-	$('#tableDiv')
-			.html(
-					'<table id="table" class="display" style="width: 100%"><thead><tr><th>Nummer</th><th>Titel</th><th>Länge</th></tr></thead><tbody></tbody></table>');
-
 	$('#table').DataTable({
 		"bPaginate" : false,
 		"bInfo" : false,
@@ -222,7 +218,12 @@ function createTracklistTable(release) {
 
 		});
 
-		$('#table').dataTable().fnDraw();
+		var table = $('#table').dataTable();
+
+		table.fnDraw();
+		new $.fn.dataTable.Responsive(table, {
+			details : false
+		});
 
 	}
 
