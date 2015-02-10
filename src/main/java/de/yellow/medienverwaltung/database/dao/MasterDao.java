@@ -102,7 +102,7 @@ public class MasterDao extends JdbcTemplate {
 
 		// Prüfen, ob Master schon vorhanden (Titel und Artist)
 		String checkSql = "SELECT master_id FROM master WHERE title = ? and artist_id = ?";
-		Object[] checkParams = new Object[] { title, artist };
+		Object[] checkParams = new Object[] { title, artist.getArtistId() };
 
 		List<Integer> list = query(checkSql, checkParams, 
 				new RowMapper<Integer>() {
