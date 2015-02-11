@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -25,7 +24,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import de.yellow.medienverwaltung.api.ArtistDto;
 import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Genre;
-import de.yellow.medienverwaltung.database.entity.Label;
 import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 

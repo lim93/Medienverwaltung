@@ -1,7 +1,5 @@
 package de.yellow.medienverwaltung.business;
 
-import java.util.List;
-
 import de.yellow.medienverwaltung.api.LabelDto;
 import de.yellow.medienverwaltung.database.dao.LabelDao;
 import de.yellow.medienverwaltung.database.entity.Label;

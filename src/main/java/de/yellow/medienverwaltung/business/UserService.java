@@ -1,7 +1,5 @@
 package de.yellow.medienverwaltung.business;
 
-import java.util.List;
-
 import de.yellow.medienverwaltung.api.Login;
 import de.yellow.medienverwaltung.api.UserDto;
 import de.yellow.medienverwaltung.database.dao.UserDao;

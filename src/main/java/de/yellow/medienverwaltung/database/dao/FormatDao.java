@@ -6,11 +6,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Format;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 

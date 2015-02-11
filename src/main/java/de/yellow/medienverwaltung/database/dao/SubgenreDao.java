@@ -11,7 +11,6 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import de.yellow.medienverwaltung.database.entity.Artist;
 import de.yellow.medienverwaltung.database.entity.Subgenre;
 import de.yellow.medienverwaltung.database.util.ConnectionFactory;
 
