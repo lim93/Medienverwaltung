@@ -2,8 +2,8 @@
 -- version 4.2.11
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 10. Feb 2015 um 17:40
+-- Host: localhost
+-- Erstellungszeit: 11. Feb 2015 um 23:00
 -- Server Version: 5.6.21
 -- PHP-Version: 5.6.3
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `artist` (
   `formed` int(11) NOT NULL,
   `from` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `website` varchar(500) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `artist`
@@ -56,7 +56,12 @@ INSERT INTO `artist` (`artist_id`, `name`, `formed`, `from`, `website`) VALUES
 (20, 'Foo Fighters', 1995, 'USA', 'http://www.foofighters.com/'),
 (21, 'Queen', 1970, 'UK', 'www.queenonline.com'),
 (22, 'Hardwell', 2008, 'Breda, Niederlande', 'www.djhardwell.com'),
-(23, 'Beatsteaks', 1995, 'Berlin, Deutschland', 'www.beatsteaks.com');
+(23, 'Beatsteaks', 1995, 'Berlin, Deutschland', 'www.beatsteaks.com'),
+(24, 'The Prosecution', 2002, 'Abensberg', 'www.the-prosecution.com'),
+(25, 'Farin Urlaub Racing Team', 2006, 'Berlin', 'www.farin-urlaub.de'),
+(26, 'donots', 1994, 'Ibbenbüren, Deutschland', 'www.donots.de'),
+(27, 'System of a Down', 1995, 'Kalifornien, US', 'www.systemofadown.com'),
+(28, 'Nirvana', 1987, 'Aberdeen, Washington, US', 'www.nirvana.com');
 
 -- --------------------------------------------------------
 
@@ -68,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `collection_item` (
 `coll_item_id` int(11) NOT NULL,
   `release_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `collection_item`
@@ -92,7 +97,17 @@ INSERT INTO `collection_item` (`coll_item_id`, `release_id`, `user_id`) VALUES
 (18, 28, 3),
 (19, 29, 3),
 (20, 30, 3),
-(21, 32, 3);
+(21, 32, 3),
+(22, 26, 4),
+(23, 29, 4),
+(24, 5, 4),
+(25, 13, 4),
+(26, 34, 4),
+(28, 36, 4),
+(29, 37, 4),
+(30, 38, 4),
+(31, 39, 4),
+(32, 40, 4);
 
 -- --------------------------------------------------------
 
@@ -151,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `label` (
 `label_id` int(11) NOT NULL,
   `name` varchar(200) COLLATE latin1_general_ci NOT NULL,
   `website` varchar(500) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `label`
@@ -173,7 +188,11 @@ INSERT INTO `label` (`label_id`, `name`, `website`) VALUES
 (14, 'Warner Bros. Records', 'http://www.warnerbrosrecords.com/'),
 (15, 'Kontor Records', 'www.kontorrecords.de'),
 (16, 'EMI', 'http://www.emimusicpub.com/'),
-(17, 'Roswell Records', 'http://shop.foofighters.com/collections/roswell-records');
+(17, 'Roswell Records', 'http://shop.foofighters.com/collections/roswell-records'),
+(18, 'Solitary Man Records', 'http://www.ntvm.co.jp/solitary/'),
+(19, 'Long Beach Records', 'www.longbeachrecords.de'),
+(20, 'Geffen Records', 'www.geffen.com'),
+(21, 'Play It Again Sam', 'http://www.playitagainsam.net/');
 
 -- --------------------------------------------------------
 
@@ -191,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `master` (
   `image_url` varchar(2000) COLLATE latin1_general_ci NOT NULL,
   `image_data` longblob,
   `genre_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `master`
@@ -222,7 +241,12 @@ INSERT INTO `master` (`master_id`, `artist_id`, `title`, `release_day`, `release
 (46, 19, 'This is War', 0, 12, 2009, 'http://ecx.images-amazon.com/images/I/612lL5SqL9L.jpg', NULL, 1),
 (47, 20, 'Echoes, Silence, Patience & Grace', 25, 9, 2007, 'http://cdn.discogs.com/--qnlUmEw1BPGUfiWOFB1IP-55Q=/fit-in/468x468/filters:strip_icc():format(jpeg):mode_rgb():quality(96)/discogs-images/R-1333510-1379385620-3139.jpeg.jpg', NULL, 1),
 (48, 21, 'Greatest Hits', 0, 0, 1986, 'http://upload.wikimedia.org/wikipedia/en/thumb/9/92/QueenGH2011.jpg/220px-QueenGH2011.jpg', NULL, 1),
-(49, 22, 'United We Are', 23, 1, 2015, 'http://upload.wikimedia.org/wikipedia/de/thumb/f/f9/Hardwell_-_United_We_Are.png/600px-Hardwell_-_United_We_Are.png', NULL, 7);
+(49, 22, 'United We Are', 23, 1, 2015, 'http://upload.wikimedia.org/wikipedia/de/thumb/f/f9/Hardwell_-_United_We_Are.png/600px-Hardwell_-_United_We_Are.png', NULL, 7),
+(50, 20, 'Sonic Highways', 0, 11, 2014, 'http://upload.wikimedia.org/wikipedia/en/6/67/Foo_Fighters_8LP_Sonic_Highways.jpg', NULL, 1),
+(51, 26, 'Karacho', 0, 2, 2015, 'http://ecx.images-amazon.com/images/I/51TRllG7kNL._SY300_.jpg', NULL, 1),
+(52, 28, 'Nevermind', 24, 9, 1991, 'http://ecx.images-amazon.com/images/I/81B5Xe9YfdL._SL1425_.jpg', NULL, 1),
+(53, 27, 'Mezmerize', 0, 0, 2005, 'http://ecx.images-amazon.com/images/I/51Csumi2PBL._SY300_.jpg', NULL, 2),
+(54, 24, 'At the edge of the end', 24, 5, 2013, 'http://ecx.images-amazon.com/images/I/71184pZoUoL._SX522_.jpg', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -234,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `master_subgenre` (
 `master_subg_id` int(11) NOT NULL,
   `master_id` int(11) NOT NULL,
   `subgenre_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `master_subgenre`
@@ -263,7 +287,13 @@ INSERT INTO `master_subgenre` (`master_subg_id`, `master_id`, `subgenre_id`) VAL
 (21, 45, 1),
 (22, 46, 1),
 (23, 47, 1),
-(24, 49, 26);
+(24, 49, 26),
+(25, 50, 1),
+(26, 51, 3),
+(27, 52, 36),
+(29, 53, 14),
+(30, 54, 3),
+(31, 54, 7);
 
 -- --------------------------------------------------------
 
@@ -283,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `release` (
   `label_code` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `barcode` varchar(30) COLLATE latin1_general_ci NOT NULL,
   `comment` text COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `release`
@@ -317,7 +347,14 @@ INSERT INTO `release` (`release_id`, `master_id`, `label_id`, `format_id`, `rele
 (30, 48, 16, 2, 0, 0, 1986, '7 46033 2', 'LC 10794', '', ''),
 (31, 48, 16, 1, 0, 0, 1981, '1C 088-78 044', 'LC 10794', '', ''),
 (32, 49, 15, 4, 23, 1, 2015, '0602547200853', 'LC 02182', '', 'Track 15 Bonus Track in iTunes Version'),
-(33, 49, 15, 2, 23, 1, 2015, '0602547200853', 'LC 02182', '', '');
+(33, 49, 15, 2, 23, 1, 2015, '0602547200853', 'LC 02182', '', ''),
+(34, 50, 17, 1, 0, 11, 2014, '88843-09008-1', 'LC-00316', '', ''),
+(35, 51, 18, 1, 0, 2, 2015, '', '---', '', 'Doppelvinyl mit Autogramm'),
+(36, 51, 18, 2, 0, 2, 2015, '', '---', '', 'Deluxe Box Version mit Flagge, Bonus - 7", Zeichnungen zu jedem Track und Live-CD von der US Tour'),
+(37, 52, 20, 1, 24, 9, 1991, '', 'LC 07266', '6 43346 00381 8', 'Auf blauem Vinyl'),
+(38, 47, 17, 1, 25, 9, 2007, '', 'LC-00316', '8 86971 15161 9', ''),
+(39, 53, 21, 2, 17, 5, 2005, '', 'LC-00162', '', ''),
+(40, 54, 19, 1, 28, 11, 2014, '', 'LC-15198', '', 'Limitiert auf 500 Stück');
 
 -- --------------------------------------------------------
 
@@ -329,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `subgenre` (
 `subgenre_id` int(11) NOT NULL,
   `genre_id` int(11) NOT NULL,
   `name` varchar(50) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `subgenre`
@@ -370,7 +407,9 @@ INSERT INTO `subgenre` (`subgenre_id`, `genre_id`, `name`) VALUES
 (32, 9, 'Funk'),
 (33, 9, 'Swing'),
 (34, 9, 'Big Band'),
-(35, 9, 'Easy Listening');
+(35, 9, 'Easy Listening'),
+(36, 1, 'Grunge'),
+(37, 1, 'Hardcore');
 
 -- --------------------------------------------------------
 
@@ -383,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `track` (
   `number` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `duration` time NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=309 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=349 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `track`
@@ -689,7 +728,47 @@ INSERT INTO `track` (`track_id`, `number`, `title`, `duration`) VALUES
 (305, '13', 'Nothing Can Hold Us Down (feat. Headhunterz, Haris)', '00:03:18'),
 (306, '14', 'Birds Fly (feat. Mr. Probz)', '00:03:27'),
 (307, '15', 'Dare You (feat. Matthes Koma & Bebe Rexha)', '00:03:06'),
-(308, '1', 's. Tracklist mp3-Version', '00:13:37');
+(308, '1', 's. Tracklist mp3-Version', '00:13:37'),
+(309, 'A1', 'Something from nothing', '00:04:49'),
+(310, 'A2', 'The feast and the famine', '00:03:50'),
+(311, 'A3', 'Congregation', '00:05:12'),
+(312, 'A4', 'What did I do? / God as my witness', '00:05:44'),
+(313, 'B1', 'Outside', '00:05:14'),
+(314, 'B2', 'In the clear', '00:04:04'),
+(315, 'B3', 'Subterranean', '00:06:08'),
+(316, 'B4', 'I am a river', '00:07:09'),
+(317, 'A1', 'Ich mach nicht mehr mit', '00:03:23'),
+(318, 'A2', 'Dann ohne mich', '00:03:28'),
+(319, '1', 'Ich mach nicht mehr mit', '00:03:23'),
+(320, '2', 'Dann ohne mich', '00:03:28'),
+(321, 'A1', 'Smells Like Teen Spirit', '00:05:01'),
+(322, 'A2', 'In Bloom', '00:04:14'),
+(323, 'A3', 'Come As You Are', '00:03:39'),
+(324, 'A1', 'The Pretender', '00:04:29'),
+(325, 'A2', 'Let It Die', '00:04:05'),
+(326, 'A3', 'Erase/Replace', '00:04:13'),
+(327, 'B1', 'Long Road To Ruin', '00:03:44'),
+(328, 'B2', 'Come Alive', '00:05:10'),
+(329, 'B3', 'Stranger Things Have Happened', '00:05:21'),
+(330, 'C1', 'Cheer Up, Boys (Your Make Up Is Running)', '00:03:41'),
+(331, 'C2', 'Summer''s End', '00:04:37'),
+(332, 'C3', 'Ballad Of The Beaconsfield Miners', '00:02:32'),
+(333, 'D1', 'Statues', '00:03:47'),
+(334, 'D2', 'But, Honestly', '00:04:35'),
+(335, 'D3', 'Home', '00:04:53'),
+(336, '1', 'Soldier Side', '00:01:03'),
+(337, '2', 'B.Y.O.B.', '00:04:15'),
+(338, '3', 'Revenga', '00:03:48'),
+(339, '4', 'Cigaro', '00:02:11'),
+(340, '5', 'Radio/Video', '00:04:09'),
+(341, '6', 'This Cocaine Makes Me Feel Like I''m On This Song', '00:02:08'),
+(342, '7', 'Violent Pornography', '00:03:31'),
+(343, '8', 'Question!', '00:03:20'),
+(344, '9', 'Sad Statue', '00:03:25'),
+(345, '10', 'Old School Hollywood', '00:02:56'),
+(346, '11', 'Lost In Hollywood', '00:05:20'),
+(347, 'A1', 'Sofa Spuds', '00:03:49'),
+(348, 'A2', 'Learning Life', '00:03:51');
 
 -- --------------------------------------------------------
 
@@ -701,7 +780,7 @@ CREATE TABLE IF NOT EXISTS `tracklist_item` (
 `tracklist_item_id` int(11) NOT NULL,
   `release_id` int(11) NOT NULL,
   `track_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=351 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `tracklist_item`
@@ -1007,7 +1086,47 @@ INSERT INTO `tracklist_item` (`tracklist_item_id`, `release_id`, `track_id`) VAL
 (307, 32, 305),
 (308, 32, 306),
 (309, 32, 307),
-(310, 33, 308);
+(310, 33, 308),
+(311, 34, 309),
+(312, 34, 310),
+(313, 34, 311),
+(314, 34, 312),
+(315, 34, 313),
+(316, 34, 314),
+(317, 34, 315),
+(318, 34, 316),
+(319, 35, 317),
+(320, 35, 318),
+(321, 36, 319),
+(322, 36, 320),
+(323, 37, 321),
+(324, 37, 322),
+(325, 37, 323),
+(326, 38, 324),
+(327, 38, 325),
+(328, 38, 326),
+(329, 38, 327),
+(330, 38, 328),
+(331, 38, 329),
+(332, 38, 330),
+(333, 38, 331),
+(334, 38, 332),
+(335, 38, 333),
+(336, 38, 334),
+(337, 38, 335),
+(338, 39, 336),
+(339, 39, 337),
+(340, 39, 338),
+(341, 39, 339),
+(342, 39, 340),
+(343, 39, 341),
+(344, 39, 342),
+(345, 39, 343),
+(346, 39, 344),
+(347, 39, 345),
+(348, 39, 346),
+(349, 40, 347),
+(350, 40, 348);
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1139,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_name` varchar(40) COLLATE latin1_general_ci NOT NULL,
   `password` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `email` varchar(255) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Daten für Tabelle `user`
@@ -1028,7 +1147,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `user_name`, `password`, `email`) VALUES
 (2, 'Cosmic', '4e87fdda293a23837115557b71d8a09c903535f3005c58970d5f522a', 'lukas@web.de'),
-(3, 'bambi', '0f718591f23a55c81c95b083150a39e7565440385a95c09b2b2de80f', 'mariusbarz@web.de');
+(3, 'bambi', '0f718591f23a55c81c95b083150a39e7565440385a95c09b2b2de80f', 'mariusbarz@web.de'),
+(4, 'lim93', 'abc75f3f4a0dc63295d23a4cfa551be0fae9400697a537d7163aeca6', 'krispin@limbach.info');
 
 --
 -- Indizes der exportierten Tabellen
@@ -1114,12 +1234,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT für Tabelle `artist`
 --
 ALTER TABLE `artist`
-MODIFY `artist_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+MODIFY `artist_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT für Tabelle `collection_item`
 --
 ALTER TABLE `collection_item`
-MODIFY `coll_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+MODIFY `coll_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT für Tabelle `format`
 --
@@ -1134,42 +1254,42 @@ MODIFY `genre_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 -- AUTO_INCREMENT für Tabelle `label`
 --
 ALTER TABLE `label`
-MODIFY `label_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `label_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT für Tabelle `master`
 --
 ALTER TABLE `master`
-MODIFY `master_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
+MODIFY `master_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT für Tabelle `master_subgenre`
 --
 ALTER TABLE `master_subgenre`
-MODIFY `master_subg_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+MODIFY `master_subg_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT für Tabelle `release`
 --
 ALTER TABLE `release`
-MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT für Tabelle `subgenre`
 --
 ALTER TABLE `subgenre`
-MODIFY `subgenre_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+MODIFY `subgenre_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT für Tabelle `track`
 --
 ALTER TABLE `track`
-MODIFY `track_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=309;
+MODIFY `track_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=349;
 --
 -- AUTO_INCREMENT für Tabelle `tracklist_item`
 --
 ALTER TABLE `tracklist_item`
-MODIFY `tracklist_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=311;
+MODIFY `tracklist_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=351;
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Constraints der exportierten Tabellen
 --
