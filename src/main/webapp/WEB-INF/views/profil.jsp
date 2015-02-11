@@ -21,7 +21,9 @@
 	href="/medienverwaltung/resources/css/jquery.dataTables.css">
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
-
+<!-- responsive -->
+<link rel="stylesheet"
+	href="/medienverwaltung/resources/css/dataTables.responsive.css">
 
 <!-- Styles ---------------------->
 <style type="text/css">
@@ -30,18 +32,22 @@ a { /
 }
 
 .profil {
+	clear: both;
 	width: 210px;
 	height: auto;
-	float: left;
 	margin-left: 15px;
-	position: absolute;
+	margin-right: 15px;
+	float: left;
+	margin-bottom: 30px;
 }
 
 .medienBereich {
-	width: 100%;
-	min-height: 500px;
-	padding: 0px 5px 5px 235px;
-	float: right;
+	overflow: hidden;
+	min-width: 300px;
+	margin-left: 15px;
+	margin-right: 7.5px;
+	padding: 0px 5px 5px 0px;
+	margin-bottom: 30px;
 }
 
 .medienObjekt {
@@ -50,7 +56,7 @@ a { /
 	vertical-align: top;
 	margin: 0px 7.5px 20px 7.5px;
 	padding: 5px;
-	border: 1px grey;
+
 }
 
 .dataTable {
@@ -107,19 +113,33 @@ a { /
 						Sammlung von <span id=collectionNameSpan></span>
 					</h2>
 					<button id="listButton"
-						style="margin-right: 7.5px; float: right; display: inline"
+						style="margin-right: 7.5px; margin-bottom: 7.5px; float: right; display: inline"
 						type="submit" class="btn btn-default hide"
 						onclick="listenAnsicht();">
 						<span class="glyphicon glyphicon-th-list"></span> Listenansicht
 					</button>
 					<button id="bigButton"
-						style="margin-right: 7.5px; float: right; display: inline"
+						style="margin-right: 7.5px; margin-bottom: 7.5px; float: right; display: inline"
 						type="submit" class="btn btn-default" onclick="grosseAnsicht();">
 						<span class="glyphicon glyphicon-th-large"></span> Große Ansicht
 					</button>
 				</div>
 
-				<div id="tableDiv" class="dataTable"></div>
+				<div id="tableDiv" class="dataTable">
+					<table id="table" class="display dt-responsive" width="100%">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Titel</th>
+								<th>Artist</th>
+								<th class=not-mobile>Format</th>
+								<th class=not-mobile>Jahr</th>
+								<th class=not-mobile></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
 
 
 			</div>
