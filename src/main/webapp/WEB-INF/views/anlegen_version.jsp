@@ -44,11 +44,11 @@ tr {
 .trackNumber {
 	width: 40px;
 	float: left;
-	margin-left: 10px;
+	margin-left: 5px;
 }
 
 .trackTitel {
-	width: 300px;
+	max-width: 500px;
 	float: left;
 	margin-left: 10px;
 }
@@ -56,12 +56,12 @@ tr {
 .trackDuration {
 	width: 80px;
 	float: left;
-	margin-left: 10px;
+	margin-left: 20px;
 }
 
 .addButton {
 	margin-top: 5px;
-	margin-left: 10px;
+	margin-left: 5px;
 }
 
 }
@@ -83,206 +83,222 @@ tr {
 
 
 
-	<div id=content class="hidden"
-		style="max-width: 80%; margin-left: auto; margin-right: auto">
+	<div id=content class="container hidden">
+		<!-- 
+		style="max-width: 80%; margin-left: auto; margin-right: auto" -->
 
-		<h2>Version anlegen</h2>
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-7">
+				<h2>Version anlegen</h2>
+			</div>
+			<div class="col-sm-3"></div>
+			<div class="col-sm-1"></div>
 
-		<div id="editDiv" class="panel panel-default"
-			style="float: left; display: inline; width: 70%; padding: 0px 20px 20px 20px; margin-bottom: 50px;">
+		</div>
 
-			<h4>
-				Version anlegen für "<span id="titelSpan"></span>" von "<span
-					id="artistSpan"></span>"
-			</h4>
-			<form action="" id="inputForm">
+		<div class="row">
+			<div class="col-sm-1"></div>
+
+			<div class="col-sm-7 panel panel-default" id="editDiv"
+				style="max-width: 95%; margin-left: auto; margin-right: auto; padding: 20px 20px 40px 20px; margin-bottom: 60px;">
+				<!-- style="float: left; display: inline; width: 70%; padding: 0px 20px 20px 20px; margin-bottom: 50px;" -->
+
+				<h4>
+					Version anlegen für "<span id="titelSpan"></span>" von "<span
+						id="artistSpan"></span>"
+				</h4>
+				<form action="" id="inputForm">
 
 
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Format*</h4>
-					</div>
-					<div class="panel-body">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Format*</h4>
+						</div>
+						<div class="panel-body">
 
-						<div id="formatDiv"></div>
-
-					</div>
-				</div>
-
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Label</h4>
-					</div>
-					<div class="panel-body">
-						<h5>Name des Labels:*</h5>
-						<input style="width: 250px" name="label" id="label" type="text"
-							class="form-control" placeholder="Name" />
-
-						<div id="labelAnlegenDiv" class="hidden">
-
-							<h5>Webseite:*</h5>
-							<input style="width: 250px" name="labelWebsite" id="labelWebsite"
-								type="text" class="form-control" placeholder="www.example.com" />
+							<div id="formatDiv"></div>
 
 						</div>
-
-						<div id="messageDiv" style="margin-top: 15px;"></div>
-						<hr>
-
-						<h5>Labelcode (LC)*</h5>
-						<input style="width: 250px" name="lc" id="lc" type="text"
-							class="form-control" placeholder="LC-12345" />
-
 					</div>
-				</div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Identifikation</h4>
-					</div>
-					<div class="panel-body reducedPanelPadding">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Label</h4>
+						</div>
+						<div class="panel-body">
+							<h5>Name des Labels:*</h5>
+							<input style="width: 250px; max-width: 100%;" name="label" id="label" type="text"
+								class="form-control" placeholder="Name" />
 
-						<h5>Katalog-Nummer (CAT)</h5>
-						<input style="width: 250px" name="cat" id="cat" type="text"
-							class="form-control" placeholder="cat" />
+							<div id="labelAnlegenDiv" class="hidden">
 
-						<h5>Barcode</h5>
-						<input style="width: 250px" name="barcode" id="barcode"
-							type="text" class="form-control" placeholder="Barcode" />
+								<h5>Webseite:*</h5>
+								<input style="width: 250px; max-width: 100%;" name="labelWebsite"
+									id="labelWebsite" type="text" class="form-control"
+									placeholder="www.example.com" />
 
-					</div>
-				</div>
+							</div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Tracklist*</h4>
-					</div>
-					<div class="panel-body">
-						<div id="tracks" name="tracks"></div>
-						<div id=tracksControl>
-							<button id="addButton" class="btn btn-success addButton">
-								<span class="glyphicon glyphicon-plus"></span> <b>weiterer</b>
-							</button>
+							<div id="messageDiv" style="margin-top: 15px;"></div>
+							<hr>
+
+							<h5>Labelcode (LC)*</h5>
+							<input style="width: 250px; max-width: 100%;" name="lc" id="lc" type="text"
+								class="form-control" placeholder="LC-12345" />
+
 						</div>
 					</div>
-				</div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Notizen</h4>
-					</div>
-					<div class="panel-body">
-						<div>
-							<textarea rows="4"
-								style="width: 100%; max-width: 100%; min-width: 100%; display: inline; float: left"
-								name="comment" id="comment" class="form-control"></textarea>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Identifikation</h4>
+						</div>
+						<div class="panel-body reducedPanelPadding">
+
+							<h5>Katalog-Nummer (CAT)</h5>
+							<input style="width: 250px; max-width: 100%;" name="cat" id="cat" type="text"
+								class="form-control" placeholder="cat" />
+
+							<h5>Barcode</h5>
+							<input style="width: 250px; max-width: 100%;" name="barcode" id="barcode"
+								type="text" class="form-control" placeholder="Barcode" />
+
 						</div>
 					</div>
-				</div>
 
-
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">Erscheinungsdatum*</h4>
-					</div>
-					<div class="panel-body">
-						<div>
-							<input style="width: 150px; display: inline; float: left"
-								name="releaseDate" id="releaseDate" type="text"
-								class="form-control" />
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Tracklist*</h4>
+						</div>
+						<div class="panel-body">
+							<div id="tracks" name="tracks"></div>
+							<div id=tracksControl>
+								<button id="addButton" class="btn btn-success addButton">
+									<span class="glyphicon glyphicon-plus"></span> <b>weiterer</b>
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div id="errorDiv"></div>
-
-
-				<button style="float: right; margin-left: 15px;"
-					id="speichernButton" class="btn btn-success">
-					<span class="glyphicon glyphicon-save"></span> <b>Speichern</b>
-				</button>
-
-
-
-
-			</form>
-
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Notizen</h4>
+						</div>
+						<div class="panel-body">
+							<div>
+								<textarea rows="4"
+									style="width: 100%; max-width: 100%; min-width: 100%; display: inline; float: left"
+									name="comment" id="comment" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
 
 
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">Erscheinungsdatum*</h4>
+						</div>
+						<div class="panel-body">
+							<div>
+								<input style="width: 150px; max-width: 100%; display: inline; float: left"
+									name="releaseDate" id="releaseDate" type="text"
+									class="form-control" />
+							</div>
+						</div>
+					</div>
+
+					<div id="errorDiv"></div>
+
+
+					<button style="float: right; margin-left: 15px;"
+						id="speichernButton" class="btn btn-success">
+						<span class="glyphicon glyphicon-save"></span> <b>Speichern</b>
+					</button>
+
+
+
+
+				</form>
+
+
+
+
+
+
+			</div>
+
+
+			<div class="col-sm-3" style="margin-bottom: 50px;" id="guideDiv">
+				<!-- style="float: right; display: inline; max-width: 25%; margin-bottom: 50px;" -->
+				<p style="font-size: 16px; word-wrap: break-word;">Auf dieser
+					Seite k&ouml;nnen Sie eine konkrete Version einer
+					Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen Format, Label,
+					die Trackliste und weitere Identifikationsmerkmale.</p>
+
+				<p>
+					<b>Format: </b>Geben Sie hier den physikalischen oder digitalen
+					Tonträgr ihrer Version an.
+				</p>
+
+				<p>
+					<b>Label: </b>Hier können Sie den Namen des Labels eintragen, unter
+					dem Ihre Version der Ver&ouml;ffentlichung erschienen ist.<br>Der
+					<b>Labelcode</b> setzt sich aus den Buchstaben "LC" und einer vier-
+					bis f&uuml;nfstelligen Zahl zusammen. Jedes Label besitzt einen
+					eigenen Labelcode, der in der Regel auf allen
+					Ver&ouml;ffentlichungen des Labels abgedruckt ist.
+				</p>
+
+				<p>
+					<b>Identifikation: </b>Zur eindeutigen Identifikation Ihrer Version
+					empfehlen wir, weitere Merkmale anzugeben. <br> Dazu
+					geh&ouml;rt die <b>Katalog-</b> oder <b>CAT-Nummer</b>, welche vom
+					Label f&uuml;r jede Ver&ouml;ffentlichung vergeben wird und
+					besonders bei Schallplatten auch direkt auf dem Tonträger zu finden
+					ist.
+				</p>
+
+				<p>
+					<b>Tracklist: </b>Geben Sie hier die Titel in der Reihenfolge an,
+					wie sie auf der Ver&ouml;ffentlichung vorkommen. &Uuml;bernehmen
+					Sie bei der Nummerierung den Stil von der Ver&ouml;ffentlichung,
+					beispielsweise "1, 2, 3, 4" oder "A01, A02, B01, B02". Beachten Sie
+					die Groß- und Kleinschreibung.
+				</p>
+
+				<p>
+					<b>Notizen: </b>Hier können Sie beliebige Zusatzinformationen zu
+					Ihrer Version angeben. Beispiele:
+				</p>
+				<ul>
+					<li>"Auf rotem Vinyl"</li>
+					<li>"Auf 500 Stück limitiert + signiert"</li>
+					<li>"Inklusive Download-Code"</li>
+				</ul>
+
+
+				<p>
+					<b>Erscheinungsdatum: </b>Das Erscheinungsdatum Ihrer Version kann
+					vom urspr&uuml;nglichen Erscheinungsdatum der Ver&ouml;ffentlichung
+					abweichen (bei Nachpressungen, Jubil&auml;umsausgaben oder
+					regionalen Unterschieden). Geben Sie daher hier m&ouml;glichst
+					exakt das Erscheinungsdatum ihrer konkreten Version an.
+					G&uuml;ltige Formate sind:
+				</p>
+				<ul>
+					<li>dd.mm.yyyy</li>
+					<li>mm.yyyy</li>
+					<li>yyyy</li>
+				</ul>
+
+			</div>
 
 
 
 		</div>
-
-		<div id="guideDiv"
-			style="float: right; display: inline; max-width: 25%; margin-bottom: 50px;">
-			<p style="font-size: 16px; word-wrap: break-word;">Auf dieser
-				Seite k&ouml;nnen Sie eine konkrete Version einer
-				Ver&ouml;ffentlichung eintragen. Dazu z&auml;hlen Format, Label, die
-				Trackliste und weitere Identifikationsmerkmale.</p>
-
-			<p>
-				<b>Format: </b>Geben Sie hier den physikalischen oder digitalen
-				Tonträgr ihrer Version an.
-			</p>
-
-			<p>
-				<b>Label: </b>Hier können Sie den Namen des Labels eintragen, unter
-				dem Ihre Version der Ver&ouml;ffentlichung erschienen ist.<br>Der
-				<b>Labelcode</b> setzt sich aus den Buchstaben "LC" und einer vier-
-				bis f&uuml;nfstelligen Zahl zusammen. Jedes Label besitzt einen
-				eigenen Labelcode, der in der Regel auf allen
-				Ver&ouml;ffentlichungen des Labels abgedruckt ist.
-			</p>
-
-			<p>
-				<b>Identifikation: </b>Zur eindeutigen Identifikation Ihrer Version
-				empfehlen wir, weitere Merkmale anzugeben. <br> Dazu
-				geh&ouml;rt die <b>Katalog-</b> oder <b>CAT-Nummer</b>, welche vom
-				Label f&uuml;r jede Ver&ouml;ffentlichung vergeben wird und
-				besonders bei Schallplatten auch direkt auf dem Tonträger zu finden
-				ist.
-			</p>
-
-			<p>
-				<b>Tracklist: </b>Geben Sie hier die Titel in der Reihenfolge an,
-				wie sie auf der Ver&ouml;ffentlichung vorkommen. &Uuml;bernehmen Sie
-				bei der Nummerierung den Stil von der Ver&ouml;ffentlichung,
-				beispielsweise "1, 2, 3, 4" oder "A01, A02, B01, B02". Beachten Sie
-				die Groß- und Kleinschreibung.
-			</p>
-
-			<p>
-				<b>Notizen: </b>Hier können Sie beliebige Zusatzinformationen zu
-				Ihrer Version angeben. Beispiele:
-			</p>
-			<ul>
-				<li>"Auf rotem Vinyl"</li>
-				<li>"Auf 500 Stück limitiert + signiert"</li>
-				<li>"Inklusive Download-Code"</li>
-			</ul>
-
-
-			<p>
-				<b>Erscheinungsdatum: </b>Das Erscheinungsdatum Ihrer Version kann
-				vom urspr&uuml;nglichen Erscheinungsdatum der Ver&ouml;ffentlichung
-				abweichen (bei Nachpressungen, Jubil&auml;umsausgaben oder
-				regionalen Unterschieden). Geben Sie daher hier m&ouml;glichst exakt
-				das Erscheinungsdatum ihrer konkreten Version an. G&uuml;ltige
-				Formate sind:
-			</p>
-			<ul>
-				<li>dd.mm.yyyy</li>
-				<li>mm.yyyy</li>
-				<li>yyyy</li>
-			</ul>
-
-		</div>
-
-
-
-
+		<div class="col-sm-1"></div>
 
 	</div>
 

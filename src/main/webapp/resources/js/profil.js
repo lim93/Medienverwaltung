@@ -112,10 +112,6 @@ function initPage(user) {
 
 function createCollectionTable(releases) {
 
-	$('#tableDiv')
-			.html(
-					'<table id="table" class="display"><thead><tr><th></th><th>Titel</th><th>Artist</th><th>Format</th><th>Jahr</th><th></th></tr></thead><tbody></tbody></table>');
-
 	$('#table')
 			.DataTable(
 					{
@@ -161,6 +157,9 @@ function createCollectionTable(releases) {
 	});
 
 	table.fnDraw();
+	new $.fn.dataTable.Responsive(table, {
+		details : false
+	});
 
 }
 
@@ -203,11 +202,7 @@ function addRow(release) {
 
 function listenAnsicht(button) {
 
-	$('#listButton').addClass("hide");
-	$('#bigButton').removeClass("hide");
-
-	var userId = $('#userId').val();
-	getUser(userId);
+	location.reload();
 
 }
 

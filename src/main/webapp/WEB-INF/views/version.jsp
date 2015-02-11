@@ -21,7 +21,9 @@
 	href="/medienverwaltung/resources/css/jquery.dataTables.css">
 <link rel="stylesheet" media="screen"
 	href="/medienverwaltung/resources/css/jquery.dataTables_themeroller.css">
-
+<!-- responsive -->
+<link rel="stylesheet"
+	href="/medienverwaltung/resources/css/dataTables.responsive.css">
 
 <!-- Styles ---------------------->
 <style type="text/css">
@@ -34,20 +36,22 @@ table {
 }
 
 .coverPane {
+	clear: both;
 	width: 210px;
 	height: auto;
-	float: left;
 	margin-left: 15px;
-	position: absolute;
+	margin-right: 15px;
+	float: left;
+	margin-bottom: 30px;
 }
 
 .infoPane {
-	width: 98%;
+	overflow: hidden;
 	min-width: 300px;
-	margin-left: 7.5px;
-	margin-bottom: 50px;
-	padding: 0px 5px 5px 235px;
-	float: left;
+	margin-left: 15px;
+	margin-right: 7.5px;
+	padding: 0px 5px 5px 0px;
+	margin-bottom: 30px;
 }
 
 .labelMargin {
@@ -69,7 +73,7 @@ table {
 	<jsp:include page="navigation.jsp" />
 
 
-	<div id=content>
+	<div id=content style="width: 100%;">
 
 
 		<div class=coverPane>
@@ -143,7 +147,19 @@ table {
 						</div>
 						<div class="panel-body">
 
-							<div id="tableDiv" class="dataTable"></div>
+							<div id="tableDiv" class="dataTable">
+
+								<table id="table" class="display dt-responsive" width="100%">
+									<thead>
+										<tr>
+											<th>Nummer</th>
+											<th>Titel</th>
+											<th>Länge</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 

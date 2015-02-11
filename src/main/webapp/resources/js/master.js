@@ -130,10 +130,6 @@ function initPage(master) {
 
 function createReleaseTable(master) {
 
-	$('#tableDiv')
-			.html(
-					'<table id="table" class="display" style="margin-top:30px;"><thead><tr><th></th><th>Titel</th><th>CAT#</th><th>Label</th><th>Format</th><th>Jahr</th></tr></thead><tbody></tbody></table>');
-
 	$('#table')
 			.DataTable(
 					{
@@ -166,7 +162,12 @@ function createReleaseTable(master) {
 
 		});
 
-		$('#table').dataTable().fnDraw();
+		var table = $('#table').dataTable();
+
+		table.fnDraw();
+		new $.fn.dataTable.Responsive(table, {
+			details : false
+		});
 
 	}
 

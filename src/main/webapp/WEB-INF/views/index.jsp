@@ -29,14 +29,18 @@ a { /
 }
 
 .centered {
-	width: 481px;
-	height: 280px;
+	width: 480px;
+	max-width: 100%;
+	height: 450px;
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20%;
+	margin-bottom: 40%;
 }
 
 html {
@@ -50,7 +54,7 @@ html {
 
 body {
 	width: 100%;
-	height: 100%;
+	height: 120%;
 }
 
 h1 {
@@ -83,13 +87,13 @@ h1 {
 
 			<form id=searchForm action="">
 
-				<div style="margin-left: 16px; margin-right: auto;">
+				<div style="margin-left: 16px; margin-right: auto; max-width: 100%">
 					<input id="indexSuchInput" type="text"
-						style="width: 350px; float: left; margin-right: 5px; margin-top: 10px;"
+						style="width: 70%; float: left; margin-left: 0px; margin-right: 5px; margin-top: 10px;"
 						class="form-control" placeholder="Katalog durchsuchen">
 
 					<button id="indexSuchButton" type="submit" class="btn btn-info"
-						style="display: inline; margin-top: 10px;">
+						style="display: inline; width: 26%; margin-right: 5px; margin-top: 10px;">
 						<span class="glyphicon glyphicon-search"></span> <b>Suchen</b>
 					</button>
 				</div>
@@ -111,6 +115,7 @@ h1 {
 			</h1>
 
 		</div>
+
 
 
 	</div>

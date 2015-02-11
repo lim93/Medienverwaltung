@@ -51,7 +51,7 @@ h4 {
 
 
 	<div id=content
-		style="display: table; margin-left: auto; margin-right: auto">
+		style="display: table; margin-left: auto; margin-right: auto; margin-bottom: 20px; max-width: 95%">
 
 
 
@@ -83,10 +83,14 @@ h4 {
 
 				</div>
 
+				<div
+					style="display: inline-block; float: left; padding-left: 20px; height: 370px; border-left: 1px solid grey;"
+					class="hidden-xs"></div>
+
 
 
 				<div id=register
-					style="width: auto; max-width: 300px; display: inline-block; float: left; padding-left: 20px; border-left: 1px solid grey;">
+					style="width: auto; max-width: 300px; display: inline-block; float: left;">
 
 
 					<h4>Registrieren</h4>
