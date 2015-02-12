@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Erstellungszeit: 11. Feb 2015 um 23:00
--- Server Version: 5.6.21
--- PHP-Version: 5.6.3
+-- Host: 127.0.0.1
+-- Erstellungszeit: 12. Feb 2015 um 14:55
+-- Server Version: 5.5.27
+-- PHP-Version: 5.4.7
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -27,12 +27,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `artist` (
-`artist_id` int(11) NOT NULL,
+  `artist_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `formed` int(11) NOT NULL,
   `from` varchar(100) COLLATE latin1_general_ci NOT NULL,
-  `website` varchar(500) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `website` varchar(500) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`artist_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=29 ;
 
 --
 -- Daten für Tabelle `artist`
@@ -70,10 +71,13 @@ INSERT INTO `artist` (`artist_id`, `name`, `formed`, `from`, `website`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `collection_item` (
-`coll_item_id` int(11) NOT NULL,
+  `coll_item_id` int(11) NOT NULL AUTO_INCREMENT,
   `release_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`coll_item_id`),
+  KEY `release_id` (`release_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=33 ;
 
 --
 -- Daten für Tabelle `collection_item`
@@ -116,9 +120,10 @@ INSERT INTO `collection_item` (`coll_item_id`, `release_id`, `user_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `format` (
-`format_id` int(11) NOT NULL,
-  `type` varchar(30) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `format_id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`format_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `format`
@@ -137,9 +142,10 @@ INSERT INTO `format` (`format_id`, `type`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `genre` (
-`genre_id` int(11) NOT NULL,
-  `name` varchar(30) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `genre_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`genre_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=10 ;
 
 --
 -- Daten für Tabelle `genre`
@@ -163,18 +169,19 @@ INSERT INTO `genre` (`genre_id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `label` (
-`label_id` int(11) NOT NULL,
+  `label_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE latin1_general_ci NOT NULL,
-  `website` varchar(500) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `website` varchar(500) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`label_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=22 ;
 
 --
 -- Daten für Tabelle `label`
 --
 
 INSERT INTO `label` (`label_id`, `name`, `website`) VALUES
-(1, 'Black Mammoth', 'https://www.facebook.com/blackmammothrecords'),
-(2, 'Hot Action Records', 'http://www.bademeister.com/v11/kontakt/impressum.php'),
+(1, 'Black Mammoth', 'www.facebook.com/blackmammothrecords'),
+(2, 'Hot Action Records', 'www.bademeister.com/v11/kontakt/impressum.php'),
 (4, 'Polydor', 'www.polydor.co.uk'),
 (5, 'Warner Music', 'www.Warner-Music.de'),
 (6, 'Virgin EMI Records', 'www.virginemirecords.com'),
@@ -182,17 +189,17 @@ INSERT INTO `label` (`label_id`, `name`, `website`) VALUES
 (8, 'Harvest', 'www.harvestrecords.com'),
 (9, 'Purple Records', 'www.emimusic.com'),
 (10, 'EG', 'www.virginemirecords.com/'),
-(11, 'Soft Limit', 'http://www.discogs.com/label/204453-Soft-Limit'),
-(12, 'Rough Trade', 'http://www.roughtraderecords.com/'),
-(13, 'Epic', 'http://cdn.discogs.com/DhRdY2Jk1VENirFi80zvOet5fo4=/fit-in/599x600/filters:strip_icc():format(jpeg):mode_rgb():quality(96)/discogs-images/R-1765376-1323036806.png.jpg'),
-(14, 'Warner Bros. Records', 'http://www.warnerbrosrecords.com/'),
+(11, 'Soft Limit', 'www.discogs.com/label/204453-Soft-Limit'),
+(12, 'Rough Trade', 'www.roughtraderecords.com/'),
+(13, 'Epic', 'cdn.discogs.com/DhRdY2Jk1VENirFi80zvOet5fo4=/fit-in/599x600/filters:strip_icc():format(jpeg):mode_rgb():quality(96)/discogs-images/R-1765376-1323036806.png.jpg'),
+(14, 'Warner Bros. Records', 'www.warnerbrosrecords.com/'),
 (15, 'Kontor Records', 'www.kontorrecords.de'),
-(16, 'EMI', 'http://www.emimusicpub.com/'),
-(17, 'Roswell Records', 'http://shop.foofighters.com/collections/roswell-records'),
-(18, 'Solitary Man Records', 'http://www.ntvm.co.jp/solitary/'),
+(16, 'EMI', 'www.emimusicpub.com/'),
+(17, 'Roswell Records', 'shop.foofighters.com/collections/roswell-records'),
+(18, 'Solitary Man Records', 'www.ntvm.co.jp/solitary/'),
 (19, 'Long Beach Records', 'www.longbeachrecords.de'),
 (20, 'Geffen Records', 'www.geffen.com'),
-(21, 'Play It Again Sam', 'http://www.playitagainsam.net/');
+(21, 'Play It Again Sam', 'www.playitagainsam.net/');
 
 -- --------------------------------------------------------
 
@@ -201,7 +208,7 @@ INSERT INTO `label` (`label_id`, `name`, `website`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `master` (
-`master_id` int(11) NOT NULL,
+  `master_id` int(11) NOT NULL AUTO_INCREMENT,
   `artist_id` int(11) NOT NULL,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `release_day` int(11) NOT NULL,
@@ -209,8 +216,11 @@ CREATE TABLE IF NOT EXISTS `master` (
   `release_year` int(11) NOT NULL,
   `image_url` varchar(2000) COLLATE latin1_general_ci NOT NULL,
   `image_data` longblob,
-  `genre_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `genre_id` int(11) NOT NULL,
+  PRIMARY KEY (`master_id`),
+  KEY `artist_id` (`artist_id`),
+  KEY `genre_id` (`genre_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=55 ;
 
 --
 -- Daten für Tabelle `master`
@@ -255,10 +265,13 @@ INSERT INTO `master` (`master_id`, `artist_id`, `title`, `release_day`, `release
 --
 
 CREATE TABLE IF NOT EXISTS `master_subgenre` (
-`master_subg_id` int(11) NOT NULL,
+  `master_subg_id` int(11) NOT NULL AUTO_INCREMENT,
   `master_id` int(11) NOT NULL,
-  `subgenre_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `subgenre_id` int(11) NOT NULL,
+  PRIMARY KEY (`master_subg_id`),
+  KEY `master_id` (`master_id`,`subgenre_id`),
+  KEY `subgenre_id` (`subgenre_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=32 ;
 
 --
 -- Daten für Tabelle `master_subgenre`
@@ -302,7 +315,7 @@ INSERT INTO `master_subgenre` (`master_subg_id`, `master_id`, `subgenre_id`) VAL
 --
 
 CREATE TABLE IF NOT EXISTS `release` (
-`release_id` int(11) NOT NULL,
+  `release_id` int(11) NOT NULL AUTO_INCREMENT,
   `master_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL,
   `format_id` int(11) NOT NULL,
@@ -312,8 +325,12 @@ CREATE TABLE IF NOT EXISTS `release` (
   `catalog_no` varchar(50) COLLATE latin1_general_ci NOT NULL,
   `label_code` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `barcode` varchar(30) COLLATE latin1_general_ci NOT NULL,
-  `comment` text COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `comment` text COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`release_id`),
+  KEY `master_id` (`master_id`),
+  KEY `format_id` (`format_id`),
+  KEY `label_id` (`label_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=41 ;
 
 --
 -- Daten für Tabelle `release`
@@ -363,10 +380,12 @@ INSERT INTO `release` (`release_id`, `master_id`, `label_id`, `format_id`, `rele
 --
 
 CREATE TABLE IF NOT EXISTS `subgenre` (
-`subgenre_id` int(11) NOT NULL,
+  `subgenre_id` int(11) NOT NULL AUTO_INCREMENT,
   `genre_id` int(11) NOT NULL,
-  `name` varchar(50) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `name` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`subgenre_id`),
+  KEY `genre_id` (`genre_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=38 ;
 
 --
 -- Daten für Tabelle `subgenre`
@@ -418,11 +437,12 @@ INSERT INTO `subgenre` (`subgenre_id`, `genre_id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `track` (
-`track_id` int(11) NOT NULL,
+  `track_id` int(11) NOT NULL AUTO_INCREMENT,
   `number` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
-  `duration` time NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=349 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `duration` time NOT NULL,
+  PRIMARY KEY (`track_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=349 ;
 
 --
 -- Daten für Tabelle `track`
@@ -777,10 +797,13 @@ INSERT INTO `track` (`track_id`, `number`, `title`, `duration`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tracklist_item` (
-`tracklist_item_id` int(11) NOT NULL,
+  `tracklist_item_id` int(11) NOT NULL AUTO_INCREMENT,
   `release_id` int(11) NOT NULL,
-  `track_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=351 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `track_id` int(11) NOT NULL,
+  PRIMARY KEY (`tracklist_item_id`),
+  KEY `release_id` (`release_id`),
+  KEY `track_id` (`track_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=351 ;
 
 --
 -- Daten für Tabelle `tracklist_item`
@@ -1135,11 +1158,12 @@ INSERT INTO `tracklist_item` (`tracklist_item_id`, `release_id`, `track_id`) VAL
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-`user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(40) COLLATE latin1_general_ci NOT NULL,
   `password` varchar(255) COLLATE latin1_general_ci NOT NULL,
-  `email` varchar(255) COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+  `email` varchar(255) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `user`
@@ -1151,146 +1175,6 @@ INSERT INTO `user` (`user_id`, `user_name`, `password`, `email`) VALUES
 (4, 'lim93', 'abc75f3f4a0dc63295d23a4cfa551be0fae9400697a537d7163aeca6', 'krispin@limbach.info');
 
 --
--- Indizes der exportierten Tabellen
---
-
---
--- Indizes für die Tabelle `artist`
---
-ALTER TABLE `artist`
- ADD PRIMARY KEY (`artist_id`);
-
---
--- Indizes für die Tabelle `collection_item`
---
-ALTER TABLE `collection_item`
- ADD PRIMARY KEY (`coll_item_id`), ADD KEY `release_id` (`release_id`), ADD KEY `user_id` (`user_id`);
-
---
--- Indizes für die Tabelle `format`
---
-ALTER TABLE `format`
- ADD PRIMARY KEY (`format_id`);
-
---
--- Indizes für die Tabelle `genre`
---
-ALTER TABLE `genre`
- ADD PRIMARY KEY (`genre_id`);
-
---
--- Indizes für die Tabelle `label`
---
-ALTER TABLE `label`
- ADD PRIMARY KEY (`label_id`);
-
---
--- Indizes für die Tabelle `master`
---
-ALTER TABLE `master`
- ADD PRIMARY KEY (`master_id`), ADD KEY `artist_id` (`artist_id`), ADD KEY `genre_id` (`genre_id`);
-
---
--- Indizes für die Tabelle `master_subgenre`
---
-ALTER TABLE `master_subgenre`
- ADD PRIMARY KEY (`master_subg_id`), ADD KEY `master_id` (`master_id`,`subgenre_id`), ADD KEY `subgenre_id` (`subgenre_id`);
-
---
--- Indizes für die Tabelle `release`
---
-ALTER TABLE `release`
- ADD PRIMARY KEY (`release_id`), ADD KEY `master_id` (`master_id`), ADD KEY `format_id` (`format_id`), ADD KEY `label_id` (`label_id`);
-
---
--- Indizes für die Tabelle `subgenre`
---
-ALTER TABLE `subgenre`
- ADD PRIMARY KEY (`subgenre_id`), ADD KEY `genre_id` (`genre_id`);
-
---
--- Indizes für die Tabelle `track`
---
-ALTER TABLE `track`
- ADD PRIMARY KEY (`track_id`);
-
---
--- Indizes für die Tabelle `tracklist_item`
---
-ALTER TABLE `tracklist_item`
- ADD PRIMARY KEY (`tracklist_item_id`), ADD KEY `release_id` (`release_id`), ADD KEY `track_id` (`track_id`);
-
---
--- Indizes für die Tabelle `user`
---
-ALTER TABLE `user`
- ADD PRIMARY KEY (`user_id`);
-
---
--- AUTO_INCREMENT für exportierte Tabellen
---
-
---
--- AUTO_INCREMENT für Tabelle `artist`
---
-ALTER TABLE `artist`
-MODIFY `artist_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
---
--- AUTO_INCREMENT für Tabelle `collection_item`
---
-ALTER TABLE `collection_item`
-MODIFY `coll_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
---
--- AUTO_INCREMENT für Tabelle `format`
---
-ALTER TABLE `format`
-MODIFY `format_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT für Tabelle `genre`
---
-ALTER TABLE `genre`
-MODIFY `genre_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT für Tabelle `label`
---
-ALTER TABLE `label`
-MODIFY `label_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
---
--- AUTO_INCREMENT für Tabelle `master`
---
-ALTER TABLE `master`
-MODIFY `master_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
---
--- AUTO_INCREMENT für Tabelle `master_subgenre`
---
-ALTER TABLE `master_subgenre`
-MODIFY `master_subg_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
---
--- AUTO_INCREMENT für Tabelle `release`
---
-ALTER TABLE `release`
-MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
---
--- AUTO_INCREMENT für Tabelle `subgenre`
---
-ALTER TABLE `subgenre`
-MODIFY `subgenre_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
---
--- AUTO_INCREMENT für Tabelle `track`
---
-ALTER TABLE `track`
-MODIFY `track_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=349;
---
--- AUTO_INCREMENT für Tabelle `tracklist_item`
---
-ALTER TABLE `tracklist_item`
-MODIFY `tracklist_item_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=351;
---
--- AUTO_INCREMENT für Tabelle `user`
---
-ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
 -- Constraints der exportierten Tabellen
 --
 
@@ -1298,43 +1182,43 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- Constraints der Tabelle `collection_item`
 --
 ALTER TABLE `collection_item`
-ADD CONSTRAINT `collection_item_ibfk_1` FOREIGN KEY (`release_id`) REFERENCES `release` (`release_id`),
-ADD CONSTRAINT `collection_item_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `collection_item_ibfk_1` FOREIGN KEY (`release_id`) REFERENCES `release` (`release_id`),
+  ADD CONSTRAINT `collection_item_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints der Tabelle `master`
 --
 ALTER TABLE `master`
-ADD CONSTRAINT `master_ibfk_1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`artist_id`),
-ADD CONSTRAINT `master_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`);
+  ADD CONSTRAINT `master_ibfk_1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`artist_id`),
+  ADD CONSTRAINT `master_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`);
 
 --
 -- Constraints der Tabelle `master_subgenre`
 --
 ALTER TABLE `master_subgenre`
-ADD CONSTRAINT `master_subgenre_ibfk_1` FOREIGN KEY (`master_id`) REFERENCES `master` (`master_id`),
-ADD CONSTRAINT `master_subgenre_ibfk_2` FOREIGN KEY (`subgenre_id`) REFERENCES `subgenre` (`subgenre_id`);
+  ADD CONSTRAINT `master_subgenre_ibfk_1` FOREIGN KEY (`master_id`) REFERENCES `master` (`master_id`),
+  ADD CONSTRAINT `master_subgenre_ibfk_2` FOREIGN KEY (`subgenre_id`) REFERENCES `subgenre` (`subgenre_id`);
 
 --
 -- Constraints der Tabelle `release`
 --
 ALTER TABLE `release`
-ADD CONSTRAINT `release_ibfk_1` FOREIGN KEY (`master_id`) REFERENCES `master` (`master_id`),
-ADD CONSTRAINT `release_ibfk_2` FOREIGN KEY (`format_id`) REFERENCES `format` (`format_id`),
-ADD CONSTRAINT `release_ibfk_3` FOREIGN KEY (`label_id`) REFERENCES `label` (`label_id`);
+  ADD CONSTRAINT `release_ibfk_1` FOREIGN KEY (`master_id`) REFERENCES `master` (`master_id`),
+  ADD CONSTRAINT `release_ibfk_2` FOREIGN KEY (`format_id`) REFERENCES `format` (`format_id`),
+  ADD CONSTRAINT `release_ibfk_3` FOREIGN KEY (`label_id`) REFERENCES `label` (`label_id`);
 
 --
 -- Constraints der Tabelle `subgenre`
 --
 ALTER TABLE `subgenre`
-ADD CONSTRAINT `subgenre_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`);
+  ADD CONSTRAINT `subgenre_ibfk_1` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`);
 
 --
 -- Constraints der Tabelle `tracklist_item`
 --
 ALTER TABLE `tracklist_item`
-ADD CONSTRAINT `tracklist_item_ibfk_1` FOREIGN KEY (`release_id`) REFERENCES `release` (`release_id`),
-ADD CONSTRAINT `tracklist_item_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `track` (`track_id`);
+  ADD CONSTRAINT `tracklist_item_ibfk_1` FOREIGN KEY (`release_id`) REFERENCES `release` (`release_id`),
+  ADD CONSTRAINT `tracklist_item_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `track` (`track_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
