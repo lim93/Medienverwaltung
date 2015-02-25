@@ -31,30 +31,27 @@ a { /
 .centered {
 	width: 480px;
 	max-width: 100%;
-	height: 450px;
 	position: absolute;
-	top: 0;
-	bottom: 0;
+	top:20%;
 	left: 0;
 	right: 0;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20%;
-	margin-bottom: 40%;
 }
 
-html {
+.content {
+	position: absolute;
 	background: url(/medienverwaltung/resources/images/back.jpg) no-repeat
-		center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
+		center center fixed; 
+	width: 100%;
+	height: 100%;
+	min-height:500px;
 	background-size: cover;
 }
 
 body {
 	width: 100%;
-	height: 120%;
+	height: 100%;
 }
 
 h1 {
@@ -77,7 +74,7 @@ h1 {
 	<jsp:include page="navigation.jsp" />
 
 
-	<div id=content>
+	<div id=content class="content">
 
 
 
